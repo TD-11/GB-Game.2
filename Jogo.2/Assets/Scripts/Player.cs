@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
    private Rigidbody2D rig;
    public float speed;
    private Vector2 movement;
+   private int vida = 3;
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
@@ -37,8 +38,21 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Danger")
         {
-            Destroy(gameObject);
+            vida--;
+            Destroy(collision.gameObject);
+            Debug.Log($"Vidas restantes: {vida}");
+            if (vida == 0)
+            {
+                Destroy(gameObject);
+            }
         }
+        if (collision.gameObject.CompareTag("Life"))
+        {
+            vida++;
+            Destroy(collision.gameObject); // Destroi o inimigo
+            Debug.Log($"Vida recuperada: {vida}");
+        }
+
     }
 
 

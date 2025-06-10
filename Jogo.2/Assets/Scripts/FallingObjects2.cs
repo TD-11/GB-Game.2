@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class FallingObjects : MonoBehaviour
+public class FallingObjects2 : MonoBehaviour
 {
     public GameObject fallingObjectPrefab; // Prefab do objeto que vai cair
     public Transform player; // Referência ao jogador
-    public float spawnInterval = 2f; // Tempo entre cada instância
-    public float spawnRangeX = 5f; // Largura horizontal do spawn
+    public float spawnInterval = 11f; // Tempo entre cada instância
+    public float spawnRangeX = 3f; // Largura horizontal do spawn
     public float spawnHeight = 10f; // Altura onde os objetos aparecerão
 
     private float timer;

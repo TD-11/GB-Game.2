@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Danger
+  - Life
   layers:
   - Default
   - TransparentFX

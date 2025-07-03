@@ -3,10 +3,12 @@ using UnityEngine;
 public class FallingObjects1 : MonoBehaviour
 {
     public GameObject fallingObjectPrefab; // Prefab do objeto que vai cair
+    public GameObject alert;
     public Transform player; // Referência ao jogador
-    public float spawnInterval = 2f; // Tempo entre cada instância
+    public float spawnInterval = 7f; // Tempo entre cada instância
     public float spawnRangeX = 5f; // Largura horizontal do spawn
     public float spawnHeight = 10f; // Altura onde os objetos aparecerão
+    public float spawnAlert = 1f; // Altura onde os objetos aparecerão
 
     private float timer;
 
@@ -23,8 +25,10 @@ public class FallingObjects1 : MonoBehaviour
 
     void SpawnObject()
     {
-        Vector3 spawnPosition = new Vector3(player.position.x + Random.Range(-spawnRangeX, spawnRangeX), player.position.y + spawnHeight, 0f);
-
-        Instantiate(fallingObjectPrefab, spawnPosition, Quaternion.identity);
+        float x = Random.Range(-spawnRangeX, spawnRangeX);
+        Vector3 spawnPosition1 = new Vector3(player.position.x + x, player.position.y + spawnHeight, 0f);
+        Vector3 spawnPosition2 = new Vector3(player.position.x + x, player.position.y + spawnAlert, 0f);
+        Instantiate(fallingObjectPrefab, spawnPosition1, Quaternion.identity);
+        Instantiate(alert, spawnPosition2, Quaternion.identity);
     }
 }

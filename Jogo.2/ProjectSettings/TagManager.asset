@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Danger
   - Life
+  - Alert
   layers:
   - Default
   - TransparentFX

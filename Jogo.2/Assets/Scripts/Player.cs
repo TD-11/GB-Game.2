@@ -1,15 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
    private Rigidbody2D rig;
    private Vector2 movement;// Vector de direção
+   public List<GameObject> Hearts = new List<GameObject>(3);
    public float speed = 3f;
-   public int life = 3;
+   public int life;
    
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();// busca o rigid body 2D 
+        life = Hearts.Count;
     }
     
     void Update()
@@ -41,8 +44,9 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Danger")
         {
             life--;
-            Destroy(collision.gameObject); // Destrói o objeto depois de colidido 
-            Debug.Log($"Vidas restantes: {life}");
+            Hearts[life].SetActive(false);
+            Destroy(collision.gameObject);// Destrói o objeto depois de colidido
+            
             if (life == 0)
             {
                 Destroy(gameObject);
@@ -51,9 +55,15 @@ public class Player : MonoBehaviour
         // Caso seja um objeto bom:    
         if (collision.gameObject.CompareTag("Life"))
         {
+            if (life == 3)
+            {
+                life = 3;
+                Destroy(collision.gameObject);
+                Debug.Log($"Vida recuperada: {life}");
+            }
             life++;
+            Hearts[life - 1].SetActive(true);
             Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
-            Debug.Log($"Vida recuperada: {life}");
         }
     }
 }

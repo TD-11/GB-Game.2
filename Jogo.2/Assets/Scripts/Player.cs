@@ -61,9 +61,13 @@ public class Player : MonoBehaviour
                 Destroy(collision.gameObject);
                 Debug.Log($"Vida recuperada: {life}");
             }
-            life++;
-            Hearts[life - 1].SetActive(true);
-            Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
+
+            if (life < 3)
+            {
+                life++;
+                Hearts[life - 1].SetActive(true);
+                Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
+            }
         }
     }
 }

@@ -2,52 +2,56 @@ using UnityEngine;
 
 public class RandomSpawner : MonoBehaviour
 {
-    public GameObject player;
-    public GameObject dangerousObject;
-    public GameObject powerUpObject;
-    public GameObject badAlert;// Objeto que vai cair
-    public GameObject goodAlert;// Objeto que vai cair
-    public float intervaloSpawn1;// Tempo entre os spawns
-    public float intervaloSpawn2;// Tempo entre os spawns
-    public float areaLargura;// Largura da área de spawn
-    public float alturaSpawn1;// Altura em Y (onde os objetos aparecem)  
-    public float alturaSpawn2;// Altura em Y (onde os objetos aparecem)
+    public GameObject player;// Jogador
+    public GameObject dangerousObject;// Objeto que irá dar dano
+    public GameObject powerUpObject;// Objeto que ajudará o jogador
+    public GameObject badAlert;// Alerta de objeto ruim
+    public GameObject goodAlert;// Alerta de power 
+    
+    public float intervalSpawn1 = 5f;// Tempo entre os spawns
+    public float intervalSpawn2 = 15f;// Tempo entre os spawns
+    public float widthArea = 8.4f;// Largura da área de spawn
+    public float heightSpawn1 = 12f;// Altura em Y (onde os objetos aparecem)  
+    public float heightSpawn2 = 4f;// Altura em Y (onde os objetos aparecem)
 
-    private float tempoProximoSpawn1 = 0f;
-    private float tempoProximoSpawn2 = 10f;
+    // Define quando os objetos vão cair
+    private float nextSpawnTime1 = 0f;
+    private float nextSpawnTime2 = 10f;
 
     void Update()
     {
-            if (Time.time >= tempoProximoSpawn1)
+            // Põe as funções em prática de acordo com tempo pré-definido
+            if (Time.time >= nextSpawnTime1)
             {
                 SpawnDangerousObject();
-                tempoProximoSpawn1 = Time.time + intervaloSpawn1;
+                nextSpawnTime1 = Time.time + intervalSpawn1;
             }
-            if (Time.time >= tempoProximoSpawn2)
+            if (Time.time >= nextSpawnTime2)
             {
                 SpawnPowerUpObject();
-                tempoProximoSpawn2 = Time.time + intervaloSpawn2;
+                nextSpawnTime2 = Time.time + intervalSpawn2;
             }
     }
 
     void SpawnDangerousObject()
     {
-        float x = Random.Range(-areaLargura / 2f, areaLargura / 2f); // centro = 0
+        float x = Random.Range(-widthArea / 2f, widthArea / 2f);// Define um valor aleatoriamente na zona de spawn 
         
-        Vector3 posicaoSpawn1 = new Vector3(x, alturaSpawn1, 0f);
-        Vector3 posicaoSpawn2 = new Vector3(x, alturaSpawn2, 0f);
-        
-        Instantiate(dangerousObject, posicaoSpawn1, Quaternion.identity);
-        Instantiate(badAlert, posicaoSpawn2, Quaternion.identity);
+        Vector3 positionSpawn1 = new Vector3(x, heightSpawn1, 0f);// Define o ponto de spawn do objeto
+        Vector3 positionSpawn2 = new Vector3(x, heightSpawn2, 0f);// Define o ponto de spawn do objeto
+
+        Instantiate(dangerousObject, positionSpawn1, Quaternion.identity);// Instancia o objeto
+        Instantiate(badAlert, positionSpawn2, Quaternion.identity);// Instancia o objeto
     }
 
     void SpawnPowerUpObject()
     {
-        float x = Random.Range(-areaLargura / 2f, areaLargura / 2f); // centro = 0
-        Vector3 posicaoSpawn1 = new Vector3(x, alturaSpawn1, 0f);
-        Vector3 posicaoSpawn2 = new Vector3(x, alturaSpawn2, 0f);
+        float x = Random.Range(-widthArea / 2f, widthArea / 2f);// Define um valor aleatoriamente na zona de spawn
         
-        Instantiate(powerUpObject, posicaoSpawn1, Quaternion.identity);
-        Instantiate(goodAlert, posicaoSpawn2, Quaternion.identity);
+        Vector3 positionSpawn1 = new Vector3(x, heightSpawn1, 0f);// Define o ponto de spawn do objeto
+        Vector3 positionSpawn2 = new Vector3(x, heightSpawn2, 0f);// Define o ponto de spawn do objeto
+        
+        Instantiate(powerUpObject, positionSpawn1, Quaternion.identity);// Instancia o objeto
+        Instantiate(goodAlert, positionSpawn2, Quaternion.identity);// Instancia o objeto
     }
 }

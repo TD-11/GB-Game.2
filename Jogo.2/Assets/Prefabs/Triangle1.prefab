@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2906555421836464105}
   - component: {fileID: 7653924224517853089}
   - component: {fileID: 3831976987527874703}
-  - component: {fileID: 8393922624740233320}
   m_Layer: 0
   m_Name: Triangle1
   m_TagString: Alert
@@ -135,16 +134,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.061211348, y: 0.0722003}
   m_EdgeRadius: 0
---- !u!114 &8393922624740233320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3259807501532560202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76be9eea84d851e4f9210eddfe88746b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  time: 3

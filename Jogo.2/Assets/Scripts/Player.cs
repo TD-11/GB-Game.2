@@ -3,57 +3,57 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
    private Rigidbody2D rig;
-   public float speed;
-   private Vector2 movement;
-   private int vida = 3;
+   private Vector2 movement;// Vector de direção
+   public float speed = 3f;
+   public int life = 3;
+   
     void Start()
     {
-        rig = GetComponent<Rigidbody2D>();
+        rig = GetComponent<Rigidbody2D>();// busca o rigid body 2D 
     }
     
-    // Update is called once per frame
     void Update()
     {
-        // Só anda na diagonal se A e D forem pressionados ao mesmo tempo
+        // Sistema de controle
         if (Input.GetKey(KeyCode.A))
         {
-            movement = new Vector2(-1, 0).normalized; // Diagonal (ajuste como quiser
+            movement = new Vector2(-1, 0).normalized;// Direção
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            movement = new Vector2(1, 0).normalized; // Diagonal (ajuste como quiser)
+            movement = new Vector2(1, 0).normalized; // Direção
         }
         else
         {
-            movement = Vector2.zero; // Não se move
+            movement = Vector2.zero;// Não se move
         }
     }
     
     void FixedUpdate()
     {
-        rig.linearVelocity = movement * speed;
+        rig.linearVelocity = movement * speed;// Aplica  a velocidade ao movimento
     }
 
+    //Identifica que tipo de objeto está colidindo com o personagem
     void OnTriggerEnter2D(Collider2D collision)
     {
+        // Caso seja um objeto ruim:
         if (collision.gameObject.tag == "Danger")
         {
-            vida--;
-            Destroy(collision.gameObject);
-            Debug.Log($"Vidas restantes: {vida}");
-            if (vida == 0)
+            life--;
+            Destroy(collision.gameObject); // Destrói o objeto depois de colidido 
+            Debug.Log($"Vidas restantes: {life}");
+            if (life == 0)
             {
                 Destroy(gameObject);
             }
         }
+        // Caso seja um objeto bom:    
         if (collision.gameObject.CompareTag("Life"))
         {
-            vida++;
-            Destroy(collision.gameObject); // Destroi o inimigo
-            Debug.Log($"Vida recuperada: {vida}");
+            life++;
+            Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
+            Debug.Log($"Vida recuperada: {life}");
         }
-
     }
-
-
 }

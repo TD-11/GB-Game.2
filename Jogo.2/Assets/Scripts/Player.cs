@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();// busca o rigid body 2D 
-        life = Hearts.Count;
+        life = Hearts.Count;// Determina a quantidade de vidas conforme a quantidade de corações
     }
     
     void Update()
@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Danger")
         {
             life--;
-            Hearts[life].SetActive(false);
+            Hearts[life].SetActive(false);// Apaga os corações quando levar dano
             Destroy(collision.gameObject);// Destrói o objeto depois de colidido
             
             if (life == 0)
@@ -55,17 +55,18 @@ public class Player : MonoBehaviour
         // Caso seja um objeto bom:    
         if (collision.gameObject.CompareTag("Life"))
         {
+            //Quando se tem 3 vidas, a quantidade não vai mais se modificar
             if (life == 3)
             {
                 life = 3;
-                Destroy(collision.gameObject);
+                Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
                 Debug.Log($"Vida recuperada: {life}");
             }
-
+            // Caso a quantidade de vidas for menor que 3, ele recuperará vida
             if (life < 3)
             {
                 life++;
-                Hearts[life - 1].SetActive(true);
+                Hearts[life - 1].SetActive(true);// Reativa as imagens de coração
                 Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
             }
         }

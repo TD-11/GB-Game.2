@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
    private Rigidbody2D rig;
    private Vector2 movement;// Vector de direção
+   public GameObject DefeatScreen;
    public List<GameObject> Hearts = new List<GameObject>(3);
    public float speed = 3f;
    public int life;
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
             if (life == 0)
             {
                 Destroy(gameObject);
+                DefeatScreen.SetActive(true);
             }
         }
         // Caso seja um objeto bom:    

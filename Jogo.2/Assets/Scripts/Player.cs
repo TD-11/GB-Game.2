@@ -48,6 +48,8 @@ public class Player : MonoBehaviour
             Hearts[life].SetActive(false);// Apaga os corações quando levar dano
             Destroy(collision.gameObject);// Destrói o objeto depois de colidido
             
+            //Quando o player perder todas as vidas
+            // Ele irá ser destruído e aparecerá a tela de "game over"
             if (life == 0)
             {
                 Destroy(gameObject);

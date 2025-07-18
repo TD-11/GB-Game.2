@@ -12,9 +12,11 @@ public class StopWatch : MonoBehaviour
     
     public Color normalColor = Color.white;// Define a cor normal do cronômetro
     public Color alertColor = Color.red;// Define a cor de aviso do cronômetro
-    public float restTime = 30f; // tempo em segundos
+    public float restTime = 30f; // Tempo em segundos
     public float tempoDeAviso = 11f;// Define a partir de que tempo aparecerá o aviso
     private bool activeTime = true;// Servirá para desativar o tempo
+    
+    public RandomSpawner spawner;
     
     void Update()
     {
@@ -24,6 +26,7 @@ public class StopWatch : MonoBehaviour
             if (player == null)
             {
                 activeTime = false;
+                spawner.Fall = false;
             }
             
             // Enquanto o tempo for maior que 0
@@ -52,6 +55,7 @@ public class StopWatch : MonoBehaviour
                 textTime.text = "00:00";// O texto na tela irá zerar
                 textTime.color = alertColor;// A cor se manterá vermelha 
                 activeTime = false;// Desativa o tempo
+                FindObjectOfType<RandomSpawner>().Fall = false;// Procura a variável "Fall" e define ela como falsa
                 timeOutScreen.SetActive(true);// Ativa a tela de tempo esgotado
             }
         }

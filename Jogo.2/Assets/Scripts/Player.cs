@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
    public float speed = 3f;
    public int life;
    
+   public RandomSpawner spawner;
+   
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();// busca o rigid body 2D 
@@ -53,6 +55,7 @@ public class Player : MonoBehaviour
             if (life == 0)
             {
                 Destroy(gameObject);
+                FindObjectOfType<RandomSpawner>().Fall = false;// Procura a variável "Fall" e define ela como falsa
                 DefeatScreen.SetActive(true);
             }
         }

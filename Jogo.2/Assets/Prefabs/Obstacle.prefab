@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -993512734196716380}
   - component: {fileID: -3969666722342947502}
   m_Layer: 0
-  m_Name: Hexagon Flat Top
+  m_Name: Obstacle
   m_TagString: Danger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76be9eea84d851e4f9210eddfe88746b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 4
+  timeDestroy: 4
 --- !u!50 &-993512734196716380
 Rigidbody2D:
   serializedVersion: 5
@@ -196,4 +196,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7352b85cd6009b94981271552c88c2b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speedFall: 4

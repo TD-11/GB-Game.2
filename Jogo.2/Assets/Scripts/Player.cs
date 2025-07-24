@@ -4,9 +4,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
    private Rigidbody2D rig;
-   private Vector2 movement;// Vector de direção
+   [SerializeField]private FollowShield shield;
+   private Vector2 movement;
    public GameObject DefeatScreen;
-   public List<GameObject> Hearts = new List<GameObject>(3);
+   public List<GameObject> Hearts = new List<GameObject>(3);// Armazenas as imagens de coração
    public float speed = 3f;
    public int life;
    
@@ -76,6 +77,12 @@ public class Player : MonoBehaviour
                 Hearts[life - 1].SetActive(true);// Reativa as imagens de coração
                 Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
             }
+        }
+
+        if (collision.gameObject.CompareTag("Protection"))
+        {
+            shield.gameObject.SetActive(true);
+            Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
         }
     }
 }

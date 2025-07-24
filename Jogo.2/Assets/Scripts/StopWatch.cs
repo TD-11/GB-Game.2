@@ -29,7 +29,7 @@ public class StopWatch : MonoBehaviour
                 spawner.Fall = false;
             }
             
-            // Enquanto o tempo for maior que 0
+            // Enquanto o tempo for maior que zero
             if (restTime > 0)
             {
                 restTime -= Time.deltaTime;// Diminui o tempo do cronômetro

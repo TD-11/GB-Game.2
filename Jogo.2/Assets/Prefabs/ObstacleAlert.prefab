@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7653924224517853089}
   - component: {fileID: 3831976987527874703}
   m_Layer: 0
-  m_Name: ObstacleAler
-  m_TagString: Alert
+  m_Name: ObstacleAlert
+  m_TagString: ObstacleAlert
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

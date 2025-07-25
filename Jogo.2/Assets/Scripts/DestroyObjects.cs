@@ -13,9 +13,25 @@ public class DestroyObjects : MonoBehaviour
     // Para desativar os avisos:
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Alert"))
+        if (collision.gameObject.CompareTag("LifeAlert"))
         {
-            Destroy(collision.gameObject);
+            ObjectPool.Instance.ReturnToPool("LifeAlert", collision.gameObject);
         }
+        
+        if (collision.gameObject.CompareTag("ObstacleAlert"))
+        {
+            ObjectPool.Instance.ReturnToPool("ObstacleAlert", collision.gameObject);
+        }
+        
+        if (collision.gameObject.CompareTag("ShellAlert"))
+        {
+            ObjectPool.Instance.ReturnToPool("ShellAlert", collision.gameObject);
+        }
+        
+        if (collision.gameObject.CompareTag("ShieldAlert"))
+        {
+            ObjectPool.Instance.ReturnToPool("ShieldAlert", collision.gameObject);
+        }
+        
     }
 }

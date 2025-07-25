@@ -20,7 +20,7 @@ public class FollowShield : MonoBehaviour
         if (collision.gameObject.CompareTag("Danger"))
         {
             gameObject.SetActive(false);// Desativa o escudo
-            Destroy(collision.gameObject);// Destrói o obstaculo depois de colidido
+            ObjectPool.Instance.ReturnToPool("Danger", collision.gameObject);// Destrói o obstaculo depois de colidido
         }
     }
 }

@@ -6,9 +6,13 @@ TagManager:
   tags:
   - Danger
   - Life
-  - Alert
   - Shield
-  - Protection
+  - Shell
+  - LifeAlert
+  - Undefined
+  - ObstacleAlert
+  - ShellAlert
+  - ShieldAlert
   layers:
   - Default
   - TransparentFX

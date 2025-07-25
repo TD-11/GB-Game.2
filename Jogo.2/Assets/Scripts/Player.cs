@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
    private Rigidbody2D rig;
-   private FollowShield shield;// Cria um objeto para acessar a classe "FollowShield"
+   public FollowShield shield;// Cria um objeto para acessar a classe "FollowShield"
    private Vector2 movement;
    public GameObject DefeatScreen;
    public List<GameObject> Hearts = new List<GameObject>(3);// Armazenas as imagens de coração
@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
         {
             life--;
             Hearts[life].SetActive(false);// Apaga os corações quando levar dano
-            Destroy(collision.gameObject);// Destrói o objeto depois de colidido
+            ObjectPool.Instance.ReturnToPool("Danger", collision.gameObject);// Destrói o objeto depois de colidido
             
             //Quando o player perder todas as vidas
             // Ele irá ser destruído e aparecerá a tela de "game over"
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
             if (life == 3)
             {
                 life = 3;
-                Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
+                ObjectPool.Instance.ReturnToPool("Life", collision.gameObject);// Destrói o objeto depois de colidido 
                 Debug.Log($"Vida recuperada: {life}");
             }
             // Caso a quantidade de vidas for menor que 3, ele recuperará vida
@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
             {
                 life++;
                 Hearts[life - 1].SetActive(true);// Reativa as imagens de coração
-                Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
+                ObjectPool.Instance.ReturnToPool("Life", collision.gameObject);// Destrói o objeto depois de colidido 
             }
         }
         
@@ -87,13 +87,13 @@ public class Player : MonoBehaviour
         {
             count ++;
             countText.text = count.ToString();
-            Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
+            ObjectPool.Instance.ReturnToPool("Shell", collision.gameObject);// Destrói o objeto depois de colidido 
         }
 
-        if (collision.gameObject.CompareTag("Protection"))
+        if (collision.gameObject.CompareTag("Shield"))
         {
             shield.gameObject.SetActive(true);// Ativa o poder do escudo 
-            Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
+            ObjectPool.Instance.ReturnToPool("Shield", collision.gameObject);// Destrói o objeto depois de colidido 
         }
     }
 }

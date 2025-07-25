@@ -5,11 +5,11 @@ public class RandomSpawner : MonoBehaviour
 {
     public GameObject obstacleObject;// Objeto que irá dar dano
     public GameObject obstacleAlert;// Alerta de objeto ruim
-    public GameObject lifeObject;// Objeto que ajudará o jogador
+    //public GameObject lifeObject;// Objeto que ajudará o jogador
     public GameObject lifeAlert;// Alerta de power
-    public GameObject shieldObject;// Power up que dará um escudo ao player
+    //public GameObject shieldObject;// Power up que dará um escudo ao player
     public GameObject shieldAlert;// Aviso do power up
-    public GameObject shellObject;
+    //public GameObject shellObject;
     public GameObject shellAlert;
     
     public float intervalSpawnObstacle = 5f;// Tempo entre os spawns
@@ -67,7 +67,7 @@ public class RandomSpawner : MonoBehaviour
         Vector3 positionSpawnObject = new Vector3(x, heightSpawnObject, 0f);// Define o ponto de spawn do objeto
         Vector3 positionSpawnAlert = new Vector3(x, heightSpawnAlert, 0f);// Define o ponto de spawn do objeto
 
-        Instantiate(obstacleObject, positionSpawnObject, Quaternion.identity);// Instancia o objeto
+        ObjectPool.Instance.SpawnFromPool("Danger", positionSpawnObject, Quaternion.identity);// Instancia o objeto
         Instantiate(obstacleAlert, positionSpawnAlert, Quaternion.identity);// Instancia o objeto
     }
 
@@ -78,8 +78,8 @@ public class RandomSpawner : MonoBehaviour
         Vector3 positionSpawnObject = new Vector3(x, heightSpawnObject, 0f);// Define o ponto de spawn do objeto
         Vector3 positionSpawnAlert = new Vector3(x, heightSpawnAlert, 0f);// Define o ponto de spawn do objeto
         
-        Instantiate(lifeObject, positionSpawnObject, Quaternion.identity);// Instancia o objeto
-        Instantiate(lifeAlert, positionSpawnAlert, Quaternion.identity);// Instancia o objeto
+        ObjectPool.Instance.SpawnFromPool("Life", positionSpawnObject, Quaternion.identity);// Instancia o objeto
+        ObjectPool.Instance.SpawnFromPool("LifeAlert", positionSpawnAlert, Quaternion.identity);// Instancia o objeto
     }
     
     void SpawnShieldObject()
@@ -89,7 +89,7 @@ public class RandomSpawner : MonoBehaviour
         Vector3 positionSpawnObject = new Vector3(x, heightSpawnObject, 0f);// Define o ponto de spawn do objeto
         Vector3 positionSpawnAlert = new Vector3(x, heightSpawnAlert, 0f);// Define o ponto de spawn do objeto
         
-        Instantiate(shieldObject, positionSpawnObject, Quaternion.identity);// Instancia o objeto
+        ObjectPool.Instance.SpawnFromPool("Protection", positionSpawnObject, Quaternion.identity);// Instancia o objeto
         Instantiate(shieldAlert, positionSpawnAlert, Quaternion.identity);// Instancia o objeto
     }
     
@@ -100,7 +100,7 @@ public class RandomSpawner : MonoBehaviour
         Vector3 positionSpawnObject = new Vector3(x, heightSpawnObject, 0f);// Define o ponto de spawn do objeto
         Vector3 positionSpawnAlert = new Vector3(x, heightSpawnAlert, 0f);// Define o ponto de spawn do objeto
         
-        Instantiate(shellObject, positionSpawnObject, Quaternion.identity);// Instancia o objeto
+        ObjectPool.Instance.SpawnFromPool("Shell", positionSpawnObject, Quaternion.identity);// Instancia o objeto
         Instantiate(shellAlert, positionSpawnAlert, Quaternion.identity);// Instancia o objeto
     }
 }

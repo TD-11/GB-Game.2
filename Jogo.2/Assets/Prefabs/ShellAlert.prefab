@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6094018007770594079}
   m_Layer: 0
   m_Name: ShellAlert
-  m_TagString: Alert
+  m_TagString: ShellAlert
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

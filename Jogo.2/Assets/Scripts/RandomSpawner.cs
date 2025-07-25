@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class RandomSpawner : MonoBehaviour
 {
@@ -6,13 +7,15 @@ public class RandomSpawner : MonoBehaviour
     public GameObject obstacleAlert;// Alerta de objeto ruim
     public GameObject lifeObject;// Objeto que ajudará o jogador
     public GameObject lifeAlert;// Alerta de power
-    public GameObject shieldObject;
-    public GameObject shieldAlert;
-    
+    public GameObject shieldObject;// Power up que dará um escudo ao player
+    public GameObject shieldAlert;// Aviso do power up
+    public GameObject shellObject;
+    public GameObject shellAlert;
     
     public float intervalSpawnObstacle = 5f;// Tempo entre os spawns
     public float intervalSpawnPowerLife = 15f;// Tempo entre os spawns
     public float intervalSpawnShield = 15f;// Tempo entre os spawns
+    public float intervalSpawnShell = 5f;// Tempo entre os spawns
     public float widthArea = 8.4f;// Largura da área de spawn
     public float heightSpawnObject = 12f;// Altura em Y (onde os objetos aparecem)  
     public float heightSpawnAlert = 4f;// Altura em Y (onde os objetos aparecem)
@@ -23,6 +26,7 @@ public class RandomSpawner : MonoBehaviour
     private float nextSpawnTimeObstacle = 0f;
     private float nextSpawnTimeLife = 10f;
     private float nextSpawnTimeShield = 10f;
+    private float nextSpawnTimeShell = 5f;
 
     void Update()
     {
@@ -46,6 +50,12 @@ public class RandomSpawner : MonoBehaviour
             {
                 SpawnShieldObject();
                 nextSpawnTimeShield = Time.time + intervalSpawnShield;
+            }
+            
+            if (Time.time >= nextSpawnTimeShell)
+            {
+                SpawnShellObject();
+                nextSpawnTimeShell = Time.time + intervalSpawnShell;
             }
         }
     }
@@ -81,5 +91,16 @@ public class RandomSpawner : MonoBehaviour
         
         Instantiate(shieldObject, positionSpawnObject, Quaternion.identity);// Instancia o objeto
         Instantiate(shieldAlert, positionSpawnAlert, Quaternion.identity);// Instancia o objeto
+    }
+    
+    void SpawnShellObject()
+    {
+        float x = Random.Range(-widthArea / 2f, widthArea / 2f);// Define um valor aleatoriamente na zona de spawn
+        
+        Vector3 positionSpawnObject = new Vector3(x, heightSpawnObject, 0f);// Define o ponto de spawn do objeto
+        Vector3 positionSpawnAlert = new Vector3(x, heightSpawnAlert, 0f);// Define o ponto de spawn do objeto
+        
+        Instantiate(shellObject, positionSpawnObject, Quaternion.identity);// Instancia o objeto
+        Instantiate(shellAlert, positionSpawnAlert, Quaternion.identity);// Instancia o objeto
     }
 }

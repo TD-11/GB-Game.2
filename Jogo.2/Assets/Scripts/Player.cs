@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
    private Rigidbody2D rig;
-   [SerializeField]private FollowShield shield;
+   private FollowShield shield;// Cria um objeto para acessar a classe "FollowShield"
    private Vector2 movement;
    public GameObject DefeatScreen;
    public List<GameObject> Hearts = new List<GameObject>(3);// Armazenas as imagens de coração
@@ -13,9 +14,12 @@ public class Player : MonoBehaviour
    
    public RandomSpawner spawner;
    
+   public TMP_Text countText;
+   public int count = 0;
+   
     void Start()
     {
-        rig = GetComponent<Rigidbody2D>();// busca o rigid body 2D 
+        rig = GetComponent<Rigidbody2D>();// Busca o rigid body 2D 
         life = Hearts.Count;// Determina a quantidade de vidas conforme a quantidade de corações
     }
     
@@ -78,10 +82,17 @@ public class Player : MonoBehaviour
                 Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
             }
         }
+        
+        if (collision.gameObject.CompareTag("Shell"))
+        {
+            count ++;
+            countText.text = count.ToString();
+            Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
+        }
 
         if (collision.gameObject.CompareTag("Protection"))
         {
-            shield.gameObject.SetActive(true);
+            shield.gameObject.SetActive(true);// Ativa o poder do escudo 
             Destroy(collision.gameObject);// Destrói o objeto depois de colidido 
         }
     }

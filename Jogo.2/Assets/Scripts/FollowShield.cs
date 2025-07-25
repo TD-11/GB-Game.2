@@ -13,19 +13,14 @@ public class FollowShield : MonoBehaviour
             // Faz com que o escudo siga o player
             transform.position = player.position + offset;
         }
-    }
-
+    } 
+    // Para destruir o escudo depois de colidido com o obstáculo:
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Danger"))
         {
-            gameObject.SetActive(false);
-            Destroy(collision.gameObject);
+            gameObject.SetActive(false);// Desativa o escudo
+            Destroy(collision.gameObject);// Destrói o obstaculo depois de colidido
         }
     }
-
-    /*public void SetActive()
-    {
-        gameObject.SetActive(true);
-    }*/
 }

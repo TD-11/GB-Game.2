@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2725901461734957800}
   - component: {fileID: 1745589194806694726}
   - component: {fileID: -1916574336385416759}
-  - component: {fileID: -7427221890169213045}
   - component: {fileID: -993512734196716380}
   - component: {fileID: -3969666722342947502}
+  - component: {fileID: -1881109034609279554}
   m_Layer: 0
   m_Name: Obstacle
   m_TagString: Danger
@@ -144,19 +144,6 @@ PolygonCollider2D:
       - {x: 0.5, y: 0}
       - {x: 0.25, y: 0.43359375}
   m_UseDelaunayMesh: 0
---- !u!114 &-7427221890169213045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1132942449799590789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76be9eea84d851e4f9210eddfe88746b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeDestroy: 4
 --- !u!50 &-993512734196716380
 Rigidbody2D:
   serializedVersion: 5
@@ -197,3 +184,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedFall: 5
+--- !u!114 &-1881109034609279554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132942449799590789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76be9eea84d851e4f9210eddfe88746b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

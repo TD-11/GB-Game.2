@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8911998703940855534}
   - component: {fileID: 1442932230150528317}
   - component: {fileID: 8111272180394269304}
-  - component: {fileID: 4238447147523273515}
   - component: {fileID: 843655009250190230}
+  - component: {fileID: -786402022591072184}
   m_Layer: 0
   m_Name: Shell
   m_TagString: Shell
@@ -154,19 +154,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
---- !u!114 &4238447147523273515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5542744717067985312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76be9eea84d851e4f9210eddfe88746b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeDestroy: 4
 --- !u!114 &843655009250190230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,3 +167,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedFall: 3
+--- !u!114 &-786402022591072184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5542744717067985312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05a6b0e48dfea2347bd41fbc7b4ffff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

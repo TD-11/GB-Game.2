@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -1913291001006226286}
   - component: {fileID: 7249819786378586301}
   - component: {fileID: -3080890651723619430}
-  - component: {fileID: -108282479802217927}
+  - component: {fileID: 7864019667836242601}
   m_Layer: 0
   m_Name: Life
   m_TagString: Life
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedFall: 2
---- !u!114 &-108282479802217927
+--- !u!114 &7864019667836242601
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -176,7 +176,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8614869964440822093}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76be9eea84d851e4f9210eddfe88746b, type: 3}
+  m_Script: {fileID: 11500000, guid: 0757ed47555f55148a25337ead827f76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeDestroy: 8

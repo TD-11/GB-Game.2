@@ -14,8 +14,11 @@ public class Player : MonoBehaviour
    
    public RandomSpawner spawner;
    
-   public TMP_Text countText;
-   public int count = 0;
+   public TMP_Text countShellText;
+   public TMP_Text scoreText;
+   public int countShell = 0;
+   public int score = 0;
+   
    
     void Start()
     {
@@ -48,21 +51,24 @@ public class Player : MonoBehaviour
     //Identifica que tipo de objeto está colidindo com o personagem
     void OnTriggerEnter2D(Collider2D collision)
     {
-        // Caso seja um objeto ruim:
+        // Caso seja um obstaculo:
         if (collision.gameObject.tag == "Danger")
         {
             life--;
+            score -= 10;
+            scoreText.text = "Pontos totais: " + score.ToString();
             Hearts[life].SetActive(false);// Apaga os corações quando levar dano
             ObjectPool.Instance.ReturnToPool("Danger", collision.gameObject);// Destrói o objeto depois de colidido
             
-            //Quando o player perder todas as vidas
+            // Quando o player perder todas as vidas
             // Ele irá ser destruído e aparecerá a tela de "game over"
             if (life == 0)
             {
-                Destroy(gameObject);
+                ObjectPool.Instance.ReturnToPool("Shield", gameObject);
                 FindObjectOfType<RandomSpawner>().Fall = false;// Procura a variável "Fall" e define ela como falsa
                 DefeatScreen.SetActive(true);
             }
+            
         }
         // Caso seja um objeto bom:    
         if (collision.gameObject.CompareTag("Life"))
@@ -71,6 +77,7 @@ public class Player : MonoBehaviour
             if (life == 3)
             {
                 life = 3;
+                scoreText.text = "Pontos totais: " + score.ToString();
                 ObjectPool.Instance.ReturnToPool("Life", collision.gameObject);// Destrói o objeto depois de colidido 
                 Debug.Log($"Vida recuperada: {life}");
             }
@@ -78,6 +85,8 @@ public class Player : MonoBehaviour
             if (life < 3)
             {
                 life++;
+                score += 20; 
+                scoreText.text = "Pontos totais: " + score.ToString();
                 Hearts[life - 1].SetActive(true);// Reativa as imagens de coração
                 ObjectPool.Instance.ReturnToPool("Life", collision.gameObject);// Destrói o objeto depois de colidido 
             }
@@ -85,13 +94,17 @@ public class Player : MonoBehaviour
         
         if (collision.gameObject.CompareTag("Shell"))
         {
-            count ++;
-            countText.text = count.ToString();
+            countShell += 10;
+            score += 10;
+            countShellText.text = countShell.ToString();
+            scoreText.text = "Pontos totais: " +  score.ToString();
             ObjectPool.Instance.ReturnToPool("Shell", collision.gameObject);// Destrói o objeto depois de colidido 
         }
 
         if (collision.gameObject.CompareTag("Shield"))
         {
+            score += 75;
+            scoreText.text = "Pontos totais: " + score.ToString();
             shield.gameObject.SetActive(true);// Ativa o poder do escudo 
             ObjectPool.Instance.ReturnToPool("Shield", collision.gameObject);// Destrói o objeto depois de colidido 
         }

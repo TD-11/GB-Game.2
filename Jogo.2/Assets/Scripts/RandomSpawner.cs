@@ -4,15 +4,6 @@ using TMPro;
 
 public class RandomSpawner : MonoBehaviour
 {
-    public GameObject obstacleObject;// Objeto que irá dar dano
-    public GameObject obstacleAlert;// Alerta de objeto ruim
-    //public GameObject lifeObject;// Objeto que ajudará o jogador
-    public GameObject lifeAlert;// Alerta de power
-    //public GameObject shieldObject;// Power up que dará um escudo ao player
-    public GameObject shieldAlert;// Aviso do power up
-    //public GameObject shellObject;
-    public GameObject shellAlert;
-    
     public float intervalSpawnObstacle = 3f;// Tempo entre os spawns
     public float intervalSpawnPowerLife = 13f;// Tempo entre os spawns
     public float intervalSpawnShield = 11f;// Tempo entre os spawns
@@ -28,7 +19,7 @@ public class RandomSpawner : MonoBehaviour
     private float nextSpawnTimeLife = 9f;
     private float nextSpawnTimeShield = 11f;
     private float nextSpawnTimeShell = 5f;
-
+    
 
     void Update()
     {

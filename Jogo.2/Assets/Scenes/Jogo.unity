@@ -740,7 +740,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -213.60217, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1605,8 +1605,10 @@ MonoBehaviour:
   speed: 3
   life: 3
   spawner: {fileID: 0}
-  countText: {fileID: 1030219313}
-  count: 0
+  countShellText: {fileID: 1030219313}
+  scoreText: {fileID: 1315221621}
+  countShell: 0
+  score: 0
 --- !u!212 &781482574
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1832,7 +1834,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -432.2, y: 154.8}
+  m_AnchoredPosition: {x: -358.4, y: 154.8}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &847314037
@@ -1920,7 +1922,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 129.77151, y: 0, z: 0, w: 0}
+  m_margin: {x: 69.687546, y: 0, z: 69.71028, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2313,7 +2315,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -203.01028, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2361,7 +2363,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -426.3, y: 144.2}
+  m_AnchoredPosition: {x: -335.9, y: 146.1}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1030219313
@@ -2449,7 +2451,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 169.43762, y: 0, z: 0, w: 18.089417}
+  m_margin: {x: 57.48233, y: 0, z: 58.7687, w: 18.089417}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2714,7 +2716,7 @@ Transform:
   m_GameObject: {fileID: 1213782723}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.7090816, w: 0.70512646}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2948,7 +2950,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -195.0664, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4668,11 +4670,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff51ffcc04ca5d34ab027dc4704011bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleObject: {fileID: 1132942449799590789, guid: 6a4b24656c90c8d4e8ab107294ada48b, type: 3}
-  obstacleAlert: {fileID: 3259807501532560202, guid: ea0aa9bf934cc694db1deec07e19f6e4, type: 3}
-  lifeAlert: {fileID: 6575816644793945683, guid: 22b61bfcf763ea444a1a13c5adb922d0, type: 3}
-  shieldAlert: {fileID: 2808279151612989013, guid: d5c1154486a990e448812968d3d35b15, type: 3}
-  shellAlert: {fileID: 1692245654502693790, guid: 03e7f333b35524c48a9b002e4a6b979e, type: 3}
   intervalSpawnObstacle: 3
   intervalSpawnPowerLife: 17
   intervalSpawnShield: 13
@@ -4693,7 +4690,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f7eaf17bbbabe44c9d4babd90cc5542, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textTime: {fileID: 56993944}
+  textTimeHud: {fileID: 56993944}
+  textTimeInterface: {fileID: 990002181}
   player: {fileID: 781482570}
   timeOutScreen: {fileID: 237521211}
   normalColor: {r: 0, g: 0, b: 0, a: 1}
@@ -4738,6 +4736,9 @@ MonoBehaviour:
   - tag: ShieldAlert
     prefab: {fileID: 2808279151612989013, guid: d5c1154486a990e448812968d3d35b15, type: 3}
     size: 10
+  - tag: Player
+    prefab: {fileID: 781482570}
+    size: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4751,9 +4752,9 @@ SceneRoots:
   - {fileID: 1213782724}
   - {fileID: 119888423}
   - {fileID: 716999013}
+  - {fileID: 2092259708}
   - {fileID: 600536158}
   - {fileID: 2027752089}
   - {fileID: 1735745661}
   - {fileID: 1650534705}
   - {fileID: 86580763}
-  - {fileID: 2092259708}

@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class StopWatch : MonoBehaviour
 {
     // Armazenam os game objects e textos
-    public TMP_Text textTime;
+    public TMP_Text textTimeHud;
+    public TMP_Text textTimeInterface;
     public GameObject player;
     public GameObject timeOutScreen;
     
@@ -15,6 +16,7 @@ public class StopWatch : MonoBehaviour
     public float restTime = 30f; // Tempo em segundos
     public float tempoDeAviso = 11f;// Define a partir de que tempo aparecerá o aviso
     private bool activeTime = true;// Servirá para desativar o tempo
+    
     
     public RandomSpawner spawner;
     
@@ -37,23 +39,23 @@ public class StopWatch : MonoBehaviour
                 int seconds = Mathf.FloorToInt(restTime % 60);// Converte o valor em segundos
 
                 // Salva no texto da interface e converte no modelo 00:00
-                textTime.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+                textTimeHud.text = string.Format("{0:00}:{1:00}", minutes, seconds);
             
                 // Quando o tempo chegar no momento de aviso
                 if (restTime <= tempoDeAviso)
                 {
-                    textTime.color = alertColor;// Muda a cor do texto
+                    textTimeHud.color = alertColor;// Muda a cor do texto
                 }
                 else
                 {
-                    textTime.color = normalColor;// Muda a cor do texto
+                    textTimeHud.color = normalColor;// Muda a cor do texto
                 }
             }
             // Quando o tempo esgotar
             if (restTime <= 0)
             {
-                textTime.text = "00:00";// O texto na tela irá zerar
-                textTime.color = alertColor;// A cor se manterá vermelha 
+                textTimeHud.text = "00:00";// O texto na tela irá zerar
+                textTimeHud.color = alertColor;// A cor se manterá vermelha 
                 activeTime = false;// Desativa o tempo
                 FindObjectOfType<RandomSpawner>().Fall = false;// Procura a variável "Fall" e define ela como falsa
                 timeOutScreen.SetActive(true);// Ativa a tela de tempo esgotado

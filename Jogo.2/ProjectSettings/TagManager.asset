@@ -13,6 +13,7 @@ TagManager:
   - ObstacleAlert
   - ShellAlert
   - ShieldAlert
+  - End
   layers:
   - Default
   - TransparentFX

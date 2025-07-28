@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      protetor-solar_0: -2840666958163128060
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

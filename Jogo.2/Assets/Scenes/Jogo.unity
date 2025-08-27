@@ -1604,9 +1604,10 @@ MonoBehaviour:
   - {fileID: 1963282739}
   speed: 3
   life: 3
-  spawner: {fileID: 0}
+  stopWatch: {fileID: 0}
   countShellText: {fileID: 1030219313}
   scoreText: {fileID: 1315221621}
+  restTimeText: {fileID: 462906025}
   countShell: 0
   score: 0
 --- !u!212 &781482574
@@ -4677,7 +4678,6 @@ MonoBehaviour:
   widthArea: 8.4
   heightSpawnObject: 12
   heightSpawnAlert: 4
-  Fall: 1
 --- !u!114 &2145778587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4691,14 +4691,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textTimeHud: {fileID: 56993944}
-  textTimeInterface: {fileID: 990002181}
+  textTotalTime: {fileID: 0}
   player: {fileID: 781482570}
   timeOutScreen: {fileID: 237521211}
   normalColor: {r: 0, g: 0, b: 0, a: 1}
   alertColor: {r: 1, g: 0, b: 0, a: 1}
   restTime: 30
   tempoDeAviso: 10
-  spawner: {fileID: 0}
 --- !u!114 &2145778588
 MonoBehaviour:
   m_ObjectHideFlags: 0

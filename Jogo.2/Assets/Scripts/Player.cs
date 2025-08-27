@@ -12,17 +12,20 @@ public class Player : MonoBehaviour
    public float speed = 3f;
    public int life;
    
-   public RandomSpawner spawner;
+   public StopWatch stopWatch;
    
    public TMP_Text countShellText;
    public TMP_Text scoreText;
+   public TMP_Text restTimeText;
    public int countShell = 0;
    public int score = 0;
+   
    
    
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();// Busca o rigid body 2D 
+        stopWatch = GetComponentInChildren<StopWatch>();
         life = Hearts.Count;// Determina a quantidade de vidas conforme a quantidade de corações
     }
     
@@ -65,7 +68,8 @@ public class Player : MonoBehaviour
             if (life == 0)
             {
                 ObjectPool.Instance.ReturnToPool("Shield", gameObject);
-                FindObjectOfType<RandomSpawner>().Fall = false;// Procura a variável "Fall" e define ela como falsa
+                Time.timeScale = 0f;
+                restTimeText.text = "Tempo restante: " + stopWatch.restTime;
                 DefeatScreen.SetActive(true);
             }
             

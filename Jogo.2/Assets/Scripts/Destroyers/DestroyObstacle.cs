@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DestroyObstacle : MonoBehaviour
 {
+    
     // Para desativar os avisos eos objetos:
     private void OnTriggerEnter2D(Collider2D collision)
     {

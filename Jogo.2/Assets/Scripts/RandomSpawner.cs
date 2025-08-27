@@ -12,8 +12,6 @@ public class RandomSpawner : MonoBehaviour
     public float heightSpawnObject = 12f;// Altura em Y (onde os objetos aparecem)  
     public float heightSpawnAlert = 4f;// Altura em Y (onde os objetos aparece
 
-    public bool Fall = true;// Vai servir para liberar a queda dos objetos   
-
     // Define quando os objetos vão cair
     private float nextSpawnTimeObstacle = 0f;
     private float nextSpawnTimeLife = 9f;
@@ -23,34 +21,31 @@ public class RandomSpawner : MonoBehaviour
 
     void Update()
     {
-        // Se a variavel "Fall" for verdadeira:
-        if (Fall)
+        // Põe as funções em prática de acordo com tempo pré-definido
+        if (Time.time >= nextSpawnTimeObstacle)
         {
-            // Põe as funções em prática de acordo com tempo pré-definido
-            if (Time.time >= nextSpawnTimeObstacle)
-            {
-                SpawnDangerousObject();
-                nextSpawnTimeObstacle = Time.time + intervalSpawnObstacle;
-            }
-
-            if (Time.time >= nextSpawnTimeLife)
-            {
-                SpawnLifeObject();
-                nextSpawnTimeLife = Time.time + intervalSpawnPowerLife;
-            }
-            
-            if (Time.time >= nextSpawnTimeShield)
-            {
-                SpawnShieldObject();
-                nextSpawnTimeShield = Time.time + intervalSpawnShield;
-            }
-            
-            if (Time.time >= nextSpawnTimeShell)
-            {
-                SpawnShellObject();
-                nextSpawnTimeShell = Time.time + intervalSpawnShell;
-            }
+            SpawnDangerousObject();
+            nextSpawnTimeObstacle = Time.time + intervalSpawnObstacle;
         }
+
+        if (Time.time >= nextSpawnTimeLife)
+        {
+            SpawnLifeObject();
+            nextSpawnTimeLife = Time.time + intervalSpawnPowerLife;
+        }
+        
+        if (Time.time >= nextSpawnTimeShield)
+        {
+            SpawnShieldObject();
+            nextSpawnTimeShield = Time.time + intervalSpawnShield;
+        }
+        
+        if (Time.time >= nextSpawnTimeShell)
+        {
+            SpawnShellObject();
+            nextSpawnTimeShell = Time.time + intervalSpawnShell;
+        }
+        
     }
     
 

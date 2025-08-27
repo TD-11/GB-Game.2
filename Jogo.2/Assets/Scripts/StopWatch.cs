@@ -7,7 +7,7 @@ public class StopWatch : MonoBehaviour
 {
     // Armazenam os game objects e textos
     public TMP_Text textTimeHud;
-    public TMP_Text textTimeInterface;
+    public TMP_Text textTotalTime;
     public GameObject player;
     public GameObject timeOutScreen;
     
@@ -18,8 +18,6 @@ public class StopWatch : MonoBehaviour
     private bool activeTime = true;// Servirá para desativar o tempo
     
     
-    public RandomSpawner spawner;
-    
     void Update()
     {
         if (activeTime)
@@ -28,7 +26,6 @@ public class StopWatch : MonoBehaviour
             if (player == null)
             {
                 activeTime = false;
-                spawner.Fall = false;
             }
             
             // Enquanto o tempo for maior que zero
@@ -55,9 +52,8 @@ public class StopWatch : MonoBehaviour
             if (restTime <= 0)
             {
                 textTimeHud.text = "00:00";// O texto na tela irá zerar
-                textTimeHud.color = alertColor;// A cor se manterá vermelha 
-                activeTime = false;// Desativa o tempo
-                FindObjectOfType<RandomSpawner>().Fall = false;// Procura a variável "Fall" e define ela como falsa
+                textTimeHud.color = alertColor;// A cor se manterá vermelha
+                Time.timeScale = 0f;
                 timeOutScreen.SetActive(true);// Ativa a tela de tempo esgotado
             }
         }

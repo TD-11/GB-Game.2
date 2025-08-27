@@ -12,12 +12,15 @@ public class Player : MonoBehaviour
    public float speed = 3f;
    public int life;
    
-   public TMP_Text countShellText;
-   public TMP_Text scoreText;
-   public static TMP_Text restTimeText;
+   public TMP_Text countShellText;// Texto que mostra a quantidade de conchas
+   public TMP_Text scoreText;// Texto que mostra os pontos totais
+   public TMP_Text restTimeText;// Texto que mostra o tempo que sobrou
+   
+   // Esse texto armazena o valor do "Time" na hierarquia
+   // para igualar os valores com a interface
    public TMP_Text timeText;
-   public int countShell = 0;
-   public int score = 0;
+   public int countShell = 0;// Conta as conchas
+   public int score = 0;// Conta os pontos totais
    
    
    
@@ -57,7 +60,7 @@ public class Player : MonoBehaviour
         {
             life--;
             score -= 10;
-            scoreText.text = "Pontos totais: " + score.ToString();
+            scoreText.text = "Pontos totais: " + score.ToString();// Salva o contador "score" na interface
             Hearts[life].SetActive(false);// Apaga os corações quando levar dano
             ObjectPool.Instance.ReturnToPool("Danger", collision.gameObject);// Destrói o objeto depois de colidido
             
@@ -66,8 +69,8 @@ public class Player : MonoBehaviour
             if (life == 0)
             {
                 ObjectPool.Instance.ReturnToPool("Shield", gameObject);
-                Time.timeScale = 0f;
-                restTimeText.text = "Tempo restante: " + timeText.text;
+                Time.timeScale = 0f;// Pausa o tempo
+                restTimeText.text = "Tempo restante: " + timeText.text;// Iguala o tempo restante na interface
                 gameOverScreen.SetActive(true);
             }
             
@@ -79,7 +82,7 @@ public class Player : MonoBehaviour
             if (life == 3)
             {
                 life = 3;
-                scoreText.text = "Pontos totais: " + score.ToString();
+                scoreText.text = "Pontos totais: " + score.ToString();// Salva o contador "score" na interface
                 ObjectPool.Instance.ReturnToPool("Life", collision.gameObject);// Destrói o objeto depois de colidido 
                 Debug.Log($"Vida recuperada: {life}");
             }
@@ -88,7 +91,7 @@ public class Player : MonoBehaviour
             {
                 life++;
                 score += 20; 
-                scoreText.text = "Pontos totais: " + score.ToString();
+                scoreText.text = "Pontos totais: " + score.ToString();// Salva o contador "score" na interface
                 Hearts[life - 1].SetActive(true);// Reativa as imagens de coração
                 ObjectPool.Instance.ReturnToPool("Life", collision.gameObject);// Destrói o objeto depois de colidido 
             }
@@ -98,15 +101,15 @@ public class Player : MonoBehaviour
         {
             countShell += 10;
             score += 10;
-            countShellText.text = countShell.ToString();
-            scoreText.text = "Pontos totais: " +  score.ToString();
+            countShellText.text = countShell.ToString();// Mostra a quantidade de pontos de concha no HUD
+            scoreText.text = "Pontos totais: " +  score.ToString();// Salva o contador "score" na interface
             ObjectPool.Instance.ReturnToPool("Shell", collision.gameObject);// Destrói o objeto depois de colidido 
         }
 
         if (collision.gameObject.CompareTag("Shield"))
         {
             score += 75;
-            scoreText.text = "Pontos totais: " + score.ToString();
+            scoreText.text = "Pontos totais: " + score.ToString();// Salva o contador "score" na interface
             shield.gameObject.SetActive(true);// Ativa o poder do escudo 
             ObjectPool.Instance.ReturnToPool("Shield", collision.gameObject);// Destrói o objeto depois de colidido 
         }

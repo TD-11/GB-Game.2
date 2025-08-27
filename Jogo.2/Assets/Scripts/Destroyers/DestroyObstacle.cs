@@ -6,17 +6,17 @@ using UnityEngine;
 public class DestroyObstacle : MonoBehaviour
 {
     
-    // Para desativar os avisos eos objetos:
+    // Para desativar os avisos e os objetos:
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("ObstacleAlert"))
         {
-            ObjectPool.Instance.ReturnToPool("ObstacleAlert", collision.gameObject);
+            ObjectPool.Instance.ReturnToPool("ObstacleAlert", collision.gameObject);// Devolve para a "pool"
         }
         
         if (collision.gameObject.CompareTag("End"))
         {
-            ObjectPool.Instance.ReturnToPool("Danger", gameObject);
+            ObjectPool.Instance.ReturnToPool("Danger", gameObject);// Devolve para a "pool"
         }
     }
 }

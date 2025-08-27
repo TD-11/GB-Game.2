@@ -9,6 +9,7 @@ public class StopWatch : MonoBehaviour
     public TMP_Text textTimeHud;
     public GameObject player;
     public GameObject gameOverScreen;
+    public TMP_Text overTimeText;
     
     public Color normalColor = Color.white;// Define a cor normal do cronômetro
     public Color alertColor = Color.red;// Define a cor de aviso do cronômetro
@@ -52,7 +53,8 @@ public class StopWatch : MonoBehaviour
             {
                 textTimeHud.text = "00:00";// O texto na tela irá zerar
                 textTimeHud.color = alertColor;// A cor se manterá vermelha
-                Time.timeScale = 0f;
+                Time.timeScale = 0f;// Pausa o tempo
+                overTimeText.text = "Tempo esgotado!";// Mostra a mensagem na interface quando o tempo acabar
                 gameOverScreen.SetActive(true);// Ativa a tela de tempo esgotado
             }
         }

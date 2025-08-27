@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class DestroyShield : MonoBehaviour
 {
-    // Para desativar os avisos eos objetos:
+    // Para desativar os avisos e os objetos:
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("ShieldAlert"))
         {
-            ObjectPool.Instance.ReturnToPool("ShieldAlert", collision.gameObject);
+            ObjectPool.Instance.ReturnToPool("ShieldAlert", collision.gameObject);// Devolve para a "pool"
         }
         
         if (collision.gameObject.CompareTag("End"))
         {
-            ObjectPool.Instance.ReturnToPool("Shield", gameObject);
+            ObjectPool.Instance.ReturnToPool("Shield", gameObject);// Devolve para a "pool"
         }
     }
 }

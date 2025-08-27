@@ -7,16 +7,15 @@ public class Player : MonoBehaviour
    private Rigidbody2D rig;
    public FollowShield shield;// Cria um objeto para acessar a classe "FollowShield"
    private Vector2 movement;
-   public GameObject DefeatScreen;
+   public GameObject gameOverScreen;
    public List<GameObject> Hearts = new List<GameObject>(3);// Armazenas as imagens de coração
    public float speed = 3f;
    public int life;
    
-   public StopWatch stopWatch;
-   
    public TMP_Text countShellText;
    public TMP_Text scoreText;
-   public TMP_Text restTimeText;
+   public static TMP_Text restTimeText;
+   public TMP_Text timeText;
    public int countShell = 0;
    public int score = 0;
    
@@ -25,7 +24,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();// Busca o rigid body 2D 
-        stopWatch = GetComponentInChildren<StopWatch>();
         life = Hearts.Count;// Determina a quantidade de vidas conforme a quantidade de corações
     }
     
@@ -69,8 +67,8 @@ public class Player : MonoBehaviour
             {
                 ObjectPool.Instance.ReturnToPool("Shield", gameObject);
                 Time.timeScale = 0f;
-                restTimeText.text = "Tempo restante: " + stopWatch.restTime;
-                DefeatScreen.SetActive(true);
+                restTimeText.text = "Tempo restante: " + timeText.text;
+                gameOverScreen.SetActive(true);
             }
             
         }

@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
             {
                 ObjectPool.Instance.ReturnToPool("Shield", gameObject);
                 Time.timeScale = 0f;// Pausa o tempo
-                restTimeText.text = "Tempo restante: " + timeText.text;// Iguala o tempo restante na interface
+                //restTimeText.text = "Tempo restante: " + timeText.text;// Iguala o tempo restante na interface
                 gameOverScreen.SetActive(true);
             }
             

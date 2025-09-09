@@ -13,11 +13,15 @@ public class StopWatch : MonoBehaviour
     
     public Color normalColor = Color.white;// Define a cor normal do cronômetro
     public Color alertColor = Color.red;// Define a cor de aviso do cronômetro
-    public static float restTime = 30f; // Tempo em segundos
+    public static float startTime = 30f; // Tempo em segundos
+    public static float restTime;
     public float tempoDeAviso = 11f;// Define a partir de que tempo aparecerá o aviso
     private bool activeTime = true;// Servirá para desativar o tempo
     
-    
+    void start()
+    {
+        restTime = startTime;
+    }
     void Update()
     {
         if (activeTime)
@@ -59,5 +63,11 @@ public class StopWatch : MonoBehaviour
             }
         }
         
+    }
+
+    public static void ResetTimer()
+    {
+        restTime = startTime;
+
     }
 }

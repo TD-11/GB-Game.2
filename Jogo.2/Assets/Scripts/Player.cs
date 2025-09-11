@@ -26,6 +26,12 @@ public class Player : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         life = Hearts.Count;// Determina a quantidade de vidas conforme a quantidade de corações
+
+        if (gameObject == null)
+        {
+            SpawnPlayer();
+        }
+        
     }
     void Update()
     {
@@ -49,6 +55,7 @@ public class Player : MonoBehaviour
             // Quando o player morrer:
             if (life == 0)
             {
+                ObjectPool.Instance.ReturnToPool("Player", collision.gameObject);
                 Time.timeScale = 0f;// Pausa o tempo
                 gameOverScreen.SetActive(true);
             }
@@ -89,6 +96,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    void SpawnPlayer()
+    {
+        float x = 0f;
+        
+        Vector3 positionSpawnPlayer = new Vector3(x, 2.5f, 0f);
+
+        ObjectPool.Instance.SpawnFromPool("Player", positionSpawnPlayer, Quaternion.identity);// Instancia o objeto
+    }
     void KeyboardMove()
     {
         if (Input.GetKey(KeyCode.A))

@@ -56,8 +56,8 @@ public class RandomSpawner : MonoBehaviour
         Vector3 positionSpawnObject = new Vector3(x, heightSpawnObject, 0f);// Define o ponto de spawn do objeto
         Vector3 positionSpawnAlert = new Vector3(x, heightSpawnAlert, 0f);// Define o ponto de spawn do objeto
 
-        var obj = ObjectPool.Instance.SpawnFromPool("Obstacle", positionSpawnObject, Quaternion.identity);// Instancia o objeto
-        var alert = ObjectPool.Instance.SpawnFromPool("ObstacleAlert", positionSpawnAlert, Quaternion.identity);
+        ObjectPool.Instance.SpawnFromPool("Obstacle", positionSpawnObject, Quaternion.identity);// Instancia o objeto
+        ObjectPool.Instance.SpawnFromPool("ObstacleAlert", positionSpawnAlert, Quaternion.identity);
     }
 
     void SpawnLifeObject()

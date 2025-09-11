@@ -58,7 +58,7 @@ public class StopWatch : MonoBehaviour
                 textTimeHud.text = "00:00";// O texto na tela irá zerar
                 textTimeHud.color = alertColor;// A cor se manterá vermelha
                 Time.timeScale = 0f;// Pausa o tempo
-                // gameOverScreen.SetActive(true);// Ativa a tela de tempo esgotado
+                gameOverScreen.SetActive(true);// Ativa a tela de tempo esgotado
             }
         }
         

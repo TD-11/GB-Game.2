@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8810759806706352926}
   - component: {fileID: 4033529020432367996}
   - component: {fileID: 5498796292062499324}
-  - component: {fileID: 6512009170413370098}
+  - component: {fileID: -6248277844594821204}
   m_Layer: 0
   m_Name: ShieldObject
   m_TagString: Shield
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedFall: 4
---- !u!114 &6512009170413370098
+--- !u!114 &-6248277844594821204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -267,6 +267,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 2023983642475269355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dc8f7919c5b4834db28844e81d59fbc, type: 3}
+  m_Script: {fileID: 11500000, guid: 08a26ffd4ddb1744c8c7ea9de4a7b4c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tagObject: Shield
+  tagAlertObject: ShieldAlert

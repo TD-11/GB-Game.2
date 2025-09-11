@@ -24,7 +24,7 @@ public class RandomSpawner : MonoBehaviour
         // Põe as funções em prática de acordo com tempo pré-definido
         if (Time.time >= nextSpawnTimeObstacle)
         {
-            SpawnDangerousObject();
+            SpawnObstacleObject();
             nextSpawnTimeObstacle = Time.time + intervalSpawnObstacle;
         }
 
@@ -49,15 +49,15 @@ public class RandomSpawner : MonoBehaviour
     }
     
 
-    void SpawnDangerousObject()
+    void SpawnObstacleObject()
     {
         float x = Random.Range(-widthArea / 2f, widthArea / 2f);// Define um valor aleatoriamente na zona de spawn 
         
         Vector3 positionSpawnObject = new Vector3(x, heightSpawnObject, 0f);// Define o ponto de spawn do objeto
         Vector3 positionSpawnAlert = new Vector3(x, heightSpawnAlert, 0f);// Define o ponto de spawn do objeto
 
-        ObjectPool.Instance.SpawnFromPool("Danger", positionSpawnObject, Quaternion.identity);// Instancia o objeto
-        ObjectPool.Instance.SpawnFromPool("ObstacleAlert", positionSpawnAlert, Quaternion.identity);// Instancia o objetoInstantiate(obstacleAlert, positionSpawnAlert, Quaternion.identity);// Instancia o objeto
+        var obj = ObjectPool.Instance.SpawnFromPool("Obstacle", positionSpawnObject, Quaternion.identity);// Instancia o objeto
+        var alert = ObjectPool.Instance.SpawnFromPool("ObstacleAlert", positionSpawnAlert, Quaternion.identity);
     }
 
     void SpawnLifeObject()

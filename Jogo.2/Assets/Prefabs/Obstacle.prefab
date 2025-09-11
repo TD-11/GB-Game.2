@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: -1916574336385416759}
   - component: {fileID: -993512734196716380}
   - component: {fileID: -3969666722342947502}
-  - component: {fileID: -1881109034609279554}
+  - component: {fileID: -7951479126406548808}
   m_Layer: 0
   m_Name: Obstacle
-  m_TagString: Danger
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedFall: 5
---- !u!114 &-1881109034609279554
+--- !u!114 &-7951479126406548808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,6 +193,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1132942449799590789}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76be9eea84d851e4f9210eddfe88746b, type: 3}
+  m_Script: {fileID: 11500000, guid: 08a26ffd4ddb1744c8c7ea9de4a7b4c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tagObject: Obstacle
+  tagAlertObject: ObstacleAlert

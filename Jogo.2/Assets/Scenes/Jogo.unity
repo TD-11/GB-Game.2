@@ -1022,7 +1022,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!50 &781482571
 Rigidbody2D:
   serializedVersion: 5
@@ -1108,20 +1108,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29ccf968201bef940965ea3094170410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shield: {fileID: 1213782727}
-  gameOverScreen: {fileID: 237521211}
   Hearts:
   - {fileID: 1449860570}
   - {fileID: 1368740302}
   - {fileID: 1963282739}
+  shield: {fileID: 1213782727}
+  gameOverScreen: {fileID: 237521211}
   speed: 3
-  life: 3
   countShellText: {fileID: 1030219313}
-  scoreText: {fileID: 0}
-  restTimeText: {fileID: 0}
-  timeText: {fileID: 56993944}
-  countShell: 0
-  score: 0
 --- !u!212 &781482574
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1688,7 +1682,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: -978929166456063194, guid: 1fbbe6b35c07d2743aaec4c38934adc2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3053,6 +3047,7 @@ GameObject:
   - component: {fileID: 2145778586}
   - component: {fileID: 2145778587}
   - component: {fileID: 2145778588}
+  - component: {fileID: 2145778589}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3109,9 +3104,9 @@ MonoBehaviour:
   textTimeHud: {fileID: 56993944}
   player: {fileID: 781482570}
   gameOverScreen: {fileID: 237521211}
-  overTimeText: {fileID: 0}
   normalColor: {r: 0, g: 0, b: 0, a: 1}
   alertColor: {r: 1, g: 0, b: 0, a: 1}
+  startTime: 30
   tempoDeAviso: 10
 --- !u!114 &2145778588
 MonoBehaviour:
@@ -3132,7 +3127,7 @@ MonoBehaviour:
   - tag: LifeAlert
     prefab: {fileID: 6575816644793945683, guid: 22b61bfcf763ea444a1a13c5adb922d0, type: 3}
     size: 10
-  - tag: Danger
+  - tag: Obstacle
     prefab: {fileID: 1132942449799590789, guid: 6a4b24656c90c8d4e8ab107294ada48b, type: 3}
     size: 10
   - tag: ObstacleAlert
@@ -3153,6 +3148,24 @@ MonoBehaviour:
   - tag: Player
     prefab: {fileID: 781482570}
     size: 1
+--- !u!114 &2145778589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145778583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25f2434fe86ed9e4bb26d208e558c893, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alertObstacleReference: {fileID: 1132942449799590789, guid: 6a4b24656c90c8d4e8ab107294ada48b, type: 3}
+  alertLifeReference: {fileID: 0}
+  alertShellReference: {fileID: 0}
+  alertShieldReference: {fileID: 0}
+  objectPoolTag: Obstacle
+  alertPoolTag: ObstacleAlert
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

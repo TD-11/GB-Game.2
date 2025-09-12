@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d5380797642c1144da035058e2ee2d98
+guid: c5644add30429da438285d8571cadde7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9138044374830985489
-    second: BackGround - Fase_0
+      213: -5164266255733318090
+    second: "Colet\xE1vel_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BackGround - Fase_0
+      name: "Colet\xE1vel_0"
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1920
-        height: 1080
+        x: 834
+        y: 388
+        width: 256
+        height: 243
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fee41787e052f2180800000000000000
-      internalID: -9138044374830985489
+      spriteID: 63e9a7da337d458b0800000000000000
+      internalID: -5164266255733318090
       vertices: []
       indices: 
       edges: []

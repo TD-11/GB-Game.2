@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a9758b3c4d440814d94038beb3762a82
+guid: 4b2aa50ebc4da0d45b6a630825215611
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2840666958163128060
-    second: protetor-solar_0
+      213: 5607307109329235712
+    second: "power-up (prote\xE7\xE3o)_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,43 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: protetor-solar_0
+      name: "power-up (prote\xE7\xE3o)_0"
       rect:
         serializedVersion: 2
-        x: 8
-        y: 0
-        width: 496
-        height: 512
+        x: 866
+        y: 377
+        width: 180
+        height: 312
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4015f79b37ce398d0800000000000000
-      internalID: -2840666958163128060
+      spriteID: 00f671e6b1821dd40800000000000000
+      internalID: 5607307109329235712
       vertices: []
       indices: 
       edges: []
@@ -134,8 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      protetor-solar_0: -2840666958163128060
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -8,8 +8,9 @@ public class Player : MonoBehaviour
    private Vector2 movement;
    
    public List<GameObject> Hearts = new List<GameObject>(3);// Armazenas as imagens de coração
-
+   [SerializeField]
    public FollowShield shield;
+   [SerializeField]
    public GameObject gameOverScreen;
    
    public float speed;
@@ -20,18 +21,12 @@ public class Player : MonoBehaviour
    private int countShield = 0;
    private int initialvalue = 0;
 
-   
+   [SerializeField]
    public TMP_Text countShellText;// Texto que mostra a quantidade de conchas
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         life = Hearts.Count;// Determina a quantidade de vidas conforme a quantidade de corações
-
-        if (gameObject == null)
-        {
-            SpawnPlayer();
-        }
-        
     }
     void Update()
     {
@@ -55,7 +50,7 @@ public class Player : MonoBehaviour
             // Quando o player morrer:
             if (life == 0)
             {
-                ObjectPool.Instance.ReturnToPool("Player", collision.gameObject);
+                Destroy(gameObject);
                 Time.timeScale = 0f;// Pausa o tempo
                 gameOverScreen.SetActive(true);
             }
@@ -95,15 +90,7 @@ public class Player : MonoBehaviour
             ObjectPool.Instance.ReturnToPool("Shield", collision.gameObject);// Destrói o objeto depois de colidido 
         }
     }
-
-    void SpawnPlayer()
-    {
-        float x = 0f;
-        
-        Vector3 positionSpawnPlayer = new Vector3(x, 2.5f, 0f);
-
-        ObjectPool.Instance.SpawnFromPool("Player", positionSpawnPlayer, Quaternion.identity);// Instancia o objeto
-    }
+    
     void KeyboardMove()
     {
         if (Input.GetKey(KeyCode.A))
@@ -117,19 +104,6 @@ public class Player : MonoBehaviour
         else
         {
             movement = Vector2.zero;// Não se move
-        }
-    }
-
-    void RestartData()
-    {
-        countShell = initialvalue;
-        countObstacle = initialvalue;
-        countLife = initialvalue;
-        countShield = initialvalue;
-
-        for (int i = 0; i <= 2; i++)
-        {
-            Hearts[i].SetActive(true);
         }
     }
 }

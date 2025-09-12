@@ -13,37 +13,43 @@ public class RandomSpawner : MonoBehaviour
     public float heightSpawnAlert = 4f;// Altura em Y (onde os objetos aparece
 
     // Define quando os objetos vão cair
-    private float nextSpawnTimeObstacle = 0f;
-    private float nextSpawnTimeLife = 9f;
-    private float nextSpawnTimeShield = 11f;
-    private float nextSpawnTimeShell = 5f;
-    
+    private float nextSpawnTimeObstacle;
+    private float nextSpawnTimeLife;
+    private float nextSpawnTimeShield;
+    private float nextSpawnTimeShell;
 
+    void Start()
+    {
+    nextSpawnTimeObstacle = 0f;
+    nextSpawnTimeLife = 9f;
+    nextSpawnTimeShield = 11f;
+    nextSpawnTimeShell = 5f;
+    }
     void Update()
     {
         // Põe as funções em prática de acordo com tempo pré-definido
-        if (Time.time >= nextSpawnTimeObstacle)
+        if (Time.timeSinceLevelLoad >= nextSpawnTimeObstacle)
         {
             SpawnObstacleObject();
-            nextSpawnTimeObstacle = Time.time + intervalSpawnObstacle;
+            nextSpawnTimeObstacle = Time.timeSinceLevelLoad + intervalSpawnObstacle;
         }
 
-        if (Time.time >= nextSpawnTimeLife)
+        if (Time.timeSinceLevelLoad >= nextSpawnTimeLife)
         {
             SpawnLifeObject();
-            nextSpawnTimeLife = Time.time + intervalSpawnPowerLife;
+            nextSpawnTimeLife = Time.timeSinceLevelLoad + intervalSpawnPowerLife;
         }
         
-        if (Time.time >= nextSpawnTimeShield)
+        if (Time.timeSinceLevelLoad >= nextSpawnTimeShield)
         {
             SpawnShieldObject();
-            nextSpawnTimeShield = Time.time + intervalSpawnShield;
+            nextSpawnTimeShield = Time.timeSinceLevelLoad + intervalSpawnShield;
         }
         
-        if (Time.time >= nextSpawnTimeShell)
+        if (Time.timeSinceLevelLoad >= nextSpawnTimeShell)
         {
             SpawnShellObject();
-            nextSpawnTimeShell = Time.time + intervalSpawnShell;
+            nextSpawnTimeShell = Time.timeSinceLevelLoad + intervalSpawnShell;
         }
         
     }

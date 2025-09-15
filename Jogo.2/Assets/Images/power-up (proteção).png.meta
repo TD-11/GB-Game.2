@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      "power-up (prote\xE7\xE3o)_0": 5607307109329235712
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

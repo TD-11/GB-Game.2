@@ -9,7 +9,9 @@ public class ButtonController : MonoBehaviour
     }
     public void RestartButton()
     {
+        StopWatch.ResetTimer();
         Time.timeScale = 1f;
+        Debug.Log("Tempo voltou");
         LoadScene("Jogo");
     }
     

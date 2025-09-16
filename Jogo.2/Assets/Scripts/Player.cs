@@ -20,9 +20,15 @@ public class Player : MonoBehaviour
    private int countLife = 0;
    private int countShield = 0;
    private int initialvalue = 0;
+   
 
    [SerializeField]
    public TMP_Text countShellText;// Texto que mostra a quantidade de conchas
+   
+   // Relacionados a balança
+   [Header("Configuração")]
+   public int remoteIndex = 0;// Indice do Wii Remote conectado à Balance Board
+   
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -31,6 +37,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         KeyboardMove();// Controle do jogo a partir do teclado
+        BalanceBoardMove();// Controle do jogo a partir da balança
     }
     void FixedUpdate()
     {
@@ -104,6 +111,29 @@ public class Player : MonoBehaviour
         else
         {
             movement = Vector2.zero;// Não se move
+        }
+    }
+
+    void BalanceBoardMove()
+    {
+
+        if (!Wii.IsActive(remoteIndex))
+        {
+            return;
+        }
+
+        // Verifica se o acessório é a Balance Board
+        if (Wii.GetExpType(remoteIndex) == 3)
+        {
+            // Leitura dos sensores
+            Vector4 sensors = Wii.GetBalanceBoard(remoteIndex);
+            float totalWeight = Wii.GetTotalWeight(remoteIndex);
+            Vector2 center = Wii.GetCenterOfBalance(remoteIndex);
+
+            Debug.Log($"TopRight: {sensors.x:F2} kg\n" + 
+                $"TopLeft: {sensors.y:F2} kg\n" + 
+                $"BottomRight: {sensors.z:F2} kg\n" + 
+                $"BottomLeft: {sensors.w:F2} kg");
         }
     }
 }

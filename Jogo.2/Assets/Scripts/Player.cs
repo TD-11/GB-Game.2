@@ -27,7 +27,8 @@ public class Player : MonoBehaviour
    
    // Relacionados a balança
    [Header("Configuração")]
-   public int remoteIndex = 0;// Indice do Wii Remote conectado à Balance Board
+   public static int remoteIndex = 0;// Indice do Wii Remote conectado à Balance Board
+   public float totalWeight = Wii.GetTotalWeight(remoteIndex);
    
     void Start()
     {
@@ -36,8 +37,8 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        KeyboardMove();// Controle do jogo a partir do teclado
-        BalanceBoardMove();// Controle do jogo a partir da balança
+        //KeyboardMove();// Controle do jogo a partir do teclado
+        NintendoBalanceBoardMove();// Controle do jogo a partir da balança
     }
     void FixedUpdate()
     {
@@ -114,7 +115,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void BalanceBoardMove()
+    void NintendoBalanceBoardMove()
     {
 
         if (!Wii.IsActive(remoteIndex))
@@ -130,10 +131,25 @@ public class Player : MonoBehaviour
             float totalWeight = Wii.GetTotalWeight(remoteIndex);
             Vector2 center = Wii.GetCenterOfBalance(remoteIndex);
 
-            Debug.Log($"TopRight: {sensors.x:F2} kg\n" + 
-                $"TopLeft: {sensors.y:F2} kg\n" + 
-                $"BottomRight: {sensors.z:F2} kg\n" + 
-                $"BottomLeft: {sensors.w:F2} kg");
+            if (sensors.x > 0f && sensors.x < 1.3f)
+            {
+                sensors.x = 0f;
+            }
+            if (sensors.y > -1f && sensors.y < 0f)
+            {
+                sensors.y = 0f;
+            }
+            if (sensors.w > -1f && sensors.w < 0f)
+            {
+                sensors.w = 0f;
+            }
+            if (sensors.z > 0 && sensors.z < 2.87f)
+            {
+                sensors.z = 0f;
+            }
+            
+            //if(sensors.y + sensors.w > )
+            Debug.Log($"Quadrante 1: {sensors.x:F2} kg;" + $"Quadrante 2: {sensors.y:F2} kg;" + $"Quadrante 3: {sensors.w:F2} kg;" + $"Quadrante 4: {sensors.z:F2} kg");
         }
     }
 }

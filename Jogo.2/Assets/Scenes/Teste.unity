@@ -717,6 +717,7 @@ GameObject:
   - component: {fileID: 1456840090}
   - component: {fileID: 1456840091}
   - component: {fileID: 1456840092}
+  - component: {fileID: 1456840093}
   m_Layer: 0
   m_Name: Balance Board Manager
   m_TagString: Untagged
@@ -768,6 +769,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dba9559d80dc84c2f92d7aa30050c217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1456840093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456840088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 836eba7583e2382488d5e729561a9cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1506250201

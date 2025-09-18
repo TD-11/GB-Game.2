@@ -9,10 +9,11 @@ public class StopWatch : MonoBehaviour
     public TMP_Text textTimeHud;
     public GameObject player;
     public GameObject gameOverScreen;
-    
+
     public Color normalColor = Color.white;// Define a cor normal do cronômetro
     public Color alertColor = Color.red;// Define a cor de aviso do cronômetro
-    public static float startTime = 30f; // Tempo em segundos
+
+    private static float startTime = 120f; // Tempo em segundos
     private static float restTime;
     public float tempoDeAviso = 11f;// Define a partir de que tempo aparecerá o aviso
     private bool activeTime = true;// Servirá para desativar o tempo

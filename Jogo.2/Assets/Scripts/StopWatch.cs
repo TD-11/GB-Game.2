@@ -66,9 +66,9 @@ public class StopWatch : MonoBehaviour
         
     }
 
+    // Para restaurar o cronômetro
     public static void ResetTimer()
     {
         restTime = startTime;
-
     }
 }

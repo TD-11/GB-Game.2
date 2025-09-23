@@ -7,7 +7,7 @@ public class SimpleFall : MonoBehaviour
 
     void Update()
     {
-        //Aplica força e direção para o objeto que vai cair
+        // Aplica força e direção para o objeto que vai cair
         transform.position += Vector3.down * speedFall * Time.deltaTime;
     }
 }

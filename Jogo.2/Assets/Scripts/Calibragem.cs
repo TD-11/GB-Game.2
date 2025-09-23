@@ -7,14 +7,18 @@ public class Calibragem : MonoBehaviour
     [Header("Configuração")]
     public static int remoteIndex = 0;// Indice do Wii Remote conectado à Balance Board
     
-    public TMP_Text textPeso;
-    public TMP_Text tempoCalibragem;
-    private float pesoPaciente;
-    private float totalWeight;
-    private IEnumerator coroutine; 
+    // Valor final salvo (média das leituras em 5s)
+    public float patientWeight { get; private set; } = 0f;
+
+    // Controle de estado
+    public bool isMeasuring { get; private set; } = false;
+    public bool weightSaved { get; private set; } = false;
+
+    [Header("Configuração de Medição")]
+    public float detectionThreshold = 5f;   // Mínimo para considerar que alguém subiu
+    public float measureDuration = 5f;      // Tempo em segundos (5s)
     
-    private bool measuring = false;   // controla se já iniciou a contagem
-    private float patientWeight = 0f; // peso final armazenado
+    float totalWeight = Wii.GetTotalWeight(remoteIndex);// Variável para contagem do peso total
     
     void Start()
     {
@@ -24,47 +28,69 @@ public class Calibragem : MonoBehaviour
         }
         
         print("Iniciando " + Time.time );
-
-        coroutine = MeasureWeightRoutine(1);
-        StartCoroutine(coroutine); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Wii.GetExpType(remoteIndex) == 3)
+        if (!Wii.IsActive(remoteIndex))
         {
-            totalWeight = Wii.GetTotalWeight(remoteIndex);
-            
-            if (totalWeight > 0f && totalWeight < 3.5f)
-            {
-                totalWeight = 0f;
-            }
+            return;
+        }
+        
+        // Usa o método da biblioteca para pegar o peso total
+        float currentWeight = totalWeight;
 
-            if (totalWeight > 4f)
-            {
-                StartCoroutine(MeasureWeightRoutine(totalWeight));
-            }
-            textPeso.text = $"Peso do paciente: {totalWeight:F2} kg";
-            Debug.Log($"Peso do paciente: {totalWeight:F2} kg");
+        // Detecta se o paciente subiu e ainda não mediu
+        if (!isMeasuring && !weightSaved && currentWeight > detectionThreshold)
+        {
+            StartCoroutine(MeasureAverageWeight());
         }
     }
     
-    private IEnumerator MeasureWeightRoutine(float firstValue)
+    private IEnumerator MeasureAverageWeight()
     {
-        measuring = true;
-        Debug.Log("Paciente detectado. Medindo peso em 5 segundos...");
+        isMeasuring = true;// Sinaliza que está medindo
+        float elapsed = 0f;// Tempo acumulado
+        float sum = 0f;    // Soma dos valores de peso lidos
+        int samples = 0;   // Número de leituras feitas
 
-        // Espera 5 segundos
-        yield return new WaitForSeconds(5f);
+        Debug.Log($"Paciente detectado. Medindo por {measureDuration} segundos...");
 
-        // Pega o peso atualizado dos sensores
-        float finalWeight = totalWeight;
+        // Enquanto não atingir o tempo definido de medição
+        while (elapsed < measureDuration)
+        {
+            float w = totalWeight;// Lê peso atual
 
-        // Salva o peso final
-        patientWeight = finalWeight;
+            sum += w; // Acumula peso para depois tirar média
+            samples++;// Conta mais uma leitura
 
-        Debug.Log("Peso armazenado: " + patientWeight + " kg");
+            elapsed += Time.unscaledDeltaTime;// Incrementa tempo com base no tempo real (não afetado por Time.timeScale)
+
+            // Caso o paciente saia da balança antes do tempo acabar
+            if (w < detectionThreshold * 0.5f)
+            {
+                Debug.Log("Paciente saiu da balança. Medição cancelada.");
+                isMeasuring = false;// Reseta flag
+                yield break;// Interrompe a corrotina
+            }
+
+            yield return null;// Espera o próximo frame antes de continuar
+        }
+
+        // Calcula o peso médio durante o período
+        patientWeight = (samples > 0) ? (sum / samples) : 0f;
+
+        weightSaved = true; // Marca que o peso foi salvo
+        isMeasuring = false; // Marca que não está mais medindo
+
+        Debug.Log($"Peso armazenado: {patientWeight:F2} kg");
+
     }
-    
+    // Função auxiliar para resetar e poder medir de novo
+    public void ResetSavedWeight()
+    {
+        weightSaved = false;  // Libera para medir de novo
+        patientWeight = 0f;   // Zera valor salvo
+    }
 }

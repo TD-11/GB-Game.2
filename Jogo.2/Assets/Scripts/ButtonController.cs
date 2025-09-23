@@ -5,19 +5,18 @@ public class ButtonController : MonoBehaviour
 {
     public void PlayButton()
     {
-        LoadScene("Jogo");
+        LoadScene("Jogo");// Vai para o jogo
     }
     public void RestartButton()
     {
-        StopWatch.ResetTimer();
-        Time.timeScale = 1f;
-        Debug.Log("Tempo voltou");
-        LoadScene("Jogo");
+        StopWatch.ResetTimer();// Restaura o cronômetro
+        Time.timeScale = 1f;// Despausa a cena
+        LoadScene("Jogo");// Vai para o jogo
     }
     
     public void QuitButtom()
     {
-        Time.timeScale = 1f;
-        LoadScene("Menu");
+        Time.timeScale = 1f; // Despausa a cena
+        LoadScene("Menu");// Vai para o menu
     } 
 }

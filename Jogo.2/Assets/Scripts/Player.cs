@@ -28,7 +28,6 @@ public class Player : MonoBehaviour
    // Relacionados a balança
    [Header("Configuração")]
    public static int remoteIndex = 0;// Indice do Wii Remote conectado à Balance Board
-   public float totalWeight = Wii.GetTotalWeight(remoteIndex);
    
     void Start()
     {
@@ -37,8 +36,8 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        //KeyboardMove();// Controle do jogo a partir do teclado
-        NintendoBalanceBoardMove();// Controle do jogo a partir da balança
+        //KeyboardMove();
+        NintendoBalanceBoardMove();
     }
     void FixedUpdate()
     {
@@ -99,6 +98,7 @@ public class Player : MonoBehaviour
         }
     }
     
+    // Controle do jogo a partir do teclado
     void KeyboardMove()
     {
         if (Input.GetKey(KeyCode.A))
@@ -115,6 +115,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    // Controle do jogo a partir da balança
     void NintendoBalanceBoardMove()
     {
 
@@ -128,9 +129,9 @@ public class Player : MonoBehaviour
         {
             // Leitura dos sensores
             Vector4 sensors = Wii.GetBalanceBoard(remoteIndex);
-            float totalWeight = Wii.GetTotalWeight(remoteIndex);
-            Vector2 center = Wii.GetCenterOfBalance(remoteIndex);
-
+            //Vector2 center = Wii.GetCenterOfBalance(remoteIndex);// Para definir o centro de gravidade
+            
+            // Prevenção de ruído
             if (sensors.x > 0f && sensors.x < 1.3f)
             {
                 sensors.x = 0f;
@@ -143,12 +144,12 @@ public class Player : MonoBehaviour
             {
                 sensors.w = 0f;
             }
-            if (sensors.z > 0 && sensors.z < 2.87f)
+            if (sensors.z > 0 && sensors.z < 2.90f)
             {
                 sensors.z = 0f;
             }
             
-            //if(sensors.y + sensors.w > )
+            // Exibe os valores do sensores
             Debug.Log($"Quadrante 1: {sensors.x:F2} kg;" + $"Quadrante 2: {sensors.y:F2} kg;" + $"Quadrante 3: {sensors.w:F2} kg;" + $"Quadrante 4: {sensors.z:F2} kg");
         }
     }

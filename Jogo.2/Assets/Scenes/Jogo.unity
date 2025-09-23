@@ -1131,7 +1131,6 @@ MonoBehaviour:
   gameOverScreen: {fileID: 237521211}
   speed: 3
   countShellText: {fileID: 1030219313}
-  remoteIndex: 0
 --- !u!212 &781482574
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1879,7 +1878,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5365088888117324407, guid: c431d97b3a38db34f94652ee7ed1a30b, type: 3}
+  m_Sprite: {fileID: 4606908045521496030, guid: a4aa1f52f9a52da47a252e3064a0c426, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2169,7 +2168,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5365088888117324407, guid: c431d97b3a38db34f94652ee7ed1a30b, type: 3}
+  m_Sprite: {fileID: 4606908045521496030, guid: a4aa1f52f9a52da47a252e3064a0c426, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2649,7 +2648,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5365088888117324407, guid: c431d97b3a38db34f94652ee7ed1a30b, type: 3}
+  m_Sprite: {fileID: 4606908045521496030, guid: a4aa1f52f9a52da47a252e3064a0c426, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2900,13 +2899,13 @@ MonoBehaviour:
     prefab: {fileID: 3259807501532560202, guid: ea0aa9bf934cc694db1deec07e19f6e4, type: 3}
     size: 5
   - tag: Shell
-    prefab: {fileID: 7569037896207091040, guid: ac512e3be86d96b46b2d93e4d2570c60, type: 3}
+    prefab: {fileID: 2545816216897266528, guid: ac512e3be86d96b46b2d93e4d2570c60, type: 3}
     size: 5
   - tag: ShellAlert
     prefab: {fileID: 1692245654502693790, guid: 03e7f333b35524c48a9b002e4a6b979e, type: 3}
     size: 5
   - tag: Shield
-    prefab: {fileID: 2643517884905922138, guid: 2f59537eb290ada43b8581f20aaabc44, type: 3}
+    prefab: {fileID: 5077265734529535970, guid: 2f59537eb290ada43b8581f20aaabc44, type: 3}
     size: 5
   - tag: ShieldAlert
     prefab: {fileID: 2808279151612989013, guid: d5c1154486a990e448812968d3d35b15, type: 3}

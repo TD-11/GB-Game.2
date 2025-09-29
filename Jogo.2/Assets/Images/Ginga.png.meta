@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ff2ff5f5b05a9014a80651e8f2e85e85
+guid: d291c4e008418ca4886a7d1ee47ea72b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1296126506671478930
-    second: "power-up (prote\xE7\xE3o) com brilho_0"
+      213: 2268113555672827357
+    second: Design sem nome_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "power-up (prote\xE7\xE3o) com brilho_0"
+      name: Design sem nome_0
       rect:
         serializedVersion: 2
-        x: 762
-        y: 286
-        width: 385
-        height: 509
+        x: 749
+        y: 389
+        width: 410
+        height: 344
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2981f1ec034ccf110800000000000000
-      internalID: 1296126506671478930
+      spriteID: dd5802c0345f97f10800000000000000
+      internalID: 2268113555672827357
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "power-up (prote\xE7\xE3o) com brilho_0": 1296126506671478930
+      Design sem nome_0: 2268113555672827357
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

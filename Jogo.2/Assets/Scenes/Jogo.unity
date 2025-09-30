@@ -1504,8 +1504,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -890.9, y: 344.60007}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -893.4404, y: 342.05966}
+  m_SizeDelta: {x: 107.173, y: 107.173}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &939696729
 MonoBehaviour:
@@ -1527,7 +1527,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5164266255733318090, guid: c5644add30429da438285d8571cadde7, type: 3}
+  m_Sprite: {fileID: -6190023480459407602, guid: 5158cac6b6d7469418a9f52d18aa8131, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2974,7 +2974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pools:
   - tag: Life
-    prefab: {fileID: 8614869964440822093, guid: ff0bcb825e7e8f042baf3f6b21e9cc51, type: 3}
+    prefab: {fileID: 974135723584885005, guid: f034fe66ab171a04687467392747f39c, type: 3}
     size: 5
   - tag: LifeAlert
     prefab: {fileID: 6575816644793945683, guid: 22b61bfcf763ea444a1a13c5adb922d0, type: 3}
@@ -2986,13 +2986,13 @@ MonoBehaviour:
     prefab: {fileID: 3259807501532560202, guid: ea0aa9bf934cc694db1deec07e19f6e4, type: 3}
     size: 5
   - tag: Shell
-    prefab: {fileID: 2545816216897266528, guid: ac512e3be86d96b46b2d93e4d2570c60, type: 3}
+    prefab: {fileID: 5620221009454656167, guid: a8e66fc61a066bf48b753cad74f93b50, type: 3}
     size: 5
   - tag: ShellAlert
     prefab: {fileID: 1692245654502693790, guid: 03e7f333b35524c48a9b002e4a6b979e, type: 3}
     size: 5
   - tag: Shield
-    prefab: {fileID: 5077265734529535970, guid: 2f59537eb290ada43b8581f20aaabc44, type: 3}
+    prefab: {fileID: 4916500821337877759, guid: 00faa21fbac7fc249a28104e752d5f09, type: 3}
     size: 5
   - tag: ShieldAlert
     prefab: {fileID: 2808279151612989013, guid: d5c1154486a990e448812968d3d35b15, type: 3}

@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
    private int countObstacle = 0;
    private int countLife = 0;
    private int countShield = 0;
-   private int initialvalue = 0;
+   //private int initialvalue = 0;
    
 
    [SerializeField]

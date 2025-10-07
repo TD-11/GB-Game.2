@@ -18,10 +18,11 @@ public class Calibragem : MonoBehaviour
     public float detectionThreshold = 5f;   // Mínimo para considerar que alguém subiu
     public float measureDuration = 5f;      // Tempo em segundos (5s)
     
-    float totalWeight = Wii.GetTotalWeight(remoteIndex);// Variável para contagem do peso total
     
     void Start()
     {
+        Time.timeScale = 1f;
+
         if (!Wii.IsActive(remoteIndex))
         {
             return;
@@ -33,18 +34,18 @@ public class Calibragem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!Wii.IsActive(remoteIndex))
-        {
-            return;
-        }
+        float totalWeight = Wii.GetTotalWeight(remoteIndex);// Variável para contagem do peso to
         
-        // Usa o método da biblioteca para pegar o peso total
-        float currentWeight = totalWeight;
-
-        // Detecta se o paciente subiu e ainda não mediu
-        if (!isMeasuring && !weightSaved && currentWeight > detectionThreshold)
+        if (Wii.GetExpType(remoteIndex) == 3)
         {
-            StartCoroutine(MeasureAverageWeight());
+            // Usa o método da biblioteca para pegar o peso total
+            float currentWeight = totalWeight;
+
+            // Detecta se o paciente subiu e ainda não mediu
+            if (!isMeasuring && !weightSaved && currentWeight > detectionThreshold)
+            {
+                StartCoroutine(MeasureAverageWeight());
+            }
         }
     }
     
@@ -60,6 +61,8 @@ public class Calibragem : MonoBehaviour
         // Enquanto não atingir o tempo definido de medição
         while (elapsed < measureDuration)
         {
+            float totalWeight = Wii.GetTotalWeight(remoteIndex);// Variável para contagem do peso to
+            
             float w = totalWeight;// Lê peso atual
 
             sum += w; // Acumula peso para depois tirar média

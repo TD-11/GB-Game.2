@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ae86cd7aff9ecb24fa6f96c5efdf3222
+guid: ef8d81747ca587447990af682763ab24
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7846801015349734721
-    second: Armature_animtion0_33_0
+      213: -6512103178079242734
+    second: Armature_animtion0_38_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,12 +126,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Armature_animtion0_33_0
+      name: Armature_animtion0_38_0
       rect:
         serializedVersion: 2
-        x: 3
+        x: 0
         y: 0
-        width: 578
+        width: 577
         height: 41
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 14d681703ff65ec60800000000000000
-      internalID: 7846801015349734721
+      spriteID: 216f4e189ac50a5a0800000000000000
+      internalID: -6512103178079242734
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Armature_animtion0_33_0: 7846801015349734721
+      Armature_animtion0_38_0: -6512103178079242734
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

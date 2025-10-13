@@ -3812,25 +3812,25 @@ MonoBehaviour:
     prefab: {fileID: 974135723584885005, guid: f034fe66ab171a04687467392747f39c, type: 3}
     size: 5
   - tag: LifeAlert
-    prefab: {fileID: 6575816644793945683, guid: 22b61bfcf763ea444a1a13c5adb922d0, type: 3}
+    prefab: {fileID: 1218750592574073030, guid: 22b61bfcf763ea444a1a13c5adb922d0, type: 3}
     size: 5
   - tag: Obstacle
     prefab: {fileID: 6926110738191609252, guid: 6a4b24656c90c8d4e8ab107294ada48b, type: 3}
     size: 5
   - tag: ObstacleAlert
-    prefab: {fileID: 3259807501532560202, guid: ea0aa9bf934cc694db1deec07e19f6e4, type: 3}
+    prefab: {fileID: 6993522926671839431, guid: ea0aa9bf934cc694db1deec07e19f6e4, type: 3}
     size: 5
   - tag: Shell
     prefab: {fileID: 5620221009454656167, guid: a8e66fc61a066bf48b753cad74f93b50, type: 3}
     size: 5
   - tag: ShellAlert
-    prefab: {fileID: 1692245654502693790, guid: 03e7f333b35524c48a9b002e4a6b979e, type: 3}
+    prefab: {fileID: 7199162064846596729, guid: 03e7f333b35524c48a9b002e4a6b979e, type: 3}
     size: 5
   - tag: Shield
     prefab: {fileID: 4916500821337877759, guid: 00faa21fbac7fc249a28104e752d5f09, type: 3}
     size: 5
   - tag: ShieldAlert
-    prefab: {fileID: 2808279151612989013, guid: d5c1154486a990e448812968d3d35b15, type: 3}
+    prefab: {fileID: 2086291675997617989, guid: d5c1154486a990e448812968d3d35b15, type: 3}
     size: 5
 --- !u!114 &2145778589
 MonoBehaviour:

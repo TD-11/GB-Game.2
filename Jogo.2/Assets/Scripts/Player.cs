@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
    private Rigidbody2D rigidbody2D;
    private Vector2 movement;
+   private bool facingRight = true; // Controle de direção atual
+
    
    public List<GameObject> Hearts = new List<GameObject>(3);// Armazenas as imagens de coração
    [SerializeField]
@@ -36,8 +38,8 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        //KeyboardMove();
-        NintendoBalanceBoardMove();
+        KeyboardMove();
+        //NintendoBalanceBoardMove();
     }
     void FixedUpdate()
     {
@@ -97,17 +99,31 @@ public class Player : MonoBehaviour
             ObjectPool.Instance.ReturnToPool("Shield", collision.gameObject);// Destrói o objeto depois de colidido 
         }
     }
-    
+    void Flip()
+    {
+        facingRight = !facingRight; // troca o estado (direita/esquerda)
+        Vector3 scale = transform.localScale;
+        scale.x *= -1; // multiplica por -1 para inverter a direção
+        transform.localScale = scale;
+    }
     // Controle do jogo a partir do teclado
     void KeyboardMove()
     {
         if (Input.GetKey(KeyCode.A))
         {
             movement = new Vector2(-1, 0).normalized;// Direção
+            if (facingRight)
+            {
+                Flip(); // Vira para a esquerda
+            }
         }
         else if (Input.GetKey(KeyCode.D))
         {
             movement = new Vector2(1, 0).normalized;// Direção
+            if (!facingRight)
+            {
+                Flip(); // Vira para a esquerda
+            }
         }
         else
         {
@@ -153,4 +169,5 @@ public class Player : MonoBehaviour
             Debug.Log($"Quadrante 1: {sensors.x:F2} kg;" + $"Quadrante 2: {sensors.y:F2} kg;" + $"Quadrante 3: {sensors.w:F2} kg;" + $"Quadrante 4: {sensors.z:F2} kg");
         }
     }
+    
 }

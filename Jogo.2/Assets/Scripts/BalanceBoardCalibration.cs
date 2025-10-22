@@ -40,7 +40,7 @@ public class BalanceBoardCalibration : MonoBehaviour
         }
        */
        
-        Wii.StartSearch();
+       // Wii.StartSearch();
 
         if (!Wii.IsActive(remoteIndex))
         {

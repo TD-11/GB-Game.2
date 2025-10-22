@@ -38,8 +38,8 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        KeyboardMove();
-        //NintendoBalanceBoardMove();
+        //KeyboardMove();
+        NintendoBalanceBoardMove();
     }
     void FixedUpdate()
     {
@@ -152,17 +152,40 @@ public class Player : MonoBehaviour
             {
                 sensors.x = 0f;
             }
-            if (sensors.y > -1f && sensors.y < 0f)
+            else if (sensors.y > -1f && sensors.y < 0f)
             {
                 sensors.y = 0f;
             }
-            if (sensors.w > -1f && sensors.w < 0f)
+            else if (sensors.w > -1f && sensors.w < 0f)
             {
                 sensors.w = 0f;
             }
-            if (sensors.z > 0 && sensors.z < 2.90f)
+            else if (sensors.z > 0 && sensors.z < 2.90f)
             {
                 sensors.z = 0f;
+            }
+
+            if ((sensors.x + sensors.w)  > (BalanceBoardCalibration.playerWeight / 2) + 5 )
+            {
+                movement = new Vector2(-1, 0);// Direção
+                if (facingRight)
+                {
+                    Flip(); // Vira para a esquerda
+                }
+            }
+            
+            else if (sensors.y + sensors.z > (BalanceBoardCalibration.playerWeight / 2) + 5 )
+            {
+                movement = new Vector2(1, 0);// Direção
+                if (!facingRight)
+                {
+                    Flip(); // Vira para a esquerda
+                }
+            }
+            
+            else
+            {
+                movement = Vector2.zero;// Não se move
             }
             
             // Exibe os valores do sensores

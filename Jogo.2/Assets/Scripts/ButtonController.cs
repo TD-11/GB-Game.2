@@ -5,7 +5,11 @@ public class ButtonController : MonoBehaviour
 {
     public void PlayButton()
     {
-        LoadScene("Jogo");// Vai para o jogo
+        LoadScene("Jogo");
+    }
+    public void CalibrationButton()
+    {
+        LoadScene("Calibração");// Vai para o jogo
     }
     public void RestartButton()
     {

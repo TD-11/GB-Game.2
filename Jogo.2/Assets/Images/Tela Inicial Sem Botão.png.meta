@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      "Tela Inicial Sem Bot\xE3o_0": 2354006109666650590
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

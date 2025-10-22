@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -7,6 +8,8 @@ public class Player : MonoBehaviour
    private Rigidbody2D rigidbody2D;
    private Vector2 movement;
    private bool facingRight = true; // Controle de direção atual
+
+   public GameObject camera;
 
    
    public List<GameObject> Hearts = new List<GameObject>(3);// Armazenas as imagens de coração
@@ -38,8 +41,16 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        //KeyboardMove();
-        NintendoBalanceBoardMove();
+        if(Wii.IsActive(remoteIndex))
+        {
+            NintendoBalanceBoardMove();
+        }
+        else
+        {
+            KeyboardMove();
+        }
+        
+      
     }
     void FixedUpdate()
     {
@@ -51,6 +62,8 @@ public class Player : MonoBehaviour
         // Caso seja um obstaculo:
         if (collision.gameObject.tag == "Obstacle")
         {
+            camera.GetComponent<TREMOR>().playTremor();
+            
             life--;
             countObstacle += 1;
             Hearts[life].SetActive(false);// Apaga os corações quando levar dano
@@ -165,7 +178,7 @@ public class Player : MonoBehaviour
                 sensors.z = 0f;
             }
 
-            if ((sensors.x + sensors.w)  > (BalanceBoardCalibration.playerWeight / 2) + 5 )
+            if ((sensors.y + sensors.w)  > (BalanceBoardCalibration.playerWeight / 2) + 5 )
             {
                 movement = new Vector2(-1, 0);// Direção
                 if (facingRight)
@@ -174,7 +187,7 @@ public class Player : MonoBehaviour
                 }
             }
             
-            else if (sensors.y + sensors.z > (BalanceBoardCalibration.playerWeight / 2) + 5 )
+            else if (sensors.x + sensors.z > (BalanceBoardCalibration.playerWeight / 2) + 5 )
             {
                 movement = new Vector2(1, 0);// Direção
                 if (!facingRight)

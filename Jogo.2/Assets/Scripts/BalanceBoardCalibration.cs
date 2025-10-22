@@ -24,17 +24,34 @@ public class BalanceBoardCalibration : MonoBehaviour
     public bool isCalibrating { get; private set; } = false;
     public bool calibrationComplete { get; private set; } = false;
 
+
+
     void Start()
     {
+     
+        
         // Garante que o jogo não está pausado
         Time.timeScale = 1f;
 
+       /*
+        if(Wii.IsActive(remoteIndex))
+        {
+            Wii.DropWiiRemote(0);
+        }
+       */
+       
+        Wii.StartSearch();
+
         if (!Wii.IsActive(remoteIndex))
         {
-            messageText.text = "Balance Board não conectada!";
+            messageText.text = "Modo Manual.";
+            resultText.text = "";
+            countdownText.text = "";
+           // messageText.text = "Balance Board não conectada!";
             Debug.LogError("Balance Board não está ativa ou conectada!");
-            return;
+           // return;
         }
+ 
 
         messageText.text = "Suba na no aparelho para iniciar!";
         countdownText.text = "";
@@ -42,10 +59,10 @@ public class BalanceBoardCalibration : MonoBehaviour
         playButton.SetActive(false);
     }
 
-  
+  /*
     float elapsed = 0f;
     
-    /*
+    
     private void FixedUpdate()
     {
         Debug.unityLogger.Log("EL: " + elapsed);
@@ -118,8 +135,9 @@ public class BalanceBoardCalibration : MonoBehaviour
        }
        
     }
-*/
 
+*/
+  
     void Update()
     {
         // Verifica se o acessório conectado é uma Balance Board (tipo 3)
@@ -134,6 +152,11 @@ public class BalanceBoardCalibration : MonoBehaviour
                
             }
         }
+        else
+        {
+            playButton.SetActive(true);
+            
+        }
     }
 
     private IEnumerator CalibratePlayerWeight()
@@ -146,6 +169,15 @@ public class BalanceBoardCalibration : MonoBehaviour
         float sum = 0f;
         int samples = 0;
 
+        
+        if ( measureDuration < elapsed || !Wii.IsActive(remoteIndex) )
+        {
+           // messageText.text = "Modo Manual.";
+            playButton.SetActive(false);
+            yield return null;
+        }
+        
+        
         while (elapsed < measureDuration)
         {
             float w = Wii.GetTotalWeight(remoteIndex);
@@ -170,6 +202,9 @@ public class BalanceBoardCalibration : MonoBehaviour
 
             yield return null;
         }
+
+
+
 
         // Calcula peso médio
         playerWeight = (samples > 0) ? (sum / samples) : 0f;

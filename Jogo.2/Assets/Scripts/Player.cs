@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
                 fallConnectionScreen.SetActive(false);
                 Time.timeScale = 1f;// Pausa o tempo
 
-                Debug.Log("✅ Balance Board conectada! Voltando ao modo automático.");
+                Debug.Log("Balance Board conectada! Jogo normalizado!");
             }
             else
             {
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
                 fallConnectionScreen.SetActive(true);
                 Time.timeScale = 0f;// Pausa o tempo
 
-                Debug.LogWarning("⚠️ Balance Board desconectada! Modo manual ativado.");
+                Debug.LogWarning("Balance Board desconectada! Modo manual ativado.");
             }
 
             lastConnectionState = isBoardConnected; // atualiza estado

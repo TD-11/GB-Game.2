@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
    public FollowShield shield;
    [SerializeField]
    public GameObject gameOverScreen;
+   public GameObject fallConnectionScreen;
    
    public float speed;
    private int life;
@@ -24,6 +25,9 @@ public class Player : MonoBehaviour
    private int countObstacle = 0;
    private int countLife = 0;
    private int countShield = 0;
+   private bool manualMode;
+   private bool lastConnectionState = false; // guarda o estado anterior da balança
+   
    //private int initialvalue = 0;
    
 
@@ -38,19 +42,50 @@ public class Player : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         life = Hearts.Count;// Determina a quantidade de vidas conforme a quantidade de corações
+        
+        // Já define o modo correto ao iniciar o jogo
+        bool isBoardConnected = Wii.IsActive(remoteIndex) && Wii.GetExpType(remoteIndex) == 3;
+        manualMode = !isBoardConnected;
+        //fallConnectionScreen.SetActive(!isBoardConnected);
     }
     void Update()
     {
-        if(Wii.IsActive(remoteIndex))
+        bool isBoardConnected = Wii.IsActive(remoteIndex) && Wii.GetExpType(remoteIndex) == 3;
+
+        // Detecta mudança de conexão (ex: desconectou ou reconectou)
+        if (isBoardConnected != lastConnectionState)
         {
-            NintendoBalanceBoardMove();
+            if (isBoardConnected)
+            {
+                // Reconectou
+                manualMode = false;
+                fallConnectionScreen.SetActive(false);
+                Time.timeScale = 1f;// Pausa o tempo
+
+                Debug.Log("✅ Balance Board conectada! Voltando ao modo automático.");
+            }
+            else
+            {
+                // Desconectou
+                manualMode = true;
+                fallConnectionScreen.SetActive(true);
+                Time.timeScale = 0f;// Pausa o tempo
+
+                Debug.LogWarning("⚠️ Balance Board desconectada! Modo manual ativado.");
+            }
+
+            lastConnectionState = isBoardConnected; // atualiza estado
         }
-        else
+
+        // Define o controle de movimento com base no modo atual
+        if (manualMode)
         {
             KeyboardMove();
         }
-        
-      
+        else
+        {
+            NintendoBalanceBoardMove();
+        }
     }
     void FixedUpdate()
     {

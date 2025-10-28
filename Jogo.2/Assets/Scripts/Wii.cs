@@ -8,10 +8,8 @@ using System.Runtime.InteropServices;
 public delegate void DiscoveryError(int error);
 public delegate void WiimoteFound(int remote);
 public delegate void WiimoteDropped(int remote);
-
 public class Wii : MonoBehaviour
 {	
-
 	public static void StartSearch()
     {
 		if(!isAwake)
@@ -26,6 +24,7 @@ public class Wii : MonoBehaviour
      			return;
      		}
      	Debug.LogWarning("Wii remotes at capacity!");
+        ConnectBalance.errorText.SetActive(false);
     }
 
 	public static int GetDiscoveryStatus()
@@ -3013,7 +3012,7 @@ public class Wii : MonoBehaviour
     				//otherwise
     				errorCode = status;
 					Debug.LogWarning("spread the message: error"+status);
-
+					ConnectBalance.errorText.SetActive(true);
 					//new way
 					if(OnDiscoveryFailed != null)
 					{

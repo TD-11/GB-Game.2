@@ -7,6 +7,11 @@ public class ButtonController : MonoBehaviour
     {
         LoadScene("Jogo");
     }
+
+    public void ConfigButton()
+    {
+        LoadScene("Config");
+    }
     public void CalibrationButton()
     {
         LoadScene("Calibração");// Vai para o jogo

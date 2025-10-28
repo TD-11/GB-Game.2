@@ -3,6 +3,8 @@ using static UnityEngine.SceneManagement.SceneManager;
 
 public class ButtonController : MonoBehaviour
 {
+    [Header("Configuração")]
+    public static int remoteIndex = 0;// Indice do Wii Remote conectado à Balance Board
     public void PlayButton()
     {
         LoadScene("Jogo");
@@ -11,6 +13,16 @@ public class ButtonController : MonoBehaviour
     public void ConfigButton()
     {
         LoadScene("Config");
+    }
+
+    public void PauseButton()
+    {
+        LoadScene("Pause");
+    }
+
+    public void DropButton()
+    {
+        Wii.DropWiiRemote(remoteIndex);
     }
     public void CalibrationButton()
     {

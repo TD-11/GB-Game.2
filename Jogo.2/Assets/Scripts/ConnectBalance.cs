@@ -14,6 +14,7 @@ public class ConnectBalance : MonoBehaviour
     
     public GameObject errorTextInstance;
     public static GameObject errorText;
+    public GameObject manualModeText;
 
     void Awake()
     {
@@ -34,6 +35,7 @@ public class ConnectBalance : MonoBehaviour
             {
                 connectText.text = "Balance Board conectado!";
                 connectText.color = normalColor;
+                manualModeText.SetActive(false);
             }
         }
         
@@ -41,6 +43,7 @@ public class ConnectBalance : MonoBehaviour
         {
             connectText.text = "Balance Board desconectado!";
             connectText.color = alertColor;
+            manualModeText.SetActive(true);
         }
     }
 }

@@ -24,7 +24,7 @@ public class Wii : MonoBehaviour
      			return;
      		}
      	Debug.LogWarning("Wii remotes at capacity!");
-        ConnectBalance.errorText.SetActive(false);
+        ConnectBalance.errorText.SetActive(false); 
     }
 
 	public static int GetDiscoveryStatus()

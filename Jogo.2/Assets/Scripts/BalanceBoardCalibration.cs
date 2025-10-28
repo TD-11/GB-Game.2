@@ -53,6 +53,7 @@ public class BalanceBoardCalibration : MonoBehaviour
             countdownText.text = "";
             resultText.text = "";
             playButton.SetActive(false);
+            Debug.Log("BB: " + Wii.GetExpType(remoteIndex));
         }
         else
         {

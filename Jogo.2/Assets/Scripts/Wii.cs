@@ -24,7 +24,7 @@ public class Wii : MonoBehaviour
      			return;
      		}
      	Debug.LogWarning("Wii remotes at capacity!");
-        ConnectBalance.errorText.SetActive(false); 
+        ErrorManualModeText.errorText.SetActive(false); 
     }
 
 	public static int GetDiscoveryStatus()
@@ -2686,7 +2686,7 @@ public class Wii : MonoBehaviour
     private static extern bool getLED(int i ,int led);
 
     [DllImport(pluginName)]
-    private static extern void findWiiRemote();
+    public static extern void findWiiRemote();
     
     [DllImport(pluginName)]
     private static extern void addVirtual(int i);
@@ -2988,7 +2988,31 @@ public class Wii : MonoBehaviour
 		if(Application.isEditor==false)
 			applicationWillTerminate();
 	}
+	
+	// Função de Reconexão
+	public static void RestartConnection()
+	{
+		try
+		{
+			StopSearch();
 
+			for (int i = 0; i < max; i++)
+			{
+				DropWiiRemote(i);
+			}
+
+			isAwake = false;
+			WakeUp(); // reativa a lib nativa
+
+			Debug.Log("Wii Balance Board reconectada com sucesso (reinicialização forçada).");
+		}
+		catch (Exception ex)
+		{
+			Debug.LogError("Erro ao reiniciar conexão com a Balance Board: " + ex.Message);
+		}
+	}
+	//======================================
+	
 	float totalWiggles = 0.0f;
     void FixedUpdate()
     {	
@@ -3012,7 +3036,7 @@ public class Wii : MonoBehaviour
     				//otherwise
     				errorCode = status;
 					Debug.LogWarning("spread the message: error"+status);
-					ConnectBalance.errorText.SetActive(true);
+					//ErrorManualModeText.errorText.SetActive(true);
 					//new way
 					if(OnDiscoveryFailed != null)
 					{

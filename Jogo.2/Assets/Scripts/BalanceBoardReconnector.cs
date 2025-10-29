@@ -1,90 +1,69 @@
-using TMPro;
 using UnityEngine;
+using TMPro;
+using System.Collections;
 
-public class BalanceBoardReconnector : MonoBehaviour
+public class BalanceBoardReconnectButton : MonoBehaviour
 {
-     [Header("Configuração do Wii")]
+    [Header("Configuração do Wii")]
     public int remoteIndex = 0;
 
     [Header("UI de Status")]
     public TMP_Text statusText;
+    public GameObject reconnectButton;
     public GameObject manualModePanel;
 
-    [Header("Controle de Reconexão")]
-    public float checkInterval = 3f;
-    private float nextCheckTime = 0f;
+    private bool isTryingToConnect = false;
 
-    private bool isConnected = false;
-
-    void Start()
+    public void TryReconnectBalanceBoard()
     {
-        CheckConnection(true);
+        if (!isTryingToConnect)
+            StartCoroutine(ReconnectRoutine());
     }
 
-    void Update()
+    private IEnumerator ReconnectRoutine()
     {
-        if (Time.time >= nextCheckTime)
-        {
-            nextCheckTime = Time.time + checkInterval;
-            CheckConnection();
-        }
-    }
+        isTryingToConnect = true;
+        reconnectButton.SetActive(false);
+        statusText.text = "🔄 Tentando reconectar Balance Board...";
+        Debug.Log("🔄 Iniciando tentativa de reconexão...");
 
-    void CheckConnection(bool firstCheck = false)
-    {
-        bool currentlyConnected = Wii.IsActive(remoteIndex) && Wii.GetExpType(remoteIndex) == 3;
+        // 1️⃣ Encerra qualquer busca antiga e desconecta
+        Wii.StopSearch();
+        yield return new WaitForSeconds(0.5f);
 
-        // Se o estado mudou (ex: conectou ↔ desconectou)
-        if (currentlyConnected != isConnected || firstCheck)
-        {
-            isConnected = currentlyConnected;
-
-            if (isConnected)
-            {
-                OnConnected();
-            }
-            else
-            {
-                OnDisconnected();
-                TryReconnect();
-            }
-        }
-    }
-
-    void OnConnected()
-    {
-        Debug.Log("✅ Balance Board conectada!");
-        statusText.text = "Modo: Balance Board";
-        manualModePanel.SetActive(false);
-    }
-
-    void OnDisconnected()
-    {
-        Debug.LogWarning("⚠️ Balance Board desconectada! Tentando reconectar...");
-        statusText.text = "⚠️ Balance Board desconectada\nAtivando modo manual...";
-        manualModePanel.SetActive(true);
-    }
-
-    void TryReconnect()
-    {
-        // Desconecta qualquer conexão anterior e tenta nova busca
         Wii.DropWiiRemote(remoteIndex);
-        Wii.StartSearch();
+        yield return new WaitForSeconds(0.5f);
 
-        // Aguarda 2 segundos antes de verificar de novo
-        Invoke(nameof(RecheckAfterAttempt), 2f);
-    }
+        Wii.DropWiiRemote(remoteIndex);
+        yield return new WaitForSeconds(0.5f);
 
-    void RecheckAfterAttempt()
-    {
+        // 2️⃣ Reacorda a lib nativa
+        if (!Wii.GetIsAwake())
+        {
+            Wii.GetIsAwake();
+            Debug.Log("💡 Biblioteca Wii reativada.");
+        }
+
+        // 3️⃣ Inicia uma nova busca de dispositivos Bluetooth
+        Wii.findWiiRemote();
+        yield return new WaitForSeconds(2.5f);
+
+        // 4️⃣ Verifica se reconectou
         if (Wii.IsActive(remoteIndex) && Wii.GetExpType(remoteIndex) == 3)
         {
-            Debug.Log("✅ Reconectado com sucesso!");
-            OnConnected();
+            statusText.text = "✅ Balance Board reconectada!";
+            manualModePanel.SetActive(false);
+            reconnectButton.SetActive(false);
+            Debug.Log("✅ Balance Board reconectada com sucesso!");
         }
         else
         {
-            Debug.LogWarning("❌ Falha na reconexão. Tentando novamente em alguns segundos...");
+            statusText.text = "❌ Falha ao reconectar. Tente novamente.";
+            reconnectButton.SetActive(true);
+            manualModePanel.SetActive(true);
+            Debug.LogWarning("⚠️ Falha na reconexão — tente novamente.");
         }
+
+        isTryingToConnect = false;
     }
 }

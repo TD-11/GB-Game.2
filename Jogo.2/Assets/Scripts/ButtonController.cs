@@ -20,6 +20,11 @@ public class ButtonController : MonoBehaviour
         LoadScene("Pause");
     }
 
+    public void ReconectButton()
+    {
+        Wii.RestartConnection();
+    }
+    
     public void DropButton()
     {
         Wii.DropWiiRemote(remoteIndex);

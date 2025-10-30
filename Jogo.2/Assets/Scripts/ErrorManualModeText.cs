@@ -17,12 +17,7 @@ public class ErrorManualModeText : MonoBehaviour
     {
         errorText = errorTextInstance;
     }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    
     void Update()
     {
         CheckManualMode();

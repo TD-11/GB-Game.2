@@ -5,6 +5,7 @@ public class ButtonController : MonoBehaviour
 {
     [Header("Configuração")]
     public static int remoteIndex = 0;// Indice do Wii Remote conectado à Balance Board
+
     public void PlayButton()
     {
         LoadScene("Jogo");
@@ -20,10 +21,9 @@ public class ButtonController : MonoBehaviour
         LoadScene("Pause");
     }
 
-    public void ReconectButton()
-    {
-        Wii.RestartConnection();
-    }
+    /*
+     public void ReconectButton(){}
+    */
     
     public void DropButton()
     {

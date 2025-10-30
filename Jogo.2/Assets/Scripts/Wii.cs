@@ -2629,7 +2629,7 @@ public class Wii : MonoBehaviour
 
 	private static float timeSinceLastCheck = 0.0f;
 
-	private static bool isAwake;
+	public static bool isAwake;
 	
     private static bool searching = false;
     private static bool[][] theLEDs;
@@ -2851,8 +2851,8 @@ public class Wii : MonoBehaviour
 		[FieldOffset(120)]public float empty;
 		#endif
     }
-        
-    void Awake()
+
+	public static void Awake()
     {
 		//gameObject.GetComponent<Transform>().hideFlags = HideFlags.HideInInspector;
     	if(!isAwake)
@@ -2989,29 +2989,6 @@ public class Wii : MonoBehaviour
 			applicationWillTerminate();
 	}
 	
-	// Função de Reconexão
-	public static void RestartConnection()
-	{
-		try
-		{
-			StopSearch();
-
-			for (int i = 0; i < max; i++)
-			{
-				DropWiiRemote(i);
-			}
-
-			isAwake = false;
-			WakeUp(); // reativa a lib nativa
-
-			Debug.Log("Wii Balance Board reconectada com sucesso (reinicialização forçada).");
-		}
-		catch (Exception ex)
-		{
-			Debug.LogError("Erro ao reiniciar conexão com a Balance Board: " + ex.Message);
-		}
-	}
-	//======================================
 	
 	float totalWiggles = 0.0f;
     void FixedUpdate()
@@ -3036,7 +3013,7 @@ public class Wii : MonoBehaviour
     				//otherwise
     				errorCode = status;
 					Debug.LogWarning("spread the message: error"+status);
-					//ErrorManualModeText.errorText.SetActive(true);
+					ErrorManualModeText.errorText.SetActive(true);
 					//new way
 					if(OnDiscoveryFailed != null)
 					{

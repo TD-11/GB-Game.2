@@ -8,22 +8,24 @@ public class ButtonController : MonoBehaviour
 
     public void PlayButton()
     {
-        LoadScene("Jogo");
+        // Padrão Commander
+        ICommand play = new LoadSceneCommand("Jogo");
+        play.Execute();    
     }
 
     public void ConfigButton()
     {
-        LoadScene("Config");
+        // Padrão Commander
+        ICommand config = new LoadSceneCommand("Config");
+        config.Execute();      
     }
 
     public void PauseButton()
     {
-        LoadScene("Pause");
+        // Padrão Commander
+        ICommand pause = new LoadSceneCommand("Pause");
+        pause.Execute();    
     }
-
-    /*
-     public void ReconectButton(){}
-    */
     
     public void DropButton()
     {
@@ -31,18 +33,24 @@ public class ButtonController : MonoBehaviour
     }
     public void CalibrationButton()
     {
-        LoadScene("Calibração");// Vai para o jogo
+        // Padrão Commander
+        ICommand Calibration = new LoadSceneCommand("Calibração");
+        Calibration.Execute();    
     }
     public void RestartButton()
     {
         StopWatch.ResetTimer();// Restaura o cronômetro
         Time.timeScale = 1f;// Despausa a cena
-        LoadScene("Jogo");// Vai para o jogo
+        // Padrão Commander
+        ICommand restart = new LoadSceneCommand("Jogo");
+        restart.Execute();
     }
     
     public void QuitButtom()
     {
         Time.timeScale = 1f; // Despausa a cena
-        LoadScene("Menu");// Vai para o menu
+        // Padrão Commander
+        ICommand quit = new LoadSceneCommand("Menu");
+        quit.Execute();
     } 
 }

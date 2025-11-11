@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f7c757547d75ef459a8d3da4293bd81, type: 3}
+  m_Name: Pool_Life
+  m_EditorClassIdentifier: 
+  tag: Life
+  prefab: {fileID: 974135723584885005, guid: 554a1e265f6461b40ab2302c7bba455d, type: 3}
+  size: 5

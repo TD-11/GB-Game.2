@@ -48,7 +48,6 @@ public class RandomSpawner : MonoBehaviour, ITimeObserver
         if (stopWatch != null)
         {
             stopWatch.AddObserver(this);
-            Debug.Log("RandomSpawner registrado como observador do cronômetro.");
         }
     }
 

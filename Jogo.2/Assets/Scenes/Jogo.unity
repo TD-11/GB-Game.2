@@ -4149,30 +4149,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - tag: Life
-    prefab: {fileID: 974135723584885005, guid: f034fe66ab171a04687467392747f39c, type: 3}
-    size: 5
-  - tag: LifeAlert
-    prefab: {fileID: 1218750592574073030, guid: 22b61bfcf763ea444a1a13c5adb922d0, type: 3}
-    size: 5
-  - tag: Obstacle
-    prefab: {fileID: 6926110738191609252, guid: 6a4b24656c90c8d4e8ab107294ada48b, type: 3}
-    size: 5
-  - tag: ObstacleAlert
-    prefab: {fileID: 6993522926671839431, guid: ea0aa9bf934cc694db1deec07e19f6e4, type: 3}
-    size: 5
-  - tag: Shell
-    prefab: {fileID: 5620221009454656167, guid: a8e66fc61a066bf48b753cad74f93b50, type: 3}
-    size: 5
-  - tag: ShellAlert
-    prefab: {fileID: 7199162064846596729, guid: 03e7f333b35524c48a9b002e4a6b979e, type: 3}
-    size: 5
-  - tag: Shield
-    prefab: {fileID: 4916500821337877759, guid: 00faa21fbac7fc249a28104e752d5f09, type: 3}
-    size: 5
-  - tag: ShieldAlert
-    prefab: {fileID: 2086291675997617989, guid: d5c1154486a990e448812968d3d35b15, type: 3}
-    size: 5
+  - {fileID: 11400000, guid: a617edcf4ea84ff4d902165fc29bac32, type: 2}
+  - {fileID: 11400000, guid: 41fb4168233129e459f46df273e42c42, type: 2}
+  - {fileID: 11400000, guid: 10b183f354f01194d9768ff935442d5d, type: 2}
+  - {fileID: 11400000, guid: c09178358f9947a4ca0f415545b60224, type: 2}
+  - {fileID: 11400000, guid: 11324675fab43494db173fd2d238ec3b, type: 2}
+  - {fileID: 11400000, guid: 11c23659a35b63d40a0fc3bb79027e3c, type: 2}
+  - {fileID: 11400000, guid: fb587c20e7a8207478bf0f229d5d76df, type: 2}
+  - {fileID: 11400000, guid: f39b4a895431ef94d9445cde81c8112c, type: 2}
 --- !u!114 &2145778589
 MonoBehaviour:
   m_ObjectHideFlags: 0

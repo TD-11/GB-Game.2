@@ -2326,6 +2326,11 @@ MonoBehaviour:
   fallConnectionScreen: {fileID: 1490766767}
   speed: 3
   countShellText: {fileID: 1030219313}
+  _sd_serial: {fileID: 2145778593}
+  renge: 10000
+  PesoCalibrado: 0
+  Esquerda: 0
+  Direita: 0
 --- !u!50 &1058876568
 Rigidbody2D:
   serializedVersion: 5
@@ -4074,6 +4079,7 @@ GameObject:
   - component: {fileID: 2145778587}
   - component: {fileID: 2145778588}
   - component: {fileID: 2145778589}
+  - component: {fileID: 2145778593}
   - component: {fileID: 2145778590}
   - component: {fileID: 2145778591}
   - component: {fileID: 2145778592}
@@ -4176,7 +4182,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2145778583}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dba9559d80dc84c2f92d7aa30050c217, type: 3}
   m_Name: 
@@ -4188,7 +4194,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2145778583}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 994b715c7f9de6e40b9ed0cbbd62fb2c, type: 3}
   m_Name: 
@@ -4212,6 +4218,26 @@ MonoBehaviour:
   reconnectButton: {fileID: 0}
   manualModePanel: {fileID: 1490766767}
   remoteIndex: 0
+--- !u!114 &2145778593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145778583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3f208404e56d74fb18e97123bd613a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  test_string: 
+  SerialCOM: COM1
+  _START: 0
+  A: 0
+  B: 0
+  C: 0
+  D: 0
+  P: 0
 --- !u!1001 &30455134834176904
 PrefabInstance:
   m_ObjectHideFlags: 0

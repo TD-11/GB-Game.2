@@ -34,9 +34,21 @@ public class Player : MonoBehaviour
    [SerializeField]
    public TMP_Text countShellText;// Texto que mostra a quantidade de conchas
    
-   // Relacionados a balança
+   // Relacionados a Wii Board
    [Header("Configuração")]
    public static int remoteIndex = 0;// Indice do Wii Remote conectado à Balance Board
+   //=========================
+   
+   // Relacionados a SD Balance
+   public SD_Serial _sd_serial;
+   public float renge = 10000;
+   public float PesoCalibrado = 0;
+   
+   public float Esquerda = 0;
+   public float Direita = 0;
+   //=========================
+
+
    
     void Start()
     {
@@ -84,7 +96,9 @@ public class Player : MonoBehaviour
         }
         else
         {
-            NintendoBalanceBoardMove();
+            SDBalanceMove();
+            
+            //NintendoBalanceBoardMove();
         }
     }
     void FixedUpdate()
@@ -179,7 +193,34 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Controle do jogo a partir da balança
+    void SDBalanceMove()
+    {
+        // deve ser adicionada uma rotina de calibração do pesso do paciente par aservir como referencia
+        // da zona morta que não ativarar a movimetacão.
+        
+        // teste de movimentação sem calibração
+        if (_sd_serial != null && _sd_serial._START == true)
+        {
+            PesoCalibrado = _sd_serial.P;
+            Esquerda = (_sd_serial.A + _sd_serial.C);
+            Debug.Log("AC..." + Esquerda);
+            
+            Direita = (_sd_serial.B + _sd_serial.D);
+            Debug.Log("BD..." + Direita);
+            
+            if (Esquerda >  (PesoCalibrado/2 + renge) )
+            {
+                transform.position += Vector3.left * speed * Time.deltaTime;
+            }
+              
+            if ( Direita > (PesoCalibrado/2 + renge) )
+            {
+                transform.position += Vector3.right * speed * Time.deltaTime;
+            }
+        }
+    }
+    
+    // Controle do jogo a partir do Wii Board
     void NintendoBalanceBoardMove()
     {
 

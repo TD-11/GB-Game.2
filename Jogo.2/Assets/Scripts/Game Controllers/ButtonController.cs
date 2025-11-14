@@ -16,7 +16,7 @@ public class ButtonController : MonoBehaviour
     public void ConfigButton()
     {
         // Padrão Commander
-        ICommand config = new LoadSceneCommand("Config");
+        ICommand config = new LoadSceneCommand("Config - SD Balance");
         config.Execute();      
     }
 

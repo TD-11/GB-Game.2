@@ -62,6 +62,7 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
+        /*
         bool isBoardConnected = Wii.IsActive(remoteIndex) && Wii.GetExpType(remoteIndex) == 3;
 
         // Detecta mudança de conexão (ex: desconectou ou reconectou)
@@ -88,7 +89,7 @@ public class Player : MonoBehaviour
 
             lastConnectionState = isBoardConnected; // atualiza estado
         }
-
+        */
         // Define o controle de movimento com base no modo atual
         if (manualMode)
         {
@@ -97,7 +98,6 @@ public class Player : MonoBehaviour
         else
         {
             SDBalanceMove();
-            
             //NintendoBalanceBoardMove();
         }
     }
@@ -197,9 +197,8 @@ public class Player : MonoBehaviour
     {
         // deve ser adicionada uma rotina de calibração do pesso do paciente par aservir como referencia
         // da zona morta que não ativarar a movimetacão.
-        
         // teste de movimentação sem calibração
-        if (_sd_serial != null && _sd_serial._START == true)
+        if (_sd_serial != null)
         {
             PesoCalibrado = _sd_serial.P;
             Esquerda = (_sd_serial.A + _sd_serial.C);

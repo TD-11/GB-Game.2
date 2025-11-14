@@ -668,7 +668,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 865400079}
         m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-        m_MethodName: CalibrationButton
+        m_MethodName: PlayButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -726,6 +726,7 @@ GameObject:
   m_Component:
   - component: {fileID: 865400080}
   - component: {fileID: 865400079}
+  - component: {fileID: 865400083}
   - component: {fileID: 865400081}
   - component: {fileID: 865400082}
   m_Layer: 0
@@ -769,7 +770,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 865400078}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dba9559d80dc84c2f92d7aa30050c217, type: 3}
   m_Name: 
@@ -781,7 +782,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 865400078}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 994b715c7f9de6e40b9ed0cbbd62fb2c, type: 3}
   m_Name: 
@@ -789,6 +790,30 @@ MonoBehaviour:
   connectText: {fileID: 542614241}
   normalColor: {r: 0, g: 1, b: 0, a: 1}
   alertColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &865400083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865400078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3f208404e56d74fb18e97123bd613a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SerialCOM: COM3
+  BaudRate: 57600
+  autoDetectCOM: 1
+  inputFieldCOM: {fileID: 0}
+  stateText: {fileID: 0}
+  dataText: {fileID: 0}
+  btnStart: {fileID: 0}
+  A: 0
+  B: 0
+  C: 0
+  D: 0
+  P: 0
 --- !u!1 &1494159099
 GameObject:
   m_ObjectHideFlags: 0

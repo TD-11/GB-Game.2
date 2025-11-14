@@ -1,257 +1,162 @@
 using UnityEngine;
-using System.Collections;
-using System.IO.Ports;
 using System;
-using System.Collections.Generic;
-using System.Numerics;
+using System.IO.Ports;
 using System.Threading;
-using UnityEngine.UIElements;
+using TMPro;
 
 public class SD_Serial : MonoBehaviour
 {
-    private static SerialPort mySerialPort;
+    public static SD_Serial Instance;
 
-    public char[] test_string;
-    
-    public string SerialCOM = "COM1";
-    
-    private string mensage = "";
+    [Header("UI - Ligado via Inspetor")]
+    public string selectedPort = "COM1";
+    public TMP_Text statusText; // Texto de status
+    public bool autoSelectFirstPort = true;
 
-    private string State;
+    [Header("Leituras (somente leitura)")]
+    public float A, B, C, D, P;
 
-    public bool _START = false;
+    private SerialPort serial;
+    private Thread readThread;
+    private bool isRunning = false;
+    private bool allowReading = false; // só libera depois de 30 segundos
+    private string buffer = "";
 
-    public float A = 0;
-    public float B = 0;
-    public float C = 0;
-    public float D = 0;
-    public float P = 0;
-    
-    void Start()
+    private void Awake()
     {
-        foreach (string str in SerialPort.GetPortNames())
+        // Singleton + Persistência
+        if (Instance != null && Instance != this)
         {
-            Debug.Log(string.Format("COM port: {0}", str));
+            Destroy(gameObject);
+            return;
         }
 
-        if (SerialPort.GetPortNames().Length > 0)
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        if (autoSelectFirstPort && SerialPort.GetPortNames().Length > 0)
+            selectedPort = SerialPort.GetPortNames()[0];
+
+        UpdateStatus($"Porta selecionada: {selectedPort}");
+    }
+
+    // Atualiza o texto de status
+    void UpdateStatus(string msg)
+    {
+        Debug.Log(msg);
+        if (statusText != null)
+            statusText.text = msg;
+    }
+
+    // Botão do Inspetor
+    public void ConnectPort()
+    {
+        if (isRunning)
         {
-            SerialCOM = SerialPort.GetPortNames()[0];
+            UpdateStatus("Já está conectado!");
+            return;
         }
-        
-        Thread thread = new Thread(Run);  
-        thread.Start(); 
-    }
 
-    void FixedUpdate()
-    {
-
-    }
-
-    void Awake()
-    {
-
-    }
-
- 
-    
-    void Update()
-    {
-
-    }
-
-    void Run()  
-    {  
-        while (true)  
-        {  
-           
-        if (_START == true)
+        try
         {
+            serial = new SerialPort(selectedPort, 57600);
+            serial.Parity = Parity.None;
+            serial.StopBits = StopBits.One;
+            serial.DataBits = 8;
+            serial.Handshake = Handshake.None;
+
+            serial.ReadTimeout = 200;
+            serial.WriteTimeout = 200;
+
+            serial.Open();
+            isRunning = true;
+
+            UpdateStatus($"Conectado à porta {selectedPort}. Aguarde 30s...");
+
+            // Inicia thread de leitura
+            readThread = new Thread(ReadLoop);
+            readThread.Start();
+
+            // Só libera leitura depois de 30 segundos
+            Invoke(nameof(EnableReading), 30f);
+        }
+        catch (Exception e)
+        {
+            UpdateStatus("Erro ao abrir a porta: " + e.Message);
+        }
+    }
+
+    private void EnableReading()
+    {
+        allowReading = true;
+        UpdateStatus($"Conexão ativa em {selectedPort}. Lendo dados...");
+    }
+
+    // Thread de leitura contínua
+    private void ReadLoop()
+    {
+        while (isRunning)
+        {
+            if (!allowReading) continue;
+
             try
             {
-                char _c = uart_getc();
-                mensage += _c.ToString();
-                
-                if ( _c == '\n')
-                {
-                   // mensage = "*1000.00;1000.00;1000.00;1000.00;1000.00";
-                   
-                    if (mensage.ToCharArray()[0]=='*')
-                    {
-                        mensage = mensage.Remove(0, 1);
-                        
-                        Debug.Log( mensage );
-                        
-                        string[] partes = mensage.Split(';');
-                        string a = partes[0];
-                        string b = partes[1];
-                        string c = partes[2];
-                        string d = partes[3];
-                        string p = partes[4];
-                    
-                        Debug.Log("A=> "+ a);
-                        Debug.Log("B=> "+ b);
-                        Debug.Log("C=> "+ c);
-                        Debug.Log("D=> "+ d);
-                        Debug.Log("P=> "+ p);
-                        
-                        
-                        A = float.Parse(a.Replace('.',','));
-                        B = float.Parse(b.Replace('.',','));
-                        C = float.Parse(c.Replace('.',','));
-                        D = float.Parse(d.Replace('.',','));
-                        P = float.Parse(p.Replace('.',','));
+                char c = (char)serial.ReadByte();
+                buffer += c;
 
-                        mySerialPort.DiscardInBuffer();
-                        mySerialPort.DiscardOutBuffer();
-                        
-                        State = "Data Received: "+ mensage;
-                    }
-                    mensage = ""; 
-                } 
-
-            }
-            catch (Exception e)
-            {
-                Exception rootCause = e.GetBaseException();
-                if (rootCause.GetType() == typeof(TimeoutException) )
+                if (c == '\n')
                 {
-                    State = "Data Loading: Timeout";
-                    Debug.Log(State);
-                }
-                else
-                {
-                    State = "Data Received Erro: " + e.Message;
-                    Debug.Log(State);
+                    ProcessLine(buffer);
+                    buffer = "";
                 }
             }
-
+            catch { }
         }
-        }  
-    }
-    
-    private static void DataReceviedHandler(object sender, SerialDataReceivedEventArgs e)
-    {
-        mySerialPort = (SerialPort)sender; // It never gets here!
-        string indata = mySerialPort.ReadExisting();
-        Debug.Log("Data Received: 1");
-        Debug.Log(indata);
     }
 
-    void OnGUI() // simple GUI
+    private void ProcessLine(string line)
     {
-        int textPosition_y = 60;
-        int textPosition_x = 10;
+        line = line.Trim();
 
-        
-        if (SerialPort.GetPortNames().Length > 0)
+        if (!line.StartsWith("*"))
+            return;
+
+        line = line.Substring(1); // remove *
+
+        string[] parts = line.Split(';');
+        if (parts.Length < 5) return;
+
+        try
         {
-            foreach (string str in SerialPort.GetPortNames())
-            {
-                GUI.Label(new Rect(textPosition_x, textPosition_y, 1000, 20), string.Format("COM port: {0}", str));
-                textPosition_y += 20;
-            }
+            A = float.Parse(parts[0].Replace('.', ','));
+            B = float.Parse(parts[1].Replace('.', ','));
+            C = float.Parse(parts[2].Replace('.', ','));
+            D = float.Parse(parts[3].Replace('.', ','));
+            P = float.Parse(parts[4].Replace('.', ','));
         }
-
-        SerialCOM = GUI.TextField(new Rect(120, 10, 80, 20), SerialCOM);
-
-        if (_START == false)
-            if (GUI.Button(new Rect(10, 10, 100, 50), "ON"))
-            {
-                _START = true;
-
-                try
-                {
-                    mySerialPort = new SerialPort(SerialCOM, 57600);
-                    mySerialPort.Parity = Parity.None;
-                    mySerialPort.StopBits = StopBits.One;
-                    mySerialPort.DataBits = 8;
-                    mySerialPort.Handshake = Handshake.None;
-                    mySerialPort.ReadBufferSize = 512;
-                    mySerialPort.WriteBufferSize = 512;
-                    mySerialPort.ReadTimeout = 100;
-                    mySerialPort.WriteTimeout = 100;
-
-                    mySerialPort.Open();
-
-                    State = "Door open successfully.";
-                    Debug.Log(State);
-                }
-                catch (Exception e)
-                {
-                    State = "Error opening port: "+ e.Message;
-                    Debug.Log(State);
-                }
-
-            }
-        if (_START == true)
-            if (GUI.Button(new Rect(10, 10, 100, 50), "OFF"))
-            {
-                _START = false;
-
-                if (mySerialPort.IsOpen)
-                {
-                    mySerialPort.Close();
-                }
-            }
-        
-        GUI.Label(new Rect(240, 10, 1000, 1000), State);
-    }
-
-    private void uart_TX_CW_puts(char[] TX_command_word)
-    {
-        for (int i = 0; i < Convert.ToString(TX_command_word).Length; i++)
+        catch (Exception e)
         {
-            uart_putc(TX_command_word[i]);		//Advance though string till end
+            Debug.Log("Erro parse: " + e.Message);
         }
     }
 
-    //uart_gets
-    private char[] uart_gets(int n)
+    public void Disconnect()
     {
-        int i = 0;
+        isRunning = false;
 
-        char[] Array = new char[n];
-
-        while (i < n)					//Grab data till the array fills
+        try
         {
-            Array[i] = (char)mySerialPort.ReadByte();//uart_getc();
-            Thread.Sleep(5);
-            i++;
+            if (serial != null && serial.IsOpen)
+                serial.Close();
         }
-        return Array;
+        catch { }
     }
 
-    //uart_getc
-    private char uart_getc()
+    private void OnApplicationQuit()
     {
-        char rx_char = (char)mySerialPort.ReadByte();
-        return rx_char;
-    }
-
-    //uart_putc
-    private void uart_putc(char tx_char)
-    {
-        mySerialPort.Write(Convert.ToString(tx_char));
-    }
-
-    //uart_puts
-    private void uart_puts(string str)				//Sends a String to the UART.
-    {
-        char[] c = str.ToCharArray();
-
-        for (int i = 0; i < str.Length; i++)
-        {
-            uart_putc(c[i]);		//Advance though string till end
-        }
-    }
-
-
-    void OnApplicationQuit()
-    {
-        if (mySerialPort.IsOpen)
-        {
-            mySerialPort.Close();
-        }
+        Disconnect();
     }
 }

@@ -91,6 +91,11 @@ public class Player : MonoBehaviour
         }
         */
         // Define o controle de movimento com base no modo atual
+        
+        if (SD_Serial.Instance != null && SD_Serial.Instance.A > 0f) {
+            float valor = SD_Serial.Instance.A;
+        }
+        
         if (manualMode)
         {
             KeyboardMove();

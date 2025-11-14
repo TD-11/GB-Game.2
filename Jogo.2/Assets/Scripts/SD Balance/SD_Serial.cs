@@ -1,30 +1,38 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.IO.Ports;
 using System.Threading;
+using System.Collections.Generic;
 using TMPro;
 
 public class SD_Serial : MonoBehaviour
 {
     public static SD_Serial Instance;
 
-    [Header("UI - Ligado via Inspetor")]
-    public string selectedPort = "COM1";
-    public TMP_Text statusText; // Texto de status
-    public bool autoSelectFirstPort = true;
+    [Header("UI")]
+    public TMP_Dropdown portDropdown;
+    public Button connectButton;
+    public TMP_Text statusText;
+    public TMP_Text valuesText;
+    public TMP_Text portsText;   // <- NOVO TEXTO PARA LISTAR PORTAS
 
-    [Header("Leituras (somente leitura)")]
-    public float A, B, C, D, P;
+    [Header("Configurações")]
+    public int baudRate = 57600;
+    public float pollInterval = 1f;
 
-    private SerialPort serial;
+    private SerialPort serialPort;
     private Thread readThread;
-    private bool isRunning = false;
-    private bool allowReading = false; // só libera depois de 30 segundos
+    private bool _reading = false;
+    private bool _connected = false;
     private string buffer = "";
 
-    private void Awake()
+    public float A, B, C, D, P;
+
+    private float nextPollTime = 0f;
+
+    void Awake()
     {
-        // Singleton + Persistência
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -35,81 +43,139 @@ public class SD_Serial : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
+    void Start()
     {
-        if (autoSelectFirstPort && SerialPort.GetPortNames().Length > 0)
-            selectedPort = SerialPort.GetPortNames()[0];
-
-        UpdateStatus($"Porta selecionada: {selectedPort}");
+        UpdatePortList();
+        connectButton.onClick.AddListener(OnConnectButtonPressed);
+        statusText.text = "Selecione uma porta";
     }
 
-    // Atualiza o texto de status
-    void UpdateStatus(string msg)
+    void Update()
     {
-        Debug.Log(msg);
-        if (statusText != null)
-            statusText.text = msg;
-    }
-
-    // Botão do Inspetor
-    public void ConnectPort()
-    {
-        if (isRunning)
+        if (Time.time > nextPollTime)
         {
-            UpdateStatus("Já está conectado!");
+            UpdatePortList();
+            nextPollTime = Time.time + pollInterval;
+        }
+    }
+
+    // Atualiza lista de portas no Dropdown e no Text
+    void UpdatePortList()
+    {
+        string[] ports = SerialPort.GetPortNames();
+        List<string> portList = new List<string>(ports);
+
+        // Atualiza Dropdown somente se houver mudança
+        if (DropdownListChanged(portList))
+        {
+            portDropdown.ClearOptions();
+            portDropdown.AddOptions(portList);
+        }
+
+        // Atualiza texto com lista de portas
+        portsText.text = "Portas detectadas:\n";
+        foreach (var p in portList)
+            portsText.text += p + "\n";
+
+        if (portList.Count == 0)
+            statusText.text = "Nenhuma porta encontrada";
+    }
+
+    bool DropdownListChanged(List<string> newList)
+    {
+        if (portDropdown.options.Count != newList.Count)
+            return true;
+
+        for (int i = 0; i < newList.Count; i++)
+        {
+            if (portDropdown.options[i].text != newList[i])
+                return true;
+        }
+
+        return false;
+    }
+
+    void OnConnectButtonPressed()
+    {
+        if (!_connected)
+            Connect();
+        else
+            Disconnect();
+    }
+
+    // Conectar com timeout de 10 segundos
+    void Connect()
+    {
+        if (portDropdown.options.Count == 0)
+        {
+            statusText.text = "Nenhuma porta disponível";
             return;
         }
 
+        string selectedPort = portDropdown.options[portDropdown.value].text;
+
         try
         {
-            serial = new SerialPort(selectedPort, 57600);
-            serial.Parity = Parity.None;
-            serial.StopBits = StopBits.One;
-            serial.DataBits = 8;
-            serial.Handshake = Handshake.None;
+            serialPort = new SerialPort(selectedPort, baudRate);
+            serialPort.ReadTimeout = 100;
 
-            serial.ReadTimeout = 200;
-            serial.WriteTimeout = 200;
+            statusText.text = "Conectando...";
 
-            serial.Open();
-            isRunning = true;
+            bool success = false;
+            float startTime = Time.time;
 
-            UpdateStatus($"Conectado à porta {selectedPort}. Aguarde 30s...");
+            // Tenta abrir porta por até 10 segundos
+            while (Time.time - startTime < 10f)
+            {
+                try
+                {
+                    serialPort.Open();
+                    success = true;
+                    break;
+                }
+                catch
+                {
+                    Thread.Sleep(200); // espera antes de tentar novamente
+                }
+            }
 
-            // Inicia thread de leitura
-            readThread = new Thread(ReadLoop);
-            readThread.Start();
+            if (!success)
+            {
+                statusText.text = "Falha ao conectar (timeout)";
+                return;
+            }
 
-            // Só libera leitura depois de 30 segundos
-            Invoke(nameof(EnableReading), 30f);
+            _connected = true;
+            statusText.text = "Conectado em " + selectedPort;
+            connectButton.GetComponentInChildren<TMP_Text>().text = "Desconectar";
+
+            StartReading();
         }
         catch (Exception e)
         {
-            UpdateStatus("Erro ao abrir a porta: " + e.Message);
+            statusText.text = "Erro: " + e.Message;
         }
     }
 
-    private void EnableReading()
+    void StartReading()
     {
-        allowReading = true;
-        UpdateStatus($"Conexão ativa em {selectedPort}. Lendo dados...");
+        _reading = true;
+        readThread = new Thread(ReadLoop);
+        readThread.Start();
     }
 
-    // Thread de leitura contínua
-    private void ReadLoop()
+    void ReadLoop()
     {
-        while (isRunning)
+        while (_reading)
         {
-            if (!allowReading) continue;
-
             try
             {
-                char c = (char)serial.ReadByte();
+                char c = (char)serialPort.ReadByte();
                 buffer += c;
 
                 if (c == '\n')
                 {
-                    ProcessLine(buffer);
+                    ProcessMessage(buffer);
                     buffer = "";
                 }
             }
@@ -117,45 +183,48 @@ public class SD_Serial : MonoBehaviour
         }
     }
 
-    private void ProcessLine(string line)
+    void ProcessMessage(string msg)
     {
-        line = line.Trim();
-
-        if (!line.StartsWith("*"))
+        if (!msg.StartsWith("*"))
             return;
 
-        line = line.Substring(1); // remove *
+        msg = msg.Substring(1);
 
-        string[] parts = line.Split(';');
-        if (parts.Length < 5) return;
+        string[] p = msg.Split(';');
+        if (p.Length < 5) return;
 
-        try
+        A = float.Parse(p[0].Replace('.', ','));
+        B = float.Parse(p[1].Replace('.', ','));
+        C = float.Parse(p[2].Replace('.', ','));
+        D = float.Parse(p[3].Replace('.', ','));
+        P = float.Parse(p[4].Replace('.', ','));
+
+        UnityMainThreadDispatcher.Enqueue(() =>
         {
-            A = float.Parse(parts[0].Replace('.', ','));
-            B = float.Parse(parts[1].Replace('.', ','));
-            C = float.Parse(parts[2].Replace('.', ','));
-            D = float.Parse(parts[3].Replace('.', ','));
-            P = float.Parse(parts[4].Replace('.', ','));
-        }
-        catch (Exception e)
-        {
-            Debug.Log("Erro parse: " + e.Message);
-        }
+            valuesText.text =
+                $"A: {A}\n" +
+                $"B: {B}\n" +
+                $"C: {C}\n" +
+                $"D: {D}\n" +
+                $"P: {P}";
+        });
     }
 
-    public void Disconnect()
+    void Disconnect()
     {
-        isRunning = false;
+        _reading = false;
+        _connected = false;
 
-        try
-        {
-            if (serial != null && serial.IsOpen)
-                serial.Close();
-        }
-        catch { }
+        try { readThread?.Abort(); } catch { }
+
+        if (serialPort != null && serialPort.IsOpen)
+            serialPort.Close();
+
+        connectButton.GetComponentInChildren<TMP_Text>().text = "Conectar";
+        statusText.text = "Desconectado";
     }
 
-    private void OnApplicationQuit()
+    void OnApplicationQuit()
     {
         Disconnect();
     }

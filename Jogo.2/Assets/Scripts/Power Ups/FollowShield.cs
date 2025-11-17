@@ -2,24 +2,35 @@ using UnityEngine;
 
 public class FollowShield : MonoBehaviour
 {
-    public Transform player;// Referência ao transform do jogador
-    public Vector3 offset = new Vector3(0, 0, 0);// Posição relativa ao jogador
+    // Referência ao Transform do jogador que o escudo deve seguir
+    public Transform player;
+
+    // Offset para ajustar a posição do escudo em relação ao jogador
+    public Vector3 offset = new Vector3(0, 0, 0);
     
     void Update()
     {
+        // Verifica se a referência ao jogador foi atribuída
         if (player != null)
         {
-            // Faz com que o escudo siga o player
+            // Atualiza a posição do escudo para ficar sempre na posição do jogador + deslocamento
+            // Isso faz o escudo seguir o jogador em tempo real
             transform.position = player.position + offset;
         }
     } 
-    // Para destruir o escudo depois de colidido com o obstáculo:
+    
+    // Detecta colisões com objetos marcados como "Obstacle"
     void OnTriggerEnter2D(Collider2D collision)
     {
+        // Se o objeto que colidiu tiver a tag "Obstacle"
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            gameObject.SetActive(false);// Desativa o escudo
-            ObjectPool.Instance.ReturnToPool("Obstacle", collision.gameObject);// Destrói o obstaculo depois de colidido
+            // Desativa o escudo após a colisão (como se tivesse sido gasto)
+            gameObject.SetActive(false);
+
+            // Retorna o obstáculo colidido para o Object Pool
+            // Isso evita destruí-lo e recriá-lo, economizando desempenho
+            ObjectPool.Instance.ReturnToPool("Obstacle", collision.gameObject);
         }
     }
 }

@@ -5,30 +5,33 @@ using TMPro;
 public class RandomSpawner : MonoBehaviour, ITimeObserver
 {
     // === Singleton ===
+    // Permite que outros scripts acessem o spawner sem precisar arrastar no Inspector
     public static RandomSpawner Instance { get; private set; }
 
     // === Controle de spawn ===
-    public float intervalSpawnObstacle = 3f;
-    public float intervalSpawnPowerLife = 13f;
-    public float intervalSpawnShield = 11f;
-    public float intervalSpawnShell = 5f;
-    public float widthArea = 8.4f;
-    public float heightSpawnObject = 12f;
-    public float heightSpawnAlert = 4f;
+    public float intervalSpawnObstacle = 3f;   // Intervalo para spawn de obstáculos
+    public float intervalSpawnPowerLife = 13f; // Intervalo para spawn de vidas
+    public float intervalSpawnShield = 11f;    // Intervalo para spawn de escudo
+    public float intervalSpawnShell = 5f;      // Intervalo para spawn da casca
+    public float widthArea = 8.4f;             // Área horizontal de spawn
+    public float heightSpawnObject = 12f;      // Altura onde o objeto aparece
+    public float heightSpawnAlert = 4f;        // Altura onde o alerta aparece
 
+    // Próximos tempos em que cada item deve aparecer
     private float nextSpawnTimeObstacle;
     private float nextSpawnTimeLife;
     private float nextSpawnTimeShield;
     private float nextSpawnTimeShell;
 
-    private bool canSpawn = true; // usado para parar o spawn quando o tempo acabar
+    // Controle para impedir spawn quando o tempo do jogo acaba
+    private bool canSpawn = true;
 
     void Awake()
     {
-        // Singleton padrão
+        // Implementação padrão do Singleton
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            Destroy(gameObject); // Evita duplicatas
         }
         else
         {
@@ -38,12 +41,13 @@ public class RandomSpawner : MonoBehaviour, ITimeObserver
 
     void Start()
     {
+        // Define os primeiros tempos de spawn
         nextSpawnTimeObstacle = 0f;
         nextSpawnTimeLife = 9f;
         nextSpawnTimeShield = 11f;
         nextSpawnTimeShell = 5f;
 
-        // Registra o spawner como observador do cronômetro
+        // Registra este spawner como observador do StopWatch (Observer Pattern)
         StopWatch stopWatch = FindObjectOfType<StopWatch>();
         if (stopWatch != null)
         {
@@ -53,8 +57,10 @@ public class RandomSpawner : MonoBehaviour, ITimeObserver
 
     void Update()
     {
-        if (!canSpawn) return; // Para tudo quando o tempo acaba
+        // Se o tempo acabou, para completamente os spawns
+        if (!canSpawn) return;
 
+        // Checa cada tipo de objeto e verifica se já passou o tempo necessário
         if (Time.timeSinceLevelLoad >= nextSpawnTimeObstacle)
         {
             SpawnObstacleObject();
@@ -80,61 +86,68 @@ public class RandomSpawner : MonoBehaviour, ITimeObserver
         }
     }
 
+    // === Funções de Spawn ===
+
     void SpawnObstacleObject()
     {
+        // Sorteia posição X dentro da área permitida
         float x = Random.Range(-widthArea / 2f, widthArea / 2f);
-        Vector3 positionSpawnObject = new Vector3(x, heightSpawnObject, 0f);
-        Vector3 positionSpawnAlert = new Vector3(x, heightSpawnAlert, 0f);
 
-        ObjectPool.Instance.SpawnFromPool("Obstacle", positionSpawnObject, Quaternion.identity);
-        ObjectPool.Instance.SpawnFromPool("ObstacleAlert", positionSpawnAlert, Quaternion.identity);
+        // Define posição para o objeto e para o alerta visual
+        Vector3 posObj = new Vector3(x, heightSpawnObject, 0f);
+        Vector3 posAlert = new Vector3(x, heightSpawnAlert, 0f);
+
+        // Usa o Object Pool para spawnar sem criar objetos novos
+        ObjectPool.Instance.SpawnFromPool("Obstacle", posObj, Quaternion.identity);
+        ObjectPool.Instance.SpawnFromPool("ObstacleAlert", posAlert, Quaternion.identity);
     }
 
     void SpawnLifeObject()
     {
         float x = Random.Range(-widthArea / 2f, widthArea / 2f);
-        Vector3 positionSpawnObject = new Vector3(x, heightSpawnObject, 0f);
-        Vector3 positionSpawnAlert = new Vector3(x, heightSpawnAlert, 0f);
+        Vector3 posObj = new Vector3(x, heightSpawnObject, 0f);
+        Vector3 posAlert = new Vector3(x, heightSpawnAlert, 0f);
 
-        ObjectPool.Instance.SpawnFromPool("Life", positionSpawnObject, Quaternion.identity);
-        ObjectPool.Instance.SpawnFromPool("LifeAlert", positionSpawnAlert, Quaternion.identity);
+        ObjectPool.Instance.SpawnFromPool("Life", posObj, Quaternion.identity);
+        ObjectPool.Instance.SpawnFromPool("LifeAlert", posAlert, Quaternion.identity);
     }
 
     void SpawnShieldObject()
     {
         float x = Random.Range(-widthArea / 2f, widthArea / 2f);
-        Vector3 positionSpawnObject = new Vector3(x, heightSpawnObject, 0f);
-        Vector3 positionSpawnAlert = new Vector3(x, heightSpawnAlert - 0.2f, 0f);
+        Vector3 posObj = new Vector3(x, heightSpawnObject, 0f);
+        Vector3 posAlert = new Vector3(x, heightSpawnAlert - 0.2f, 0f); // Ajuste fino na altura do alerta
 
-        ObjectPool.Instance.SpawnFromPool("Shield", positionSpawnObject, Quaternion.identity);
-        ObjectPool.Instance.SpawnFromPool("ShieldAlert", positionSpawnAlert, Quaternion.identity);
+        ObjectPool.Instance.SpawnFromPool("Shield", posObj, Quaternion.identity);
+        ObjectPool.Instance.SpawnFromPool("ShieldAlert", posAlert, Quaternion.identity);
     }
 
     void SpawnShellObject()
     {
         float x = Random.Range(-widthArea / 2f, widthArea / 2f);
-        Vector3 positionSpawnObject = new Vector3(x, heightSpawnObject, 0f);
-        Vector3 positionSpawnAlert = new Vector3(x, heightSpawnAlert - 0.3f, 0f);
+        Vector3 posObj = new Vector3(x, heightSpawnObject, 0f);
+        Vector3 posAlert = new Vector3(x, heightSpawnAlert - 0.3f, 0f);
 
-        ObjectPool.Instance.SpawnFromPool("Shell", positionSpawnObject, Quaternion.identity);
-        ObjectPool.Instance.SpawnFromPool("ShellAlert", positionSpawnAlert, Quaternion.identity);
+        ObjectPool.Instance.SpawnFromPool("Shell", posObj, Quaternion.identity);
+        ObjectPool.Instance.SpawnFromPool("ShellAlert", posAlert, Quaternion.identity);
     }
 
-    // Padrão Observer
+    // === Implementação do Observer Pattern ===
 
-    // Quando o tempo muda (ex: pode aumentar dificuldade)
+    // É chamado sempre que o tempo do StopWatch muda
     public void OnTimeChanged(float timeLeft)
     {
-        // Exemplo: deixar o jogo mais difícil conforme o tempo passa
+        // Exemplo de aumento de dificuldade automatizado
         if (timeLeft < 60f)
             intervalSpawnObstacle = 2.5f; // mais obstáculos
+
         if (timeLeft < 30f)
-            intervalSpawnObstacle = 2.0f; // ainda mais rápidos
+            intervalSpawnObstacle = 2.0f; // dificuldade aumenta ainda mais
     }
 
-    // Quando o tempo acaba
+    // É chamado quando o StopWatch avisa que o tempo chegou a zero
     public void OnTimeEnded()
     {
-        canSpawn = false;
+        canSpawn = false; // Para totalmente os spawns
     }
 }

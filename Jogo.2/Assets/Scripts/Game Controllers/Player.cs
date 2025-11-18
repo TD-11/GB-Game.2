@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
    //=========================
    
    // Relacionados a SD Balance
-   public SD_Serial _sd_serial;
+   public SD_SerialManager _sd_serialManager;
    public float renge = 10000;
    public float PesoCalibrado = 0;
    
@@ -92,8 +92,8 @@ public class Player : MonoBehaviour
         */
         // Define o controle de movimento com base no modo atual
         
-        if (SD_Serial.Instance != null && SD_Serial.Instance.A > 0f) {
-            float valor = SD_Serial.Instance.A;
+        if (SD_SerialManager.Instance != null && SD_SerialManager.Instance.A > 0f) {
+            float valor = SD_SerialManager.Instance.A;
         }
         
         if (manualMode)
@@ -203,13 +203,13 @@ public class Player : MonoBehaviour
         // deve ser adicionada uma rotina de calibração do pesso do paciente par aservir como referencia
         // da zona morta que não ativarar a movimetacão.
         // teste de movimentação sem calibração
-        if (_sd_serial != null)
+        if (_sd_serialManager != null)
         {
-            PesoCalibrado = _sd_serial.P;
-            Esquerda = (_sd_serial.A + _sd_serial.C);
+            PesoCalibrado = _sd_serialManager.P;
+            Esquerda = (_sd_serialManager.A + _sd_serialManager.C);
             Debug.Log("AC..." + Esquerda);
             
-            Direita = (_sd_serial.B + _sd_serial.D);
+            Direita = (_sd_serialManager.B + _sd_serialManager.D);
             Debug.Log("BD..." + Direita);
             
             if (Esquerda >  (PesoCalibrado/2 + renge) )

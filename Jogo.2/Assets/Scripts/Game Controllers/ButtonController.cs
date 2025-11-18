@@ -66,4 +66,10 @@ public class ButtonController : MonoBehaviour
         ICommand quit = new LoadSceneCommand("Menu");
         quit.Execute();
     }
+    
+    public void ExitGameButton()
+    {
+        Debug.Log("Saindo do jogo..."); // Só pra testar no Editor
+        Application.Quit();
+    }
 }

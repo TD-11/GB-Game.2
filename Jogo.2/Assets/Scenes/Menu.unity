@@ -1314,6 +1314,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Values
       objectReference: {fileID: 0}
+    - target: {fileID: 9139291780198419022, guid: a06fe9b0af8a52a44b71cc97beb50c8f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1468,17 +1472,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 651363198}
   m_CullTransparentMesh: 1
---- !u!114 &806552265 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2641567861664284797, guid: a06fe9b0af8a52a44b71cc97beb50c8f, type: 3}
-  m_PrefabInstance: {fileID: 547393514}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &826809159
 GameObject:
   m_ObjectHideFlags: 0
@@ -1713,7 +1706,7 @@ MonoBehaviour:
   portDropdown: {fileID: 952173109}
   connectButton: {fileID: 502845223}
   statusText: {fileID: 210896535}
-  valuesText: {fileID: 806552265}
+  valuesText: {fileID: 0}
   portListText: {fileID: 648299870}
   baudRate: 57600
   pollInterval: 1

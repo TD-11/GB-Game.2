@@ -3,6 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private SD_Serial _sd_serial;
+    private ConnectSDBalance connect_sd_balance;
     private GameObject _gameObject;
     
     
@@ -21,7 +22,8 @@ public class GameManager : MonoBehaviour
             _sd_serial.statusText = gameObject.GetComponent<SD_Serial>().statusText;
             _sd_serial.valuesText = gameObject.GetComponent<SD_Serial>().valuesText;
             _sd_serial.portListText = gameObject.GetComponent<SD_Serial>().portListText;
-                
+            connect_sd_balance.connectText = gameObject.GetComponent<ConnectSDBalance>().connectText;
+            
          //  portDropdown
          // connectButton
          //  statusText

@@ -11,6 +11,7 @@ public class SD_Serial : MonoBehaviour
     [Header("UI")]
     public TMP_Dropdown portDropdown;
     public Button connectButton;
+    public GameObject SetConnectButton;
     public TMP_Text statusText;
     public TMP_Text valuesText;
 
@@ -20,25 +21,25 @@ public class SD_Serial : MonoBehaviour
     [Header("Configurações")]
     public int baudRate = 57600;
     public float pollInterval = 1f;
-    public float connectTimeout = 10f; // <-- timeout de 10 segundos
+    public float connectTimeout = 15f; // <-- timeout de 10 segundos
 
     private SerialPort serialPort;
     private Thread readThread;
     private bool _reading = false;
-    private bool _connected = false;
+    public static bool _connected = false;
     private bool _waitingConnection = false;
 
     private string buffer = "";
     
-    public string selectedPort;
+    public static string selectedPort;
 
     // Valores recebidos
-    public float A, B, C, D, P;
+    public float A, B, C, D, P = 0f;
 
     private float nextPollTime = 0f;
 
     public string State;
-    
+
     void Start()
     {
         
@@ -49,10 +50,14 @@ public class SD_Serial : MonoBehaviour
         connectButton.onClick.AddListener(OnConnectButtonPressed);
 
         statusText.text = "Selecione uma porta";
+        
     }
 
     void Update()
     {
+        if (_connected) return;
+        if (_waitingConnection) return;
+
         if (Time.time > nextPollTime)
         {
             UpdatePortList();
@@ -65,22 +70,34 @@ public class SD_Serial : MonoBehaviour
     void UpdatePortList()
     {
         string[] ports = SerialPort.GetPortNames();
-        List<string> portList = new List<string>(ports);
+
+        // --- REMOVER COM1 DA LISTA ---
+        List<string> portList = new List<string>();
+        foreach (string port in ports)
+        {
+            if (!port.Equals("COM1", StringComparison.OrdinalIgnoreCase))
+            {
+                portList.Add(port);
+            }
+        }
+        // -------------------------------
 
         // Atualizando o texto com a lista de portas
         if (portListText != null)
         {
-            if (ports.Length > 0)
-                portListText.text = "Portas encontradas:\n" + string.Join("\n", ports);
+            if (portList.Count > 0)
+                portListText.text = "Portas encontradas:\n" + string.Join("\n", portList);
             else
                 portListText.text = "Nenhuma porta encontrada";
         }
 
         if (DropdownListChanged(portList))
         {
-            // Preserve the currently selected port name before clearing
+            // Preserve current selection
             string currentSelectedPort = null;
-            if (portDropdown.options.Count > 0 && portDropdown.value >= 0 && portDropdown.value < portDropdown.options.Count)
+            if (portDropdown.options.Count > 0 &&
+                portDropdown.value >= 0 &&
+                portDropdown.value < portDropdown.options.Count)
             {
                 currentSelectedPort = portDropdown.options[portDropdown.value].text;
             }
@@ -88,7 +105,6 @@ public class SD_Serial : MonoBehaviour
             portDropdown.ClearOptions();
             portDropdown.AddOptions(portList);
 
-            // Restore the selection if the port is still available
             if (!string.IsNullOrEmpty(currentSelectedPort))
             {
                 int restoredIndex = portList.IndexOf(currentSelectedPort);
@@ -96,7 +112,6 @@ public class SD_Serial : MonoBehaviour
                 {
                     portDropdown.value = restoredIndex;
                 }
-                // If not found, value remains 0 (first option)
             }
 
             if (portList.Count == 0)
@@ -124,9 +139,14 @@ public class SD_Serial : MonoBehaviour
         string selectedPort = portDropdown.options[portDropdown.value].text;
         Debug.Log($"Trying to connect to {selectedPort}");
         if (!_connected)
-            StartCoroutine(ConnectWithTimeout());
+        {
+            SetConnectButton.SetActive(false);
+            StartCoroutine(ConnectWithTimeout());   
+        }
         else
+        {
             Disconnect();
+        }
     }
 
     // Tentativa de conexão com timeout de 10s
@@ -145,9 +165,10 @@ public class SD_Serial : MonoBehaviour
             statusText.text = "Nenhuma porta disponível";
             yield break;
         }
-
-
-        string selectedPort =  portDropdown.options[portDropdown.value].text;
+        
+        
+         string selectedPort =  portDropdown.options[portDropdown.value].text;
+        
 
         Debug.Log($"Conectando a {selectedPort}...");
         
@@ -187,9 +208,11 @@ public class SD_Serial : MonoBehaviour
 
         if (!connected)
         {
-            Debug.Log("Erro: conexão expirou (10s)"); 
+            Debug.Log("Erro: conexão expirou (15s)"); 
             
-            statusText.text = "Erro: conexão expirou (10s)";
+            statusText.text = "Erro: conexão expirou (15s)";
+            SetConnectButton.SetActive(true);        
+
             try { serialPort?.Close(); } catch { }
             yield break;
         }
@@ -198,11 +221,15 @@ public class SD_Serial : MonoBehaviour
         _connected = true;
         
         Debug.Log("Conectado em " + selectedPort);
+    
+        statusText.text = "Porta conectada";
         
-        statusText.text = "Conectado em " + selectedPort;
-        connectButton.GetComponentInChildren<TMP_Text>().text = "Desconectar";
+        SetConnectButton.SetActive(false);        
+        //connectButton.GetComponentInChildren<TMP_Text>().text = "Desconectar";
 
         StartReading();
+        
+       
     }
 
     // Iniciar thread de leitura

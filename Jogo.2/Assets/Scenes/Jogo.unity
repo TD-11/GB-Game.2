@@ -4080,9 +4080,8 @@ GameObject:
   - component: {fileID: 2145778588}
   - component: {fileID: 2145778589}
   - component: {fileID: 2145778593}
-  - component: {fileID: 2145778590}
   - component: {fileID: 2145778591}
-  - component: {fileID: 2145778592}
+  - component: {fileID: 2145778590}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4194,7 +4193,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2145778583}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 994b715c7f9de6e40b9ed0cbbd62fb2c, type: 3}
   m_Name: 
@@ -4202,22 +4201,6 @@ MonoBehaviour:
   connectText: {fileID: 437538979}
   normalColor: {r: 0, g: 1, b: 0, a: 1}
   alertColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &2145778592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2145778583}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a51d1b6d6c231f843abbd1a17c56a5f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statusText: {fileID: 437538979}
-  reconnectButton: {fileID: 0}
-  manualModePanel: {fileID: 1490766767}
-  remoteIndex: 0
 --- !u!114 &2145778593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4230,14 +4213,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f3f208404e56d74fb18e97123bd613a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test_string: 
-  SerialCOM: COM1
-  _START: 0
+  portDropdown: {fileID: 0}
+  connectButton: {fileID: 0}
+  SetConnectButton: {fileID: 0}
+  statusText: {fileID: 0}
+  valuesText: {fileID: 0}
+  portListText: {fileID: 0}
+  baudRate: 57600
+  pollInterval: 1
+  connectTimeout: 10
   A: 0
   B: 0
   C: 0
   D: 0
   P: 0
+  State: 
 --- !u!1001 &30455134834176904
 PrefabInstance:
   m_ObjectHideFlags: 0

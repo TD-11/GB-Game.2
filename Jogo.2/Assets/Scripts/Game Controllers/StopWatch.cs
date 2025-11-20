@@ -22,11 +22,16 @@ public class StopWatch : MonoBehaviour, ITimeSubject
     // Lista de observadores — qualquer objeto interessado em receber atualizações do tempo
     private List<ITimeObserver> observers = new List<ITimeObserver>();
 
+    private AudioSource playerAudioTime;
+    [SerializeField]
+    private AudioClip VictorySound;
 
     void Start()
     {
         // Inicializa o cronômetro com o tempo padrão
         restTime = startTime;
+        
+        playerAudioTime = GetComponent<AudioSource>();
     }
 
 
@@ -65,10 +70,12 @@ public class StopWatch : MonoBehaviour, ITimeSubject
             textTimeHud.text = "00:00";
             textTimeHud.color = alertColor;
 
-            Time.timeScale = 0f;           // Pausa o jogo
+            Time.timeScale = 0f;            // Pausa o jogo
             gameOverScreen.SetActive(true); // Abre a tela de Game Over
+            playerAudioTime.PlayOneShot(VictorySound, 5f); // Som de dano
 
-            NotifyTimeEnded();             // Notifica observadores que o tempo acabou
+
+            NotifyTimeEnded();              // Notifica observadores que o tempo acabou
         }
     }
 

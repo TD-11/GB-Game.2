@@ -32,6 +32,13 @@ public class Player : MonoBehaviour
     [Header("Configuração")]
     public static int remoteIndex = 0; // Índice do Wii Remote conectado à Balance Board
 
+    // Sons
+    
+    private AudioSource playerAudio;
+    [SerializeField]
+    private AudioClip obstacleSound;
+    [SerializeField]
+    private AudioClip LifeSound;
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -42,6 +49,8 @@ public class Player : MonoBehaviour
         // Verifica se a Balance Board está conectada — se não estiver, entra em modo manual
         bool isBoardConnected = Wii.IsActive(remoteIndex) && Wii.GetExpType(remoteIndex) == 3;
         manualMode = !isBoardConnected;
+        
+        playerAudio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -93,6 +102,9 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle")
         {
             camera.GetComponent<Tremor>().playTremor(); // Efeito de tremor
+            
+            playerAudio.PlayOneShot(obstacleSound, 1f); // Som de dano
+            
             life--;                                     // Diminui vida
             countObstacle++;
 
@@ -111,6 +123,8 @@ public class Player : MonoBehaviour
         // Colisão com item de recuperação de vida
         if (collision.gameObject.CompareTag("Life"))
         {
+            playerAudio.PlayOneShot(LifeSound, 1f); // Som de dano
+
             if (life == 3)
             {
                 // Não passa de 3 vidas

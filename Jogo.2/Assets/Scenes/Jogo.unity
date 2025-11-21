@@ -406,7 +406,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &237521212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4366,6 +4366,7 @@ MonoBehaviour:
   alertColor: {r: 1, g: 0, b: 0, a: 1}
   tempoDeAviso: 10
   VictorySound: {fileID: 8300000, guid: 3200f5e3cd53d51489c721df15d8711a, type: 3}
+  GameOverSound: {fileID: 8300000, guid: a7d21473ebc2e0e4aba2e80c128190ea, type: 3}
 --- !u!114 &2145778588
 MonoBehaviour:
   m_ObjectHideFlags: 0

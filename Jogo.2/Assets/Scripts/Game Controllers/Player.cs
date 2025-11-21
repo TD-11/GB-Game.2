@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
     private AudioClip obstacleSound;
     [SerializeField]
     private AudioClip LifeSound;
+    //[SerializeField]
+    //private AudioClip GameOverSound;
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -117,6 +119,8 @@ public class Player : MonoBehaviour
                 Destroy(gameObject);
                 Time.timeScale = 0f;
                 gameOverScreen.SetActive(true);
+                //playerAudio.PlayOneShot(GameOverSound, 3f); // Som de Game Over
+
             }
         }
 

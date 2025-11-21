@@ -2458,6 +2458,7 @@ MonoBehaviour:
   countShellText: {fileID: 1030219313}
   obstacleSound: {fileID: 8300000, guid: 855e25d8c263c314ba2868eaab025269, type: 3}
   LifeSound: {fileID: 8300000, guid: 8784c9e93d911d84897e188b38c2827e, type: 3}
+  GameOverSound: {fileID: 8300000, guid: a7d21473ebc2e0e4aba2e80c128190ea, type: 3}
 --- !u!50 &1058876568
 Rigidbody2D:
   serializedVersion: 5

@@ -14,7 +14,7 @@ public class StopWatch : MonoBehaviour, ITimeSubject
     public Color normalColor = Color.white;  // Cor padrão da fonte do HUD
     public Color alertColor = Color.red;     // Cor usada quando o tempo está baixo
 
-    private static float startTime = 120f;   // Tempo inicial (120 segundos)
+    private static float startTime = 10f;   // Tempo inicial (120 segundos)
     private static float restTime;           // Tempo restante (regressivo)
     public float tempoDeAviso = 11f;         // Limite para mudar para cor de alerta no HUD
     private bool activeTime = true;          // Controla se o cronômetro está ativo
@@ -72,7 +72,7 @@ public class StopWatch : MonoBehaviour, ITimeSubject
 
             Time.timeScale = 0f;            // Pausa o jogo
             gameOverScreen.SetActive(true); // Abre a tela de Game Over
-            playerAudioTime.PlayOneShot(VictorySound, 5f); // Som de dano
+            playerAudioTime.PlayOneShot(VictorySound, 4f); // Som de vitótia
 
 
             NotifyTimeEnded();              // Notifica observadores que o tempo acabou

@@ -41,22 +41,13 @@ public class StopWatch : MonoBehaviour, ITimeSubject
 
     void Update()
     {
-        if (player == null && !isDead)
-        {
-            playerAudioTime.PlayOneShot(GameOverSound, 3f); // Som de Game Over
-            isDead = true;
-        }
-        else
-        {
-            isDead = false;
-        }
-        
         // Se o tempo está pausado, não faz nada
         if (!activeTime) return;
 
         // Se o jogador for destruído/perdido, o cronômetro pára e avisa os observadores
         if (player == null)
         {
+            playerAudioTime.PlayOneShot(GameOverSound, 3f); // Som de Game Over
             activeTime = false;
             NotifyTimeEnded();
             return;

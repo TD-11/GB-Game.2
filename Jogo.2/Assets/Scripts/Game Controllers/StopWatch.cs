@@ -14,7 +14,7 @@ public class StopWatch : MonoBehaviour, ITimeSubject
     public Color normalColor = Color.white;  // Cor padrão da fonte do HUD
     public Color alertColor = Color.red;     // Cor usada quando o tempo está baixo
 
-    private static float startTime = 10f;   // Tempo inicial (120 segundos)
+    private static float startTime = 120f;   // Tempo inicial (120 segundos)
     private static float restTime;           // Tempo restante (regressivo)
     public float tempoDeAviso = 11f;         // Limite para mudar para cor de alerta no HUD
     private bool activeTime = true;          // Controla se o cronômetro está ativo

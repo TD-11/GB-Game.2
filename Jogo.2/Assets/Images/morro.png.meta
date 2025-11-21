@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f253c15c39f425d40967a756b6b95f4c
+guid: 7849c66e9959df843be7f66c5659eb76
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3803196367135801590
-    second: escudo_0
+      213: -2947167818227179788
+    second: morro_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: escudo_0
+      name: morro_0
       rect:
         serializedVersion: 2
-        x: 48
-        y: 93
-        width: 158
-        height: 163
+        x: 0
+        y: 9
+        width: 1920
+        height: 507
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a0f70d5ed05583bc0800000000000000
-      internalID: -3803196367135801590
+      spriteID: 4fe1b1deb7e8917d0800000000000000
+      internalID: -2947167818227179788
       vertices: []
       indices: 
       edges: []

@@ -25,6 +25,12 @@ public class Player : MonoBehaviour
     private int countShield = 0;          // Quantidade de escudos coletados
     private bool manualMode;              // Se o jogador está controlando com teclado
     private bool lastConnectionState = false; // Guarda o estado de conexão anterior da Balance Board
+    
+    public TMP_Text CountTextObstacle;
+    public TMP_Text CountTextLife;
+    public TMP_Text CountTextShield;
+    public TMP_Text CountTextShell;
+
 
     [SerializeField] public TMP_Text countShellText;// Texto que mostra quantidade de conchas no HUD
 
@@ -39,6 +45,10 @@ public class Player : MonoBehaviour
     private AudioClip obstacleSound;
     [SerializeField]
     private AudioClip LifeSound;
+    [SerializeField]
+    private AudioClip ShellSound;
+    [SerializeField]
+    private AudioClip ShieldSound;
     [SerializeField]
     private AudioClip GameOverSound;
     void Start()
@@ -68,7 +78,6 @@ public class Player : MonoBehaviour
                 // Se reconectou: volta ao modo automático
                 manualMode = false;
                 fallConnectionScreen.SetActive(false);
-                playerAudio.PlayOneShot(GameOverSound, 3f); // Som de Game Over
                 Time.timeScale = 1f;
 
                 Debug.Log("Balance Board conectada! Jogo normalizado!");
@@ -76,6 +85,7 @@ public class Player : MonoBehaviour
             else
             {
                 // Se desconectou: ativa modo manual e pausa o jogo
+                playerAudio.PlayOneShot(GameOverSound, 3f); // Som de Game Over
                 manualMode = true;
                 fallConnectionScreen.SetActive(true);
                 Time.timeScale = 0f;
@@ -110,7 +120,8 @@ public class Player : MonoBehaviour
             
             life--;                                     // Diminui vida
             countObstacle++;
-
+            CountTextObstacle.text = countObstacle.ToString();
+            
             Hearts[life].SetActive(false);              // Desativa um coração
             ObjectPool.Instance.ReturnToPool("Obstacle", collision.gameObject);
 
@@ -131,6 +142,8 @@ public class Player : MonoBehaviour
             if (life == 3)
             {
                 // Não passa de 3 vidas
+                countLife++;
+                CountTextLife.text = countLife.ToString();
                 ObjectPool.Instance.ReturnToPool("Life", collision.gameObject);
             }
             else
@@ -138,6 +151,7 @@ public class Player : MonoBehaviour
                 // Recupera vida
                 life++;
                 countLife++;
+                CountTextLife.text = countLife.ToString();
                 Hearts[life - 1].SetActive(true);  // Reativa coração
                 ObjectPool.Instance.ReturnToPool("Life", collision.gameObject);
             }
@@ -146,15 +160,22 @@ public class Player : MonoBehaviour
         // Colisão com concha (pontuação)
         if (collision.gameObject.CompareTag("Shell"))
         {
+            playerAudio.PlayOneShot(ShellSound, 2f); // Som de Game Over
             countShell++;
             countShellText.text = countShell.ToString();
+            CountTextShell.text = countShell.ToString();
+            
             ObjectPool.Instance.ReturnToPool("Shell", collision.gameObject);
         }
 
         // Colisão com escudo
         if (collision.gameObject.CompareTag("Shield"))
         {
+            playerAudio.PlayOneShot(ShieldSound, 2f); // Som de dano
+
             countShield++;
+            CountTextShield.text = countShield.ToString();
+            
             shield.gameObject.SetActive(true);
             ObjectPool.Instance.ReturnToPool("Shield", collision.gameObject);
         }

@@ -73,7 +73,7 @@ public class StopWatch : MonoBehaviour, ITimeSubject
             Time.timeScale = 0f;            // Pausa o jogo
             gameOverScreen.SetActive(true); // Abre a tela de Game Over
             playerAudioTime.PlayOneShot(VictorySound, 4f); // Som de vitótia
-
+            restTime = startTime;
 
             NotifyTimeEnded();              // Notifica observadores que o tempo acabou
         }

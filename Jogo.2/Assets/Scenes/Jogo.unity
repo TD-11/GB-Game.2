@@ -6582,10 +6582,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff51ffcc04ca5d34ab027dc4704011bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intervalSpawnObstacle: 3
-  intervalSpawnPowerLife: 17
-  intervalSpawnShield: 13
-  intervalSpawnShell: 5
+  intervalSpawnObstacle: 5
+  intervalSpawnPowerLife: 20
+  intervalSpawnShield: 14
+  intervalSpawnShell: 3
   widthArea: 8.4
   heightSpawnObject: 12
   heightSpawnAlert: 4

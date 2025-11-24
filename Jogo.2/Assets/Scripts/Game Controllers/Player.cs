@@ -194,12 +194,12 @@ public class Player : MonoBehaviour
     // Controle manual pelo teclado (modo fallback)
     void KeyboardMove()
     {
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             movement = new Vector2(-1, 0).normalized;
             if (facingRight) Flip();
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             movement = new Vector2(1, 0).normalized;
             if (!facingRight) Flip();

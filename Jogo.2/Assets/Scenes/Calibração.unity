@@ -1516,6 +1516,7 @@ MonoBehaviour:
   measureDuration: 5
   messageText: {fileID: 1468588929}
   countdownText: {fileID: 1627959674}
+  CountdownGameObject: {fileID: 1627959672}
   resultText: {fileID: 61296569}
   playButton: {fileID: 1979975149}
 --- !u!4 &1373248650
@@ -1837,7 +1838,7 @@ GameObject:
   - component: {fileID: 1627959673}
   - component: {fileID: 1627959675}
   - component: {fileID: 1627959674}
-  m_Layer: 5
+  m_Layer: 4
   m_Name: Countdown Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2466,7 +2467,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1979975150
 RectTransform:
   m_ObjectHideFlags: 0

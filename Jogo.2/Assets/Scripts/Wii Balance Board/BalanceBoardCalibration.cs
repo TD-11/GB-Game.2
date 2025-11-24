@@ -14,6 +14,7 @@ public class BalanceBoardCalibration : MonoBehaviour
     [Header("Referências de UI")]
     public TMP_Text messageText;
     public TMP_Text countdownText;
+    public GameObject CountdownGameObject;
     public TMP_Text resultText;
     public GameObject playButton;
 
@@ -58,7 +59,8 @@ public class BalanceBoardCalibration : MonoBehaviour
         {
             boardConnected = false;
             messageText.text = "Balance Board desconectada!\nModo Manual ativado";
-            countdownText.text = "";
+            CountdownGameObject.SetActive(false);
+            //countdownText.text = "";
             resultText.text = "";
             playButton.SetActive(true);
             Debug.LogWarning("Modo Manual ativado (sem Balance Board)");
@@ -111,7 +113,8 @@ public class BalanceBoardCalibration : MonoBehaviour
         isCalibrating = false;
 
         messageText.text = "Ajuste finalizado!";
-        countdownText.text = "";
+        CountdownGameObject.SetActive(false);
+        //countdownText.text = "";
         resultText.text = $"Peso armazenado: {playerWeight:F2} kg";
         playButton.SetActive(true);
     }

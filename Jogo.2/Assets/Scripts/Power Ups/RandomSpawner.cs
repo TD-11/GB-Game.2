@@ -12,7 +12,7 @@ public class RandomSpawner : MonoBehaviour, ITimeObserver
     public float intervalSpawnObstacle = 3f;   // Intervalo para spawn de obstáculos
     public float intervalSpawnPowerLife = 13f; // Intervalo para spawn de vidas
     public float intervalSpawnShield = 11f;    // Intervalo para spawn de escudo
-    public float intervalSpawnShell = 5f;      // Intervalo para spawn da casca
+    public float intervalSpawnShell = 5f;      // Intervalo para spawn da concha
     public float widthArea = 8.4f;             // Área horizontal de spawn
     public float heightSpawnObject = 12f;      // Altura onde o objeto aparece
     public float heightSpawnAlert = 4f;        // Altura onde o alerta aparece
@@ -91,7 +91,9 @@ public class RandomSpawner : MonoBehaviour, ITimeObserver
     void SpawnObstacleObject()
     {
         // Sorteia posição X dentro da área permitida
-        float x = Random.Range(-widthArea / 2f, widthArea / 2f);
+        //float x = Random.Range(-widthArea + 2, widthArea - 2);
+        (float a, float b) = DrawWithDistance(-widthArea + 2, widthArea - 2, 3);
+        float x = Random.Range(a, b);
 
         // Define posição para o objeto e para o alerta visual
         Vector3 posObj = new Vector3(x, heightSpawnObject, 0f);
@@ -104,7 +106,10 @@ public class RandomSpawner : MonoBehaviour, ITimeObserver
 
     void SpawnLifeObject()
     {
-        float x = Random.Range(-widthArea / 2f, widthArea / 2f);
+        //float x = Random.Range(-widthArea / 2f, widthArea / 2f);
+        (float a, float b) = DrawWithDistance(-widthArea + 2, widthArea - 2, 3);
+        float x = Random.Range(a, b);
+        
         Vector3 posObj = new Vector3(x, heightSpawnObject, 0f);
         Vector3 posAlert = new Vector3(x, heightSpawnAlert, 0f);
 
@@ -114,7 +119,10 @@ public class RandomSpawner : MonoBehaviour, ITimeObserver
 
     void SpawnShieldObject()
     {
-        float x = Random.Range(-widthArea / 2f, widthArea / 2f);
+        //float x = Random.Range(-widthArea / 2f, widthArea / 2f);
+        (float a, float b) = DrawWithDistance(-widthArea + 2, widthArea - 2, 3);
+        float x = Random.Range(a, b);
+        
         Vector3 posObj = new Vector3(x, heightSpawnObject, 0f);
         Vector3 posAlert = new Vector3(x, heightSpawnAlert - 0.2f, 0f); // Ajuste fino na altura do alerta
 
@@ -124,12 +132,30 @@ public class RandomSpawner : MonoBehaviour, ITimeObserver
 
     void SpawnShellObject()
     {
-        float x = Random.Range(-widthArea / 2f, widthArea / 2f);
+        //float x = Random.Range(-widthArea / 2f, widthArea / 2f);
+        (float a, float b) = DrawWithDistance(-widthArea + 2, widthArea - 2, 3);
+        float x = Random.Range(a, b);
+        
         Vector3 posObj = new Vector3(x, heightSpawnObject, 0f);
         Vector3 posAlert = new Vector3(x, heightSpawnAlert - 0.3f, 0f);
 
         ObjectPool.Instance.SpawnFromPool("Shell", posObj, Quaternion.identity);
         ObjectPool.Instance.SpawnFromPool("ShellAlert", posAlert, Quaternion.identity);
+    }
+    
+    (float, float) DrawWithDistance(float min, float max, float distanciaMinima)
+    {
+        float a = Random.Range(min, max + 1);
+        float b;
+
+        // Sorteia b até que a distância seja suficiente
+        do
+        {
+            b = Random.Range(min, max + 1);
+        } 
+        while (Mathf.Abs(a - b) < distanciaMinima);
+
+        return (a, b);
     }
 
     // === Implementação do Observer Pattern ===

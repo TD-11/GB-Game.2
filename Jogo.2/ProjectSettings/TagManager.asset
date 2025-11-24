@@ -58,9 +58,6 @@ TagManager:
   - name: Montains
     uniqueID: 751821477
     locked: 0
-  - name: Objects
-    uniqueID: 3382060489
-    locked: 0
   - name: Onda 2
     uniqueID: 2635570521
     locked: 0
@@ -70,8 +67,17 @@ TagManager:
   - name: Onda 1
     uniqueID: 1389294299
     locked: 0
-  - name: Objects
+  - name: Obstacle
     uniqueID: 4113656643
+    locked: 0
+  - name: Life
+    uniqueID: 2706621879
+    locked: 0
+  - name: Shell
+    uniqueID: 1878259115
+    locked: 0
+  - name: Shield
+    uniqueID: 988590739
     locked: 0
   m_RenderingLayers:
   - Default

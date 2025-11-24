@@ -1964,7 +1964,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 000000007f3fe206a5e2cf2cc92596c9599d179d1538d6fddbf2ce52436b31f5
+  m_ApplyToSortingLayers: 000000007f3fe206a5e2cf2c599d179d1538d6fddbf2ce52436b31f5b7c553a1abf5f36f93b2ec3a
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -3750,7 +3750,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -36292587
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 6
   m_Sprite: {fileID: -7501778473976659587, guid: 39453f64f46f8244a9dfb6b1b68bca8f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6564,7 +6564,7 @@ Transform:
   m_GameObject: {fileID: 2145778583}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.02, y: 3.82, z: -0.042540073}
+  m_LocalPosition: {x: 0, y: 3.82, z: -0.042540073}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6582,9 +6582,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff51ffcc04ca5d34ab027dc4704011bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intervalSpawnObstacle: 5
+  intervalSpawnObstacle: 7
   intervalSpawnPowerLife: 20
-  intervalSpawnShield: 14
+  intervalSpawnShield: 15
   intervalSpawnShell: 3
   widthArea: 8.4
   heightSpawnObject: 12

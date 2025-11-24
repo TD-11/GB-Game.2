@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      caranguejo_0: 3819878196598462353
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
 
     public List<GameObject> Hearts = new List<GameObject>(3); // Lista das imagens de coração da UI (vidas)
     
-    [SerializeField] public FollowShield shield;      // Referência ao escudo de proteção
+    [SerializeField] public GameObject shield;      // Referência ao escudo de proteção
     [SerializeField] public GameObject gameOverScreen;// Tela de Game Over
     public GameObject fallConnectionScreen;           // Tela exibida quando a Balance Board cai/desconecta
 

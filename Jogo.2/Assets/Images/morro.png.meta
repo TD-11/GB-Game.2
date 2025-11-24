@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      morro_0: -2947167818227179788
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,5 +1,6 @@
 using UnityEngine.UI;
 using System;
+using System.Collections;
 using System.IO.Ports;
 using System.Threading;
 using System.Collections.Generic;
@@ -16,12 +17,16 @@ public class SD_Serial : MonoBehaviour
     public TMP_Text valuesText;
 
     [Header("Mostrador de portas")]
-    public TMP_Text portListText; // <-- novo campo para exibir portas
+    public TMP_Text portListText; 
 
     [Header("Configurações")]
     public int baudRate = 57600;
     public float pollInterval = 1f;
-    public float connectTimeout = 15f; // <-- timeout de 10 segundos
+    public float connectTimeout = 15f;
+
+    [Header("Cronômetro")]
+    public TMP_Text timerText;         // <-- NOVO
+    public CanvasGroup uiBlocker;      // <-- NOVO
 
     private SerialPort serialPort;
     private Thread readThread;
@@ -42,15 +47,22 @@ public class SD_Serial : MonoBehaviour
 
     void Start()
     {
-        
         UpdatePortList();
-        
         DontDestroyOnLoad(this.gameObject);
-        
+
         connectButton.onClick.AddListener(OnConnectButtonPressed);
 
         statusText.text = "Selecione uma porta";
-        
+
+        // Desativa UIBlocker no início
+        if (uiBlocker != null)
+        {
+            uiBlocker.blocksRaycasts = false;
+            uiBlocker.interactable = false;
+        }
+
+        if (timerText != null)
+            timerText.text = "";
     }
 
     void Update()
@@ -65,13 +77,11 @@ public class SD_Serial : MonoBehaviour
         }
     }
 
-    // Atualiza lista de portas no Dropdown e no TMP_Text
-    // Atualiza lista de portas no Dropdown e no TMP_Text
+
     void UpdatePortList()
     {
         string[] ports = SerialPort.GetPortNames();
 
-        // --- REMOVER COM1 DA LISTA ---
         List<string> portList = new List<string>();
         foreach (string port in ports)
         {
@@ -80,9 +90,7 @@ public class SD_Serial : MonoBehaviour
                 portList.Add(port);
             }
         }
-        // -------------------------------
 
-        // Atualizando o texto com a lista de portas
         if (portListText != null)
         {
             if (portList.Count > 0)
@@ -93,7 +101,6 @@ public class SD_Serial : MonoBehaviour
 
         if (DropdownListChanged(portList))
         {
-            // Preserve current selection
             string currentSelectedPort = null;
             if (portDropdown.options.Count > 0 &&
                 portDropdown.value >= 0 &&
@@ -119,7 +126,6 @@ public class SD_Serial : MonoBehaviour
         }
     }
 
-
     bool DropdownListChanged(List<string> newList)
     {
         if (portDropdown.options.Count != newList.Count)
@@ -136,8 +142,13 @@ public class SD_Serial : MonoBehaviour
     public void OnConnectButtonPressed()
     {
         Debug.Log("OnConnectButtonPressed");
+
+        // --- INICIA O CRONÔMETRO AO CLICAR ---
+        StartCoroutine(StartCountdown());
+
         string selectedPort = portDropdown.options[portDropdown.value].text;
         Debug.Log($"Trying to connect to {selectedPort}");
+
         if (!_connected)
         {
             SetConnectButton.SetActive(false);
@@ -149,26 +160,21 @@ public class SD_Serial : MonoBehaviour
         }
     }
 
-    // Tentativa de conexão com timeout de 10s
-    System.Collections.IEnumerator ConnectWithTimeout()
+
+    IEnumerator ConnectWithTimeout()
     {
         Debug.Log("ConnectWithTimeout");
-        
-        
+
         if (_waitingConnection)
             yield break;
 
         if (portDropdown.options.Count == 0)
         {
-            Debug.Log("Nenhuma porta disponível");
-            
             statusText.text = "Nenhuma porta disponível";
             yield break;
         }
         
-        
-         string selectedPort =  portDropdown.options[portDropdown.value].text;
-        
+        string selectedPort = portDropdown.options[portDropdown.value].text;
 
         Debug.Log($"Conectando a {selectedPort}...");
         
@@ -177,7 +183,6 @@ public class SD_Serial : MonoBehaviour
 
         bool connected = false;
 
-        // Thread de conexão para não travar o Unity
         Thread connectThread = new Thread(() =>
         {
             try
@@ -197,7 +202,6 @@ public class SD_Serial : MonoBehaviour
 
         float startTime = Time.time;
 
-        // Espera até conectar ou até o timeout
         while (Time.time - startTime < connectTimeout)
         {
             if (connected) break;
@@ -208,8 +212,6 @@ public class SD_Serial : MonoBehaviour
 
         if (!connected)
         {
-            Debug.Log("Erro: conexão expirou (15s)"); 
-            
             statusText.text = "Erro: conexão expirou (15s)";
             SetConnectButton.SetActive(true);        
 
@@ -217,22 +219,14 @@ public class SD_Serial : MonoBehaviour
             yield break;
         }
 
-        // Se conectou
         _connected = true;
         
-        Debug.Log("Conectado em " + selectedPort);
-    
         statusText.text = "Porta conectada";
-        
-        SetConnectButton.SetActive(false);        
-        //connectButton.GetComponentInChildren<TMP_Text>().text = "Desconectar";
+        SetConnectButton.SetActive(false);
 
         StartReading();
-        
-       
     }
 
-    // Iniciar thread de leitura
     void StartReading()
     {
         _reading = true;
@@ -277,12 +271,12 @@ public class SD_Serial : MonoBehaviour
         D = float.Parse(p[3].Replace('.', ','));
         P = float.Parse(p[4].Replace('.', ','));
         
-            valuesText.text =
-                $"A: {A}\n" +
-                $"B: {B}\n" +
-                $"C: {C}\n" +
-                $"D: {D}\n" +
-                $"P: {P}";
+        valuesText.text =
+            $"A: {A}\n" +
+            $"B: {B}\n" +
+            $"C: {C}\n" +
+            $"D: {D}\n" +
+            $"P: {P}";
             
         Debug.Log(valuesText.text);
 
@@ -314,12 +308,40 @@ public class SD_Serial : MonoBehaviour
         if (serialPort != null && serialPort.IsOpen)
             serialPort.Close();
 
-        connectButton.GetComponentInChildren<TMP_Text>().text = "Conectar";
         statusText.text = "Desconectado";
     }
 
     void OnApplicationQuit()
     {
         Disconnect();
+    }
+
+
+    // -----------------------------
+    //        CRONÔMETRO
+    // -----------------------------
+    public IEnumerator StartCountdown()
+    {
+        // Ativa bloqueio de interface
+        uiBlocker.blocksRaycasts = true;
+        uiBlocker.interactable = false;
+
+        float timeLeft = 15f;
+
+        while (timeLeft > 0)
+        {
+            timerText.text = "Aguarde: " + Mathf.Ceil(timeLeft).ToString();
+            timeLeft -= Time.deltaTime;
+            yield return null;
+        }
+
+        timerText.text = "";
+
+        // Libera interface
+        uiBlocker.blocksRaycasts = false;
+        uiBlocker.interactable = true;
+        
+        SetConnectButton.SetActive(true);  // <- REAPARECE O BOTÃO
+
     }
 }

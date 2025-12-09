@@ -20,7 +20,7 @@ public class ConnectSDBalance : MonoBehaviour
         // Verifica se o acessório conectado é uma Balance Board (tipo 3)
         if (SD_Serial._connected == true)
         {
-            connectText.text = $"SD-Balance conectado!\nPorta: {SD_Serial.selectedPort}";
+            connectText.text = "SD-Balance conectado!";
             connectText.color = normalColor;
         }
         

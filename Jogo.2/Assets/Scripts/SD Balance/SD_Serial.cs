@@ -25,8 +25,8 @@ public class SD_Serial : MonoBehaviour
     public float connectTimeout = 15f;
 
     [Header("Cronômetro")]
-    public TMP_Text timerText;         // <-- NOVO
-    public CanvasGroup uiBlocker;      // <-- NOVO
+    public TMP_Text timerText;   
+    public CanvasGroup uiBlocker;
 
     private SerialPort serialPort;
     private Thread readThread;
@@ -38,9 +38,8 @@ public class SD_Serial : MonoBehaviour
     
     public static string selectedPort;
 
-    // Valores recebidos
-    public float A, B, C, D, P = 0f;
-
+    public float A, B, C, D, P = 0F;
+    public static float S = 0F;
     private float nextPollTime = 0f;
 
     public string State;
@@ -54,7 +53,6 @@ public class SD_Serial : MonoBehaviour
 
         statusText.text = "Selecione uma porta";
 
-        // Desativa UIBlocker no início
         if (uiBlocker != null)
         {
             uiBlocker.blocksRaycasts = false;
@@ -122,7 +120,7 @@ public class SD_Serial : MonoBehaviour
             }
 
             if (portList.Count == 0)
-                statusText.text = "Nenhuma porta encontrada";
+                statusText.text = "Selecione uma porta";
         }
     }
 
@@ -143,7 +141,9 @@ public class SD_Serial : MonoBehaviour
     {
         Debug.Log("OnConnectButtonPressed");
 
-        // --- INICIA O CRONÔMETRO AO CLICAR ---
+        // TEXTO DURANTE O TEMPO
+        statusText.text = "Conectando...";
+
         StartCoroutine(StartCountdown());
 
         string selectedPort = portDropdown.options[portDropdown.value].text;
@@ -170,7 +170,7 @@ public class SD_Serial : MonoBehaviour
 
         if (portDropdown.options.Count == 0)
         {
-            statusText.text = "Nenhuma porta disponível";
+            statusText.text = "Selecione uma porta";
             yield break;
         }
         
@@ -178,7 +178,9 @@ public class SD_Serial : MonoBehaviour
 
         Debug.Log($"Conectando a {selectedPort}...");
         
-        statusText.text = $"Conectando a {selectedPort}...";
+        // NÃO altera mais o texto aqui!
+        // statusText.text = $"Conectando...";
+
         _waitingConnection = true;
 
         bool connected = false;
@@ -212,7 +214,8 @@ public class SD_Serial : MonoBehaviour
 
         if (!connected)
         {
-            statusText.text = "Erro: conexão expirou (15s)";
+            // AQUI TAMBÉM NÃO MEXE MAIS NO TEXTO
+            // Ele continuará sendo resetado após o cronômetro.
             SetConnectButton.SetActive(true);        
 
             try { serialPort?.Close(); } catch { }
@@ -220,8 +223,8 @@ public class SD_Serial : MonoBehaviour
         }
 
         _connected = true;
-        
-        statusText.text = "Porta conectada";
+
+        // NÃO altera texto aqui também
         SetConnectButton.SetActive(false);
 
         StartReading();
@@ -255,48 +258,46 @@ public class SD_Serial : MonoBehaviour
 
     void ProcessMessage(string msg)
     {
-        try{
-            
-        if (!msg.StartsWith("*"))
-            return;
-
-        msg = msg.Substring(1);
-
-        string[] p = msg.Split(';');
-        if (p.Length < 5) return;
-
-        A = float.Parse(p[0].Replace('.', ','));
-        B = float.Parse(p[1].Replace('.', ','));
-        C = float.Parse(p[2].Replace('.', ','));
-        D = float.Parse(p[3].Replace('.', ','));
-        P = float.Parse(p[4].Replace('.', ','));
-        
-        valuesText.text =
-            $"A: {A}\n" +
-            $"B: {B}\n" +
-            $"C: {C}\n" +
-            $"D: {D}\n" +
-            $"P: {P}";
-            
-        Debug.Log(valuesText.text);
-
-     }
-    catch (Exception e)
-    {
-        Exception rootCause = e.GetBaseException();
-        if (rootCause.GetType() == typeof(TimeoutException) )
+        try
         {
-            State = "Data Loading: Timeout";
-            Debug.Log(State);
+            if (!msg.StartsWith("*"))
+                return;
+
+            msg = msg.Substring(1);
+
+            string[] p = msg.Split(';');
+            if (p.Length < 5) return;
+
+            A = float.Parse(p[0].Replace('.', ','));
+            B = float.Parse(p[1].Replace('.', ','));
+            C = float.Parse(p[2].Replace('.', ','));
+            D = float.Parse(p[3].Replace('.', ','));
+            P = float.Parse(p[4].Replace('.', ','));
+            S = A + B + C + D;
+            
+            valuesText.text =
+                $"A: {A}\n" +
+                $"B: {B}\n" +
+                $"C: {C}\n" +
+                $"D: {D}\n" +
+                $"P: {P}\n" +
+                $"S: {S}\n";
         }
-        else
+        catch (Exception e)
         {
-            State = "Data Received Erro: " + e.Message;
-            Debug.Log(State);
+            Exception rootCause = e.GetBaseException();
+            if (rootCause.GetType() == typeof(TimeoutException))
+            {
+                State = "Data Loading: Timeout";
+                Debug.Log(State);
+            }
+            else
+            {
+                State = "Data Received Erro: " + e.Message;
+                Debug.Log(State);
+            }
         }
     }
-    
-}
 
     void Disconnect()
     {
@@ -317,12 +318,11 @@ public class SD_Serial : MonoBehaviour
     }
 
 
-    // -----------------------------
-    //        CRONÔMETRO
-    // -----------------------------
+    // ---------------------------------------------------
+    //                   CRONÔMETRO
+    // ---------------------------------------------------
     public IEnumerator StartCountdown()
     {
-        // Ativa bloqueio de interface
         uiBlocker.blocksRaycasts = true;
         uiBlocker.interactable = false;
 
@@ -337,11 +337,12 @@ public class SD_Serial : MonoBehaviour
 
         timerText.text = "";
 
-        // Libera interface
+        // APÓS OS 15s → VOLTA A "Selecione a porta"
+        statusText.text = "Selecione uma porta";
+
         uiBlocker.blocksRaycasts = false;
         uiBlocker.interactable = true;
         
-        SetConnectButton.SetActive(true);  // <- REAPARECE O BOTÃO
-
+        SetConnectButton.SetActive(true);
     }
 }

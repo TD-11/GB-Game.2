@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
             _sd_serial.statusText = gameObject.GetComponent<SD_Serial>().statusText;
             _sd_serial.valuesText = gameObject.GetComponent<SD_Serial>().valuesText;
             _sd_serial.portListText = gameObject.GetComponent<SD_Serial>().portListText;
-            connect_sd_balance.connectText = gameObject.GetComponent<ConnectSDBalance>().connectText;
+            connect_sd_balance.connectStartText = gameObject.GetComponent<ConnectSDBalance>().connectStartText;
             
          //  portDropdown
          // connectButton

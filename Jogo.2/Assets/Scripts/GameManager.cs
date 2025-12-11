@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         
         _gameObject = GameObject.Find("GameManager");
-        
         _connect_sd_balance = _gameObject.GetComponent<ConnectSDBalance>();
         
         if (_gameObject != gameObject)

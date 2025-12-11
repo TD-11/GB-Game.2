@@ -1,4 +1,4 @@
-using UnityEngine.UI;
+using UnityEngine.UI; 
 using System;
 using System.Collections;
 using System.IO.Ports;
@@ -12,61 +12,127 @@ public class SD_Serial : MonoBehaviour
     [Header("UI")]
     public TMP_Dropdown portDropdown;
     public Button connectButton;
+    public GameObject SetConnectButton;
     public TMP_Text statusText;
     public TMP_Text valuesText;
 
     [Header("Mostrador de portas")]
-    public TMP_Text portListText;
+    public TMP_Text portListText; 
 
-    [Header("Contagem / UI Blocker")]
-    public TMP_Text timerText;
+    [Header("Configurações")]
+    public int baudRate = 57600;
+    public float pollInterval = 1f;
+    public float connectTimeout = 15f;
+
+    [Header("Cronômetro")]
+    public TMP_Text timerText;   
     public CanvasGroup uiBlocker;
-    public GameObject SetConnectButton;
 
     private SerialPort serialPort;
     private Thread readThread;
-
-    public static bool _connected = false;
     private bool _reading = false;
-    private string selectedPort = "";
-    private string buffer = "";
+    public static bool _connected = false;
+    private bool _waitingConnection = false;
 
+    private string buffer = "";
+    
+    public static string selectedPort;
+
+    public float A, B, C, D, P = 0F;
+    public static float S = 0F;
     private float nextPollTime = 0f;
-    private const float pollInterval = 1f; // checa portas a cada 1s
+
+    public string State;
 
     void Start()
     {
         UpdatePortList();
-        statusText.text = "Selecione a porta";
+        
+        connectButton.onClick.AddListener(OnConnectButtonPressed);
+
+        statusText.text = "Selecione uma porta";
+
+        if (uiBlocker != null)
+        {
+            uiBlocker.blocksRaycasts = false;
+            uiBlocker.interactable = false;
+        }
+
+        if (timerText != null)
+            timerText.text = "";
     }
 
     void Update()
     {
-        // Atualiza lista sempre — mesmo conectado
+        if (_connected) return;
+        if (_waitingConnection) return;
+
         if (Time.time > nextPollTime)
         {
             UpdatePortList();
-
-            // Se conectado, mas a porta sumiu do PC → desconectar
-            if (_connected && !PortStillExists(selectedPort))
-            {
-                Debug.Log("A porta USB foi removida!");
-                statusText.text = "Conexão perdida!";
-                Disconnect();
-                SetConnectButton.SetActive(true);
-            }
-
             nextPollTime = Time.time + pollInterval;
         }
     }
 
-    // Verifica se a porta ainda existe
-    bool PortStillExists(string port)
-    {
-        foreach (string p in SerialPort.GetPortNames())
-            if (p == port)
-                return true;
 
+    void UpdatePortList()
+    {
+        string[] ports = SerialPort.GetPortNames();
+
+        List<string> portList = new List<string>();
+        foreach (string port in ports)
+        {
+            if (!port.Equals("COM1", StringComparison.OrdinalIgnoreCase))
+            {
+                portList.Add(port);
+            }
+        }
+
+        if (portListText != null)
+        {
+            if (portList.Count > 0)
+                portListText.text = "Portas encontradas:\n" + string.Join("\n", portList);
+            else
+                portListText.text = "Nenhuma porta encontrada";
+        }
+
+        if (DropdownListChanged(portList))
+        {
+            string currentSelectedPort = null;
+            if (portDropdown.options.Count > 0 &&
+                portDropdown.value >= 0 &&
+                portDropdown.value < portDropdown.options.Count)
+            {
+                currentSelectedPort = portDropdown.options[portDropdown.value].text;
+            }
+
+            portDropdown.ClearOptions();
+            portDropdown.AddOptions(portList);
+
+            if (!string.IsNullOrEmpty(currentSelectedPort))
+            {
+                int restoredIndex = portList.IndexOf(currentSelectedPort);
+                if (restoredIndex >= 0)
+                {
+                    portDropdown.value = restoredIndex;
+                }
+            }
+
+            if (portList.Count == 0)
+                statusText.text = "Selecione uma porta";
+        }
+    }
+
+    bool DropdownListChanged(List<string> newList)
+    {
+        if (portDropdown.options.Count != newList.Count)
+            return true;
+
+        for (int i = 0; i < newList.Count; i++)
+        {
+            if (portDropdown.options[i].text != newList[i])
+                return true;
+        }
         return false;
     }
 
@@ -74,76 +140,102 @@ public class SD_Serial : MonoBehaviour
     {
         Debug.Log("OnConnectButtonPressed");
 
+        // TEXTO DURANTE O TEMPO
+        statusText.text = "Conectando...";
+
         StartCoroutine(StartCountdown());
 
-        selectedPort = portDropdown.options[portDropdown.value].text;
+        string selectedPort = portDropdown.options[portDropdown.value].text;
+        Debug.Log($"Trying to connect to {selectedPort}");
 
         if (!_connected)
-            StartCoroutine(ConnectWithTimeout());
-        else
-            Disconnect();
-    }
-
-    IEnumerator StartCountdown()
-    {
-        uiBlocker.blocksRaycasts = true;
-        uiBlocker.interactable = false;
-
-        float timeLeft = 15f;
-        timerText.text = "Conectando...";
-
-        while (timeLeft > 0)
         {
-            timerText.text = "Conectando (" + Mathf.Ceil(timeLeft) + ")";
-            timeLeft -= Time.deltaTime;
-            yield return null;
+            SetConnectButton.SetActive(false);
+            StartCoroutine(ConnectWithTimeout());   
         }
-
-        timerText.text = "";
-
-        uiBlocker.blocksRaycasts = false;
-        uiBlocker.interactable = true;
-
-        SetConnectButton.SetActive(true);
+        else
+        {
+            Disconnect();
+        }
     }
+
 
     IEnumerator ConnectWithTimeout()
     {
-        statusText.text = "Conectando...";
+        Debug.Log("ConnectWithTimeout");
+
+        if (_waitingConnection)
+            yield break;
+
+        if (portDropdown.options.Count == 0)
+        {
+            statusText.text = "Selecione uma porta";
+            yield break;
+        }
+        
+        string selectedPort = portDropdown.options[portDropdown.value].text;
+
+        Debug.Log($"Conectando a {selectedPort}...");
+        
+        // NÃO altera mais o texto aqui!
+        // statusText.text = $"Conectando...";
+
+        _waitingConnection = true;
+
+        bool connected = false;
+
+        Thread connectThread = new Thread(() =>
+        {
+            try
+            {
+                serialPort = new SerialPort(selectedPort, baudRate);
+                serialPort.ReadTimeout = 100;
+                serialPort.Open();
+                connected = true;
+            }
+            catch
+            {
+                connected = false;
+            }
+        });
+
+        connectThread.Start();
+
+        float startTime = Time.time;
+
+        while (Time.time - startTime < connectTimeout)
+        {
+            if (connected) break;
+            yield return null;
+        }
+
+        _waitingConnection = false;
+
+        if (!connected)
+        {
+            // AQUI TAMBÉM NÃO MEXE MAIS NO TEXTO
+            // Ele continuará sendo resetado após o cronômetro.
+            SetConnectButton.SetActive(true);        
+
+            try { serialPort?.Close(); } catch { }
+            yield break;
+        }
+
+        _connected = true;
+
+        // NÃO altera texto aqui também
         SetConnectButton.SetActive(false);
 
-        yield return new WaitForSeconds(0.2f);
-
-        TryConnect();
+        StartReading();
     }
 
-    void TryConnect()
+    void StartReading()
     {
-        try
-        {
-            serialPort = new SerialPort(selectedPort, 9600);
-            serialPort.ReadTimeout = 200;
-
-            serialPort.Open();
-
-            _connected = true;
-            _reading = true;
-
-            statusText.text = "Conectado!";
-            Debug.Log("Conectado em " + selectedPort);
-
-            readThread = new Thread(ReadLoop);
-            readThread.Start();
-        }
-        catch (Exception e)
-        {
-            Debug.Log("Erro ao conectar: " + e.Message);
-            statusText.text = "Falha ao conectar";
-            SetConnectButton.SetActive(true);
-        }
+        _reading = true;
+        readThread = new Thread(ReadLoop);
+        readThread.Start();
     }
 
-    // LOOP DE LEITURA — agora detecta desconexão real
     void ReadLoop()
     {
         while (_reading)
@@ -155,43 +247,55 @@ public class SD_Serial : MonoBehaviour
 
                 if (c == '\n')
                 {
-                    string msg = buffer;
+                    ProcessMessage(buffer);
                     buffer = "";
-                    UnityMainThread(msg);
                 }
             }
-            catch (Exception e)
-            {
-                Debug.Log("ERRO NA LEITURA (porta desconectada?): " + e.Message);
-
-                _reading = false;
-                _connected = false;
-
-                try { serialPort.Close(); } catch { }
-
-                UnityMainThread("Conexão perdida!");
-
-                return;
-            }
+            catch { }
         }
-    }
-
-    void UnityMainThread(string lostMessage)
-    {
-        // Executa no próximo Update
-        UnityMainThreadDispatcher.Enqueue(() =>
-        {
-            if (lostMessage != null)
-                statusText.text = lostMessage;
-
-            SetConnectButton.SetActive(true);
-            Disconnect();
-        });
     }
 
     void ProcessMessage(string msg)
     {
-        valuesText.text = msg.Trim();
+        try
+        {
+            if (!msg.StartsWith("*"))
+                return;
+
+            msg = msg.Substring(1);
+
+            string[] p = msg.Split(';');
+            if (p.Length < 5) return;
+
+            A = float.Parse(p[0].Replace('.', ','));
+            B = float.Parse(p[1].Replace('.', ','));
+            C = float.Parse(p[2].Replace('.', ','));
+            D = float.Parse(p[3].Replace('.', ','));
+            P = float.Parse(p[4].Replace('.', ','));
+            S = A + B + C + D;
+            
+            valuesText.text =
+                $"A: {A}\n" +
+                $"B: {B}\n" +
+                $"C: {C}\n" +
+                $"D: {D}\n" +
+                $"P: {P}\n" +
+                $"S: {S}\n";
+        }
+        catch (Exception e)
+        {
+            Exception rootCause = e.GetBaseException();
+            if (rootCause.GetType() == typeof(TimeoutException))
+            {
+                State = "Data Loading: Timeout";
+                Debug.Log(State);
+            }
+            else
+            {
+                State = "Data Received Erro: " + e.Message;
+                Debug.Log(State);
+            }
+        }
     }
 
     void Disconnect()
@@ -201,25 +305,43 @@ public class SD_Serial : MonoBehaviour
 
         try { readThread?.Abort(); } catch { }
 
-        try
-        {
-            if (serialPort != null && serialPort.IsOpen)
-                serialPort.Close();
-        }
-        catch { }
+        if (serialPort != null && serialPort.IsOpen)
+            serialPort.Close();
 
         statusText.text = "Desconectado";
-
-        UpdatePortList();
     }
 
-    public void UpdatePortList()
+    void OnApplicationQuit()
     {
-        string[] ports = SerialPort.GetPortNames();
+        Disconnect();
+    }
 
-        portDropdown.ClearOptions();
-        portDropdown.AddOptions(new List<string>(ports));
 
-        portListText.text = "Portas detectadas:\n" + string.Join("\n", ports);
+    // ---------------------------------------------------
+    //                   CRONÔMETRO
+    // ---------------------------------------------------
+    public IEnumerator StartCountdown()
+    {
+        uiBlocker.blocksRaycasts = true;
+        uiBlocker.interactable = false;
+
+        float timeLeft = 15f;
+
+        while (timeLeft > 0)
+        {
+            timerText.text = "Aguarde: " + Mathf.Ceil(timeLeft).ToString();
+            timeLeft -= Time.deltaTime;
+            yield return null;
+        }
+
+        timerText.text = "";
+
+        // APÓS OS 15s → VOLTA A "Selecione a porta"
+        statusText.text = "Selecione uma porta";
+
+        uiBlocker.blocksRaycasts = false;
+        uiBlocker.interactable = true;
+        
+        SetConnectButton.SetActive(true);
     }
 }

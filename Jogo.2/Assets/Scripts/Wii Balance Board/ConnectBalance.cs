@@ -2,36 +2,49 @@ using TMPro;
 using UnityEngine;
 using static Wii;
 
-
 public class ConnectBalance : MonoBehaviour
 {
+    // =========================
+    //  CONFIGURAÇÃO DA BALANÇA
+    // =========================
     [Header("Configuração da Balança")]
-    public static int remoteIndex = 0; // Índice do Wii Remote conectado
-    
-    public TMP_Text connectText;
-    public Color normalColor = Color.green;// Define a cor normal do aviso
-    public Color alertColor = Color.red;// Define a cor de aviso do aviso
-    
+    public static int remoteIndex = 0; // Índice do Wii Remote associado à Balance Board
 
+    // =========================
+    //      REFERÊNCIAS DE UI
+    // =========================
+    public TMP_Text connectText;       // Texto que exibe o estado da conexão
+    public Color normalColor = Color.green; // Cor usada quando a balança está conectada
+    public Color alertColor = Color.red;    // Cor usada quando a balança está desconectada
+
+    // =========================
+    //     CICLO DE ATUALIZAÇÃO
+    // =========================
     void Update()
     {
+        // Verifica continuamente o estado da conexão da Balance Board
         CheckConnection();
     }
-    
+
+    // =========================
+    //   VERIFICAÇÃO DE CONEXÃO
+    // =========================
     public void CheckConnection()
     {
-        if(Wii.IsActive(remoteIndex))
+        // Verifica se existe um Wii Remote ativo no índice informado
+        if (Wii.IsActive(remoteIndex))
         {
-            // Verifica se o acessório conectado é uma Balance Board (tipo 3)
+            // Confere se o acessório conectado é uma Balance Board
+            // ExpType == 3 indica Balance Board
             if (Wii.GetExpType(remoteIndex) == 3)
             {
                 connectText.text = "Balance Board conectado!";
                 connectText.color = normalColor;
             }
         }
-        
         else
         {
+            // Caso o Wii Remote não esteja ativo ou tenha sido desconectado
             connectText.text = "Balance Board desconectado!";
             connectText.color = alertColor;
         }
